@@ -1,0 +1,16 @@
+Time,Device Type,Room,Received MQTT Message,Action Taken,Triggering Sensor & Location
+06:30:00,Door Lock,Entrance,"{""event"": ""omar_leaves_for_work""}",Performed action related to 'Omar leaves for work',Door Sensor (Entrance)
+07:30:00,Pet Feeder,Kitchen,"{""event"": ""pet_feeder_activated_-_morning_meal""}",Performed action related to 'Pet feeder activated - morning meal',Internal Scheduler
+08:00:00,Door Lock,Entrance,"{""event"": ""dana_leaves_for_university""}",Performed action related to 'Dana leaves for university',Door Sensor (Entrance)
+08:30:00,Robot Vacuum,Entire Home,"{""event"": ""robot_vacuum_starts_cleaning""}",Performed action related to 'Robot vacuum starts cleaning',Internal Scheduler
+09:00:00,Motion Detector,Living Room,"{""event"": ""pet_detected_in_living_room""}",Performed action related to 'Pet detected in living room',Motion Sensor (Living Room)
+13:00:00,Door Lock,Entrance,"{""event"": ""liam_returns_from_school""}",Performed action related to 'Liam returns from school',Door Sensor (Entrance)
+14:00:00,Door Lock,Entrance,"{""event"": ""omar_returns_home""}",Performed action related to 'Omar returns home',Door Sensor (Entrance)
+15:00:00,Door Lock,Entrance,"{""event"": ""dana_returns_home""}",Performed action related to 'Dana returns home',Door Sensor (Entrance)
+17:30:00,Pet Feeder,Kitchen,"{""event"": ""evening_pet_feeding""}",Performed action related to 'Evening pet feeding',Internal Scheduler
+19:30:00,Motion Detector,Kids Room,"{""event"": ""liam_playing_xbox""}",Performed action related to 'Liam playing Xbox',Motion Sensor (Kids Room)
+21:30:00,Gas Sensor,Kitchen,"{""event"": ""night_gas_check""}",Performed action related to 'Night gas check',Internal Scheduler
+22:00:00,Lights,Hallway,"{""event"": ""hallway_lights_dimmed""}",Performed action related to 'Hallway lights dimmed',Internal Scheduler
+22:30:00,Security System,Entire Home,"{""event"": ""security_system_armed""}",Performed action related to 'Security system armed',Internal Scheduler
+23:00:00,Noise Sensor,Living Room,"{""event"": ""neighbor_noise_detected""}",Performed action related to 'Neighbor noise detected',Noise Sensor (Living Room)
+05:30:00,System Monitor,Central System,"{""event"": ""system_prepares_for_morning""}",Performed action related to 'System prepares for morning',Internal Scheduler
