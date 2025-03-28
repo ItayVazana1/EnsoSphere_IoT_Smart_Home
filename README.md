@@ -162,9 +162,17 @@ Feel free to fork, open issues, or suggest ideas. This project thrives on clean 
 
 ---
 
-## 📜 License
+## 🚧 Project Status
 
-MIT License
+- **Current Phase**: Planning & Research  
+- **Next Steps**: Feature extraction, model development, and report generation.
+
+---
+
+## 👨‍💻 Created by: Itay Vazana
+
+[GitHub Profile](https://github.com/ItayVazana1)  
+[LinkedIn Profile](https://www.linkedin.com/in/itayvazana)
 
 ---
 
