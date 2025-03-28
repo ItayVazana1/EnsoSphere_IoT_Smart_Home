@@ -50,8 +50,9 @@ rooms:
       sensors: [Temperature, Weather]
 
 mqtt:
-  broker: "localhost"
+  host: "localhost"
   port: 1883
+  client_id: "EnsoSphere_mqtt_client"
   keepalive: 60
 
 simulation:
