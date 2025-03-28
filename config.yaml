@@ -1,0 +1,61 @@
+rooms:
+  - name: Living Room
+    devices:
+      actuators: [Lights, Blinds, Air Conditioner]
+      sensors: [Motion, Temperature, Noise]
+
+  - name: Kitchen
+    devices:
+      actuators: [Pet Feeder]
+      sensors: [Gas, Motion]
+
+  - name: Bedroom
+    devices:
+      actuators: [Window]
+      sensors: [Weather]
+
+  - name: Kids Room
+    devices:
+      actuators: []
+      sensors: [Motion]
+
+  - name: Bathroom
+    devices:
+      actuators: [Ventilation Fan]
+      sensors: [Humidity]
+
+  - name: Balcony
+    devices:
+      actuators: [Blinds]
+      sensors: [Motion, Weather]
+
+  - name: Entrance
+    devices:
+      actuators: [Door Lock, Doorbell, Security System]
+      sensors: [Knock, Motion]
+
+  - name: Hallway
+    devices:
+      actuators: [Lights]
+      sensors: [Motion]
+
+  - name: Outdoor
+    devices:
+      actuators: [Weather Station]
+      sensors: [Temperature]
+
+  - name: Entire Home
+    devices:
+      actuators: [Security System, Robot Vacuum]
+      sensors: [Temperature, Weather]
+
+mqtt:
+  broker: "localhost"
+  port: 1883
+  keepalive: 60
+
+simulation:
+  time_acceleration_factor: 60  # 1 real second = 1 simulated minute
+  db:
+    type: "sqlite"
+    path: "smart_home_data.db"

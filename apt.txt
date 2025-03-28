@@ -1,0 +1,29 @@
++------------------------------------------------------+
+|                       Balcony                        |
+|              [Blinds, Motion Sensor, Weather]        |
++-------------------------+----------------------------+
+|      Bedroom            |       Living Room          |
+|  [Window, Weather]      | [Lights, Blinds, Motion,   |
+|                         |  Noise, Temperature, AC]   |
++-------------------------+----------------------------+
+|      Bathroom           |          Kitchen           |
+| [Humidity, Ventilation] | [Gas Sensor, Pet Feeder,   |
+|                         |  Motion Sensor]            |
++-------------------------+----------------------------+
+|      Kids Room          |          Hallway           |
+|    [Motion Sensor]      |  [Lights, Motion Sensor]   |
++-------------------------+----------------------------+
+|                      Entrance                        |
+|         [Door Lock, Doorbell, Security,              |
+|          Knock Sensor, Motion Sensor]                |
++------------------------------------------------------+
+|                     Entire Home                      |
+|   [Security System, Robot Vacuum, Temperature,       |
+|    Internal Scheduler, Weather Sensor]               |
++------------------------------------------------------+
+|                   Central System                     |
+|                    [System Monitor]                  |
++------------------------------------------------------+
+|                        Outdoor                       |
+|           [Weather Station, Temperature]             |
++------------------------------------------------------+
