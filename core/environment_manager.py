@@ -1,7 +1,8 @@
 import datetime
 import random
 import yaml
-
+import logging
+import os
 
 class EnvironmentManager:
     """
@@ -9,15 +10,36 @@ class EnvironmentManager:
     and day/night cycles for the Smart Apartment IoT system.
     """
 
-    def __init__(self, config_path='../config.yaml'):
+    import os
+
+    def __init__(self, config_path=None):
         """Initializes the environment manager with settings loaded from config file."""
-        # Load configuration
+        if config_path is None:
+            base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+            config_path = os.path.join(base_dir, 'config.yaml')
+
         with open(config_path, 'r') as file:
             self.config = yaml.safe_load(file)
 
         self.acceleration_factor = self.config['simulation']['time_acceleration_factor']
-        self.simulated_time = datetime.datetime.now()
+
+        # Randomize initial simulation date within the specified year
+        simulation_year = self.config['simulation'].get('simulation_year', datetime.datetime.now().year)
+        random_month = random.randint(1, 12)
+        random_day = random.randint(1, 28)
+        random_hour = random.randint(0, 23)
+        random_minute = random.randint(0, 59)
+
+        self.simulated_time = datetime.datetime(
+            simulation_year, random_month, random_day, random_hour, random_minute
+        )
+
         self.current_season = self.get_current_season()
+        self.current_temp = self.current_temperature()
+        self.current_weather = self.current_weather_condition()
+        self.last_weather_update_hour = self.simulated_time.hour
+
+        logging.info(f"Simulation start date randomly set to: {self.simulated_time.isoformat()}")
 
     def get_current_season(self):
         """Determines the current season based on the simulated month."""
@@ -37,6 +59,7 @@ class EnvironmentManager:
         simulated_minutes_passed = real_seconds_passed * self.acceleration_factor
         self.simulated_time += datetime.timedelta(minutes=simulated_minutes_passed)
         self.current_season = self.get_current_season()
+        self.update_weather_hourly()
 
     def is_daytime(self):
         """Determines whether it is currently day or night in the simulation."""
@@ -68,36 +91,31 @@ class EnvironmentManager:
     def current_weather_condition(self):
         """Determines weather condition based on season and current temperature."""
         conditions = None
-        temp = self.current_temperature()
+        temp = self.current_temp
         season = self.current_season
 
         if season == 'Winter':
-            if temp <= 7:
-                conditions = ['Snowy', 'Rainy', 'Cloudy']
-            elif temp <= 12:
-                conditions = ['Rainy', 'Cloudy']
-            else:
-                conditions = ['Clear', 'Cloudy']
-
+            conditions = ['Snowy', 'Rainy', 'Cloudy'] if temp <= 7 else ['Rainy', 'Cloudy'] if temp <= 12 else ['Clear', 'Cloudy']
         elif season == 'Spring':
-            if temp <= 18:
-                conditions = ['Rainy', 'Cloudy']
-            else:
-                conditions = ['Clear', 'Cloudy']
-
+            conditions = ['Rainy', 'Cloudy'] if temp <= 18 else ['Clear', 'Cloudy']
         elif season == 'Summer':
-            if temp >= 30:
-                conditions = ['Hot', 'Clear', 'Sunny']
-            else:
-                conditions = ['Clear', 'Sunny', 'Cloudy']
-
+            conditions = ['Hot', 'Clear', 'Sunny'] if temp >= 30 else ['Clear', 'Sunny', 'Cloudy']
         elif season == 'Autumn':
-            if temp <= 18:
-                conditions = ['Rainy', 'Windy', 'Cloudy']
-            else:
-                conditions = ['Clear', 'Cloudy', 'Windy']
+            conditions = ['Rainy', 'Windy', 'Cloudy'] if temp <= 18 else ['Clear', 'Cloudy', 'Windy']
 
         return random.choice(conditions)
+
+    def update_weather_hourly(self):
+        """Updates weather conditions once per simulated hour."""
+        current_hour = self.simulated_time.hour
+        if current_hour != self.last_weather_update_hour:
+            self.current_temp = self.current_temperature()
+            self.current_weather = self.current_weather_condition()
+            self.last_weather_update_hour = current_hour
+
+            logging.info(
+                f"Weather updated: Temp={self.current_temp}, Condition={self.current_weather}, Hour={current_hour}"
+            )
 
     def get_environment_data(self):
         """Provides current environmental data to other system components."""
@@ -105,8 +123,8 @@ class EnvironmentManager:
             'timestamp': self.simulated_time.isoformat(),
             'season': self.current_season,
             'is_daytime': self.is_daytime(),
-            'temperature': self.current_temperature(),
-            'weather_condition': self.current_weather_condition()
+            'temperature': self.current_temp,
+            'weather_condition': self.current_weather
         }
 
 

@@ -1,4 +1,5 @@
 from devices.base_device import BaseDevice
+import json
 
 class Lights(BaseDevice):
     """
@@ -12,9 +13,27 @@ class Lights(BaseDevice):
         state (str): Current state of the lights ("on"/"off").
     """
 
-    def __init__(self, device_id: str, room: str):
-        """Initialize Lights device with default 'off' state."""
-        super().__init__(device_id, room)
+    def __init__(self, device_id: str, room: str, mqtt_client):
+        """Initialize Lights device with default 'off' state and MQTT support."""
+        super().__init__(device_id, room, mqtt_client)
+        self.state = "off"
+
+    def mqtt_callback(self, client, userdata, msg):
+        """
+        Callback function triggered when a message is received on the lights MQTT topic.
+
+        Args:
+            client (mqtt.Client): The MQTT client instance.
+            userdata (Any): User-defined data (not used).
+            msg (MQTTMessage): The received message object containing topic and payload.
+        """
+        try:
+            payload = json.loads(msg.payload.decode())
+            command = payload.get("command")
+            parameters = payload.get("parameters", {})
+            self.receive_command(command, parameters)
+        except Exception as e:
+            print(f"[MQTT][Lights] Failed to process message: {e}")
 
     def receive_command(self, command: str, parameters: dict = None):
         """
@@ -37,10 +56,12 @@ class Lights(BaseDevice):
     def turn_on(self):
         """Turn the lights on."""
         self.state = "on"
+        print(f"[Lights] {self.device_id} in {self.room} turned ON")
 
     def turn_off(self):
         """Turn the lights off."""
         self.state = "off"
+        print(f"[Lights] {self.device_id} in {self.room} turned OFF")
 
     def get_status(self):
         """

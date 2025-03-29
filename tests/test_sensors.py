@@ -50,17 +50,14 @@ def test_humidity_sensor():
 
 
 def test_gas_sensor():
-    """Test the Gas Sensor functionality."""
+    """Test the Gas Sensor functionality with numeric value."""
     sensor = GasSensor("gas_01", "Kitchen")
 
     value = sensor.read_value()
-    assert value in ["safe", "warning", "critical"], "Unexpected gas sensor value."
 
-    data = sensor.get_data()
-    assert data["sensor_id"] == "gas_01"
-    assert data["room"] == "Kitchen"
-    assert data["value"] == value
+    assert isinstance(value, float), "Gas sensor value should be a float."
 
+    assert 100.0 <= value <= 500.0, "Gas sensor reading out of expected range."
 
 def test_noise_sensor():
     """Test the Noise Sensor functionality."""

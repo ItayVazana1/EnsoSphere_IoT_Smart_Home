@@ -5,42 +5,31 @@ class GasSensor(BaseSensor):
     """
     Gas Sensor class for Smart Apartment IoT system.
 
-    Simulates detection of gas concentration levels.
+    Simulates gas concentration level detection.
 
     Attributes:
         sensor_id (str): Unique identifier for the sensor.
-        room (str): Room where the sensor is located (usually Kitchen).
-        last_value (str): Detected gas level state ('safe', 'warning', 'critical').
+        room (str): Room where the sensor is located.
     """
 
-    def __init__(self, sensor_id: str, room: str):
-        """Initialize the gas sensor with safe state."""
-        super().__init__(sensor_id, room)
-        self.last_value = "safe"
+    def __init__(self, sensor_id: str, room: str, mqtt_client=None, env_manager=None):
+        """
+        Initialize gas sensor with optional MQTT client and environment manager.
+
+        Args:
+            sensor_id (str): Unique sensor ID.
+            room (str): Room location.
+            mqtt_client (mqtt.Client, optional): MQTT client for publishing.
+            env_manager (EnvironmentManager, optional): Simulated environment for timestamp.
+        """
+        super().__init__(sensor_id, room, mqtt_client=mqtt_client, env_manager=env_manager)
 
     def read_value(self):
         """
-        Simulate gas detection state.
+        Simulate gas concentration level.
 
         Returns:
-            str: One of 'safe', 'warning', or 'critical'
+            float: Simulated gas level in ppm (parts per million).
         """
-        self.last_value = random.choices(
-            ["safe", "warning", "critical"],
-            weights=[0.85, 0.10, 0.05],  # mostly safe
-            k=1
-        )[0]
+        self.last_value = round(random.uniform(200, 500), 2)
         return self.last_value
-
-    def get_data(self):
-        """
-        Get the latest gas sensor data.
-
-        Returns:
-            dict: Sensor ID, room, and current gas level state.
-        """
-        return {
-            "sensor_id": self.sensor_id,
-            "room": self.room,
-            "value": self.last_value
-        }

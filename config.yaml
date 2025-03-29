@@ -54,9 +54,12 @@ mqtt:
   port: 1883
   client_id: "EnsoSphere_mqtt_client"
   keepalive: 60
+  base_topic: "MyHome"
 
 simulation:
+
   time_acceleration_factor: 60  # 1 real second = 1 simulated minute
+  simulation_year: 2025
   db:
     type: "sqlite"
     path: "smart_home_data.db"

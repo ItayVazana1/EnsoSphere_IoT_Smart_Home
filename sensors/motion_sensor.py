@@ -13,9 +13,9 @@ class MotionSensor(BaseSensor):
         last_value (str): Last motion detection state ("detected"/"none").
     """
 
-    def __init__(self, sensor_id: str, room: str):
-        """Initialize motion sensor with no detection."""
-        super().__init__(sensor_id, room)
+    def __init__(self, sensor_id: str, room: str, mqtt_client=None, env_manager=None):
+        """Initialize motion sensor with no detection and optional MQTT and environment support."""
+        super().__init__(sensor_id, room, mqtt_client=mqtt_client, env_manager=env_manager)
         self.last_value = "none"
 
     def read_value(self):

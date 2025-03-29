@@ -1,43 +1,33 @@
 from sensors.base_sensor import BaseSensor
-from core.environment_manager import EnvironmentManager
+import random
 
 class TemperatureSensor(BaseSensor):
     """
     Temperature Sensor class for Smart Apartment IoT system.
 
-    Reads temperature value from the environment manager.
+    Simulates reading temperature in a room using either
+    the EnvironmentManager or random fallback.
 
     Attributes:
         sensor_id (str): Unique identifier for the sensor.
         room (str): Room where the sensor is located.
-        environment (EnvironmentManager): Provides current temperature data.
+        last_value (float): Last temperature value.
     """
 
-    def __init__(self, sensor_id: str, room: str, environment: EnvironmentManager):
-        """Initialize temperature sensor with environment reference."""
-        super().__init__(sensor_id, room)
-        self.environment = environment
+    def __init__(self, sensor_id: str, room: str, mqtt_client=None, env_manager=None):
+        """Initialize temperature sensor with MQTT and optional environment support."""
+        super().__init__(sensor_id, room, mqtt_client=mqtt_client, env_manager=env_manager)
 
     def read_value(self):
         """
-        Reads current temperature from environment.
+        Reads current temperature from EnvironmentManager if available,
+        otherwise simulates it.
 
         Returns:
-            float: The current temperature in Celsius.
+            float: Temperature in Celsius.
         """
-        env_data = self.environment.get_environment_data()
-        self.last_value = env_data["temperature"]
+        if self.env_manager:
+            self.last_value = self.env_manager.current_temperature()
+        else:
+            self.last_value = round(random.uniform(18.0, 26.0), 1)
         return self.last_value
-
-    def get_data(self):
-        """
-        Get the latest temperature data.
-
-        Returns:
-            dict: Sensor ID, room, and last temperature value.
-        """
-        return {
-            "sensor_id": self.sensor_id,
-            "room": self.room,
-            "value": self.last_value
-        }

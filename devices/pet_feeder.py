@@ -1,5 +1,6 @@
 from devices.base_device import BaseDevice
 import time
+import json
 
 class PetFeeder(BaseDevice):
     """
@@ -14,11 +15,28 @@ class PetFeeder(BaseDevice):
         dispense_count (int): Number of times food was dispensed today.
     """
 
-    def __init__(self, device_id: str, room: str):
+    def __init__(self, device_id: str, room: str, mqtt_client):
         """Initialize pet feeder with default state and zero dispense count."""
-        super().__init__(device_id, room)
+        super().__init__(device_id, room, mqtt_client)
         self.state = "ready"
         self.dispense_count = 0
+
+    def mqtt_callback(self, client, userdata, msg):
+        """
+        Handles incoming MQTT messages and delegates commands.
+
+        Args:
+            client (mqtt.Client): The MQTT client instance.
+            userdata (Any): User-defined data (not used).
+            msg (MQTTMessage): The received message object containing topic and payload.
+        """
+        try:
+            payload = json.loads(msg.payload.decode())
+            command = payload.get("command")
+            parameters = payload.get("parameters", {})
+            self.receive_command(command, parameters)
+        except Exception as e:
+            print(f"[MQTT][PetFeeder] Failed to process message: {e}")
 
     def receive_command(self, command: str, parameters: dict = None):
         """
@@ -43,10 +61,11 @@ class PetFeeder(BaseDevice):
         Simulates a short dispensing operation.
         """
         self.state = "dispensing"
-        # Simulate time to dispense (would normally be async or MQTT-acknowledged)
+        print(f"[PetFeeder] {self.device_id} dispensing food in {self.room}")
         time.sleep(0.5)
         self.dispense_count += 1
         self.state = "ready"
+        print(f"[PetFeeder] {self.device_id} finished dispensing. Total today: {self.dispense_count}")
 
     def get_status(self):
         """

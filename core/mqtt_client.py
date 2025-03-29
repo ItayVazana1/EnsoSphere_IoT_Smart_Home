@@ -13,6 +13,8 @@ BROKER_HOST = mqtt_config["host"]
 BROKER_PORT = mqtt_config["port"]
 BASE_CLIENT_ID = mqtt_config["client_id"]
 KEEPALIVE = mqtt_config["keepalive"]
+BASE_TOPIC = mqtt_config["base_topic"]
+
 
 def on_connect(client, userdata, flags, rc):
     """
@@ -26,9 +28,9 @@ def on_connect(client, userdata, flags, rc):
     """
     if rc == 0:
         print("[MQTT] Connected successfully to broker.")
-        client.subscribe("test/topic")
     else:
         print(f"[MQTT] Connection failed with code {rc}.")
+
 
 def on_message(client, userdata, msg):
     """
@@ -40,6 +42,7 @@ def on_message(client, userdata, msg):
         msg (MQTTMessage): The received message object containing topic and payload.
     """
     print(f"[MQTT] Message received on topic '{msg.topic}': {msg.payload.decode()}")
+
 
 def create_mqtt_client():
     """
@@ -56,22 +59,60 @@ def create_mqtt_client():
     client.connect(BROKER_HOST, BROKER_PORT, KEEPALIVE)
     return client
 
-def test_publish(client):
+
+def publish_message(client, room, device_type, device_id, payload):
     """
-    Test function to publish a sample message to a test topic.
+    Publishes a message to a specified topic based on room, device type, and device ID.
 
     Args:
         client (mqtt.Client): The MQTT client instance.
+        room (str): The room name (e.g., kitchen, living_room).
+        device_type (str): The type of the device (e.g., temperature_sensor, lights).
+        device_id (str): The unique ID of the device.
+        payload (str): The message payload to publish.
     """
-    test_topic = "test/topic"
-    test_payload = "Hello from Smart Apartment!"
-    client.publish(test_topic, test_payload)
-    print(f"[MQTT] Published to '{test_topic}': {test_payload}")
+    topic = f"{BASE_TOPIC}/{room}/{device_type}/{device_id}"
+    result = client.publish(topic, payload)
+    print(f"[MQTT] Published to '{topic}': {payload}")
+    return result
+
+
+def subscribe_to_device(client, room, device_type, device_id):
+    """
+    Subscribes the MQTT client to a specific device topic.
+
+    Args:
+        client (mqtt.Client): The MQTT client instance.
+        room (str): The room name.
+        device_type (str): The type of the device.
+        device_id (str): The unique ID of the device.
+    """
+    topic = f"{BASE_TOPIC}/{room}/{device_type}/{device_id}"
+    result = client.subscribe(topic)
+    print(f"[MQTT] Subscribed to topic '{topic}'")
+    return result
+
+
+# Example usage
+def test_publish_and_subscribe(client):
+    room = "kitchen"
+    device_type = "temperature_sensor"
+    device_id = "TEMP_01"
+    payload = "24.7"
+
+    subscribe_to_device(client, room, device_type, device_id)
+    time.sleep(1)  # Allow subscription to complete
+
+    publish_message(client, room, device_type, device_id, payload)
+
 
 if __name__ == "__main__":
     mqtt_client = create_mqtt_client()
     mqtt_client.loop_start()
-    test_publish(mqtt_client)
+
+    test_publish_and_subscribe(mqtt_client)
+
     time.sleep(5)  # Wait to ensure the message is received
+
     mqtt_client.loop_stop()
     mqtt_client.disconnect()

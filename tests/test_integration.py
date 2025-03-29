@@ -1,36 +1,38 @@
-import yaml
+from core.mqtt_client import create_mqtt_client
 from core.environment_manager import EnvironmentManager
-
-# Import all sensors
 from sensors.motion_sensor import MotionSensor
 from sensors.temperature_sensor import TemperatureSensor
 from sensors.humidity_sensor import HumiditySensor
 from sensors.gas_sensor import GasSensor
 from sensors.noise_sensor import NoiseSensor
-
-# Import all devices
 from devices.lights import Lights
 from devices.blinds import Blinds
 from devices.air_conditioner import AirConditioner
 from devices.robot_vacuum import RobotVacuum
 from devices.pet_feeder import PetFeeder
 from devices.door_lock import DoorLock
+import time
+import yaml
 
-def load_config(path='../config.yaml'):
-    with open(path, 'r') as file:
+def load_config():
+    with open("../config.yaml", "r") as file:
         return yaml.safe_load(file)
 
 def test_all_components():
     config = load_config()
     env = EnvironmentManager()
+    mqtt_client = create_mqtt_client()
+    mqtt_client.loop_start()
+
+    time.sleep(1)
 
     print("\n=== TESTING SENSORS ===")
     sensor_classes = {
-        "Motion": MotionSensor,
-        "Temperature": lambda i, r: TemperatureSensor(i, r, env),
-        "Humidity": lambda i, r: HumiditySensor(i, r, env),
-        "Gas": GasSensor,
-        "Noise": NoiseSensor
+        "Motion": lambda i, r: MotionSensor(i, r, mqtt_client=mqtt_client),
+        "Temperature": lambda i, r: TemperatureSensor(i, r, mqtt_client=mqtt_client, env_manager=env),
+        "Humidity": lambda i, r: HumiditySensor(i, r, mqtt_client=mqtt_client, env_manager=env),
+        "Gas": lambda i, r: GasSensor(i, r, mqtt_client=mqtt_client, env_manager=env),
+        "Noise": lambda i, r: NoiseSensor(i, r, mqtt_client=mqtt_client, env_manager=env)
     }
 
     for room in config['rooms']:
@@ -66,13 +68,12 @@ def test_all_components():
             device_class = device_classes.get(device_name)
             if device_class:
                 device_id = f"{device_name.lower().replace(' ', '_')}_{room['name'].replace(' ', '_')}"
-                device = device_class(device_id, room['name'])
-                cmd = test_commands.get(device_name)
-                if cmd:
-                    device.receive_command(cmd)
+                device = device_class(device_id, room['name'], mqtt_client)
+                command = test_commands[device_name]
+                print(f"[Device] Sending '{command}' → {device_id}")
+                device.receive_command(command)
                 status = device.get_status()
-                print(f"[Device] {device_id} → {status}")
+                print(f"[Status] {status}")
 
-
-if __name__ == "__main__":
-    test_all_components()
+    mqtt_client.loop_stop()
+    mqtt_client.disconnect()

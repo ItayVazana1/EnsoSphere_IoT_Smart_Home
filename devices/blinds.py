@@ -1,4 +1,5 @@
 from devices.base_device import BaseDevice
+import json
 
 class Blinds(BaseDevice):
     """
@@ -12,10 +13,27 @@ class Blinds(BaseDevice):
         state (str): Current state of the blinds ("open"/"closed").
     """
 
-    def __init__(self, device_id: str, room: str):
-        """Initialize Blinds device with default 'closed' state."""
-        super().__init__(device_id, room)
+    def __init__(self, device_id: str, room: str, mqtt_client):
+        """Initialize Blinds device with default 'closed' state and MQTT support."""
+        super().__init__(device_id, room, mqtt_client)
         self.state = "closed"
+
+    def mqtt_callback(self, client, userdata, msg):
+        """
+        Callback function triggered when a message is received on the blinds MQTT topic.
+
+        Args:
+            client (mqtt.Client): The MQTT client instance.
+            userdata (Any): User-defined data (not used).
+            msg (MQTTMessage): The received message object containing topic and payload.
+        """
+        try:
+            payload = json.loads(msg.payload.decode())
+            command = payload.get("command")
+            parameters = payload.get("parameters", {})
+            self.receive_command(command, parameters)
+        except Exception as e:
+            print(f"[MQTT][Blinds] Failed to process message: {e}")
 
     def receive_command(self, command: str, parameters: dict = None):
         """
@@ -38,10 +56,12 @@ class Blinds(BaseDevice):
     def open(self):
         """Opens the blinds."""
         self.state = "open"
+        print(f"[Blinds] {self.device_id} in {self.room} opened")
 
     def close(self):
         """Closes the blinds."""
         self.state = "closed"
+        print(f"[Blinds] {self.device_id} in {self.room} closed")
 
     def get_status(self):
         """

@@ -1,5 +1,4 @@
 from sensors.base_sensor import BaseSensor
-from core.environment_manager import EnvironmentManager
 import random
 
 class HumiditySensor(BaseSensor):
@@ -11,41 +10,31 @@ class HumiditySensor(BaseSensor):
     Attributes:
         sensor_id (str): Unique identifier for the sensor.
         room (str): Room where the sensor is located.
-        environment (EnvironmentManager): Reference for seasonal humidity behavior.
+        last_value (float): Last humidity value.
     """
 
-    def __init__(self, sensor_id: str, room: str, environment: EnvironmentManager):
-        """Initialize humidity sensor with environment reference."""
-        super().__init__(sensor_id, room)
-        self.environment = environment
+    def __init__(self, sensor_id: str, room: str, mqtt_client=None, env_manager=None):
+        """Initialize humidity sensor with MQTT and optional environment manager."""
+        super().__init__(sensor_id, room, mqtt_client=mqtt_client, env_manager=env_manager)
 
     def read_value(self):
         """
-        Simulate humidity value based on the current season.
+        Simulate or retrieve humidity value based on the current season.
 
         Returns:
             float: Simulated humidity percentage (0.0 to 100.0).
         """
-        season = self.environment.current_season
-        ranges = {
-            'Winter': (40, 70),
-            'Spring': (30, 60),
-            'Summer': (20, 50),
-            'Autumn': (30, 60)
-        }
-        low, high = ranges[season]
+        if self.env_manager:
+            season = self.env_manager.current_season
+            ranges = {
+                'Winter': (40, 70),
+                'Spring': (30, 60),
+                'Summer': (20, 50),
+                'Autumn': (30, 60)
+            }
+            low, high = ranges.get(season, (30, 60))
+        else:
+            low, high = 30, 60
+
         self.last_value = round(random.uniform(low, high), 1)
         return self.last_value
-
-    def get_data(self):
-        """
-        Get the latest humidity data.
-
-        Returns:
-            dict: Sensor ID, room, and last humidity reading.
-        """
-        return {
-            "sensor_id": self.sensor_id,
-            "room": self.room,
-            "value": self.last_value
-        }

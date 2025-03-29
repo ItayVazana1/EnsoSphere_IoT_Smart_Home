@@ -1,4 +1,5 @@
 from devices.base_device import BaseDevice
+import json
 
 class AirConditioner(BaseDevice):
     """
@@ -13,11 +14,28 @@ class AirConditioner(BaseDevice):
         target_temperature (float): Desired temperature set by the user.
     """
 
-    def __init__(self, device_id: str, room: str):
+    def __init__(self, device_id: str, room: str, mqtt_client):
         """Initialize Air Conditioner device with default 'off' state and default temperature."""
-        super().__init__(device_id, room)
+        super().__init__(device_id, room, mqtt_client)
         self.state = "off"
         self.target_temperature = 24.0  # Default temperature
+
+    def mqtt_callback(self, client, userdata, msg):
+        """
+        Callback function triggered when a message is received on the air conditioner MQTT topic.
+
+        Args:
+            client (mqtt.Client): The MQTT client instance.
+            userdata (Any): User-defined data (not used).
+            msg (MQTTMessage): The received message object containing topic and payload.
+        """
+        try:
+            payload = json.loads(msg.payload.decode())
+            command = payload.get("command")
+            parameters = payload.get("parameters", {})
+            self.receive_command(command, parameters)
+        except Exception as e:
+            print(f"[MQTT][AirConditioner] Failed to process message: {e}")
 
     def receive_command(self, command: str, parameters: dict = None):
         """
@@ -45,10 +63,12 @@ class AirConditioner(BaseDevice):
     def turn_on(self):
         """Turn the AC on."""
         self.state = "on"
+        print(f"[AirConditioner] {self.device_id} in {self.room} turned ON")
 
     def turn_off(self):
         """Turn the AC off."""
         self.state = "off"
+        print(f"[AirConditioner] {self.device_id} in {self.room} turned OFF")
 
     def set_temperature(self, temperature: float):
         """
@@ -58,6 +78,7 @@ class AirConditioner(BaseDevice):
             temperature (float): Desired temperature value.
         """
         self.target_temperature = temperature
+        print(f"[AirConditioner] {self.device_id} temperature set to {temperature}°C")
 
     def get_status(self):
         """
