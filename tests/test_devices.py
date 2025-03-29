@@ -4,6 +4,10 @@ from devices.air_conditioner import AirConditioner
 from devices.robot_vacuum import RobotVacuum
 from devices.pet_feeder import PetFeeder
 from devices.door_lock import DoorLock
+from devices.ventilation_fan import VentilationFan
+from devices.window import Window
+from devices.security_system import SecuritySystem
+
 
 # === LIGHTS ===
 class DummyMQTT:
@@ -66,3 +70,44 @@ def test_door_lock_basic_logic():
     assert lock.state == "unlocked"
     lock.lock()
     assert lock.locked
+
+
+# === Ventilation Fan ===
+def test_ventilation_fan():
+    """Test the Ventilation Fan functionality."""
+    fan = VentilationFan("fan_01", "Bathroom", mqtt_client=None)
+
+    fan.receive_command("turn_on")
+    assert fan.state == "on", "Fan should be ON after turn_on command."
+
+    fan.receive_command("turn_off")
+    assert fan.state == "off", "Fan should be OFF after turn_off command."
+
+
+
+# === Window  ===
+def test_window():
+    """Test the Window device functionality."""
+    window = Window("window_01", "Bedroom", mqtt_client=None)
+
+    window.receive_command("open")
+    assert window.state == "open", "Window should be open."
+
+    window.receive_command("close")
+    assert window.state == "closed", "Window should be closed."
+
+
+
+# === Security System ===
+def test_security_system():
+    """Test Security System functionality."""
+    system = SecuritySystem("sec_01", "Entrance", mqtt_client=None)
+
+    system.receive_command("arm")
+    assert system.state == "armed"
+
+    system.receive_command("alert")
+    assert system.state == "alert"
+
+    system.receive_command("disarm")
+    assert system.state == "disarmed"

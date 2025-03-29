@@ -8,7 +8,6 @@ with open("../config.yaml", "r") as file:
     config = yaml.safe_load(file)
 
 mqtt_config = config["mqtt"]
-
 BROKER_HOST = mqtt_config["host"]
 BROKER_PORT = mqtt_config["port"]
 BASE_CLIENT_ID = mqtt_config["client_id"]

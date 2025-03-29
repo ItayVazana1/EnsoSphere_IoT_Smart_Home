@@ -11,6 +11,7 @@ from sensors.temperature_sensor import TemperatureSensor
 from sensors.humidity_sensor import HumiditySensor
 from sensors.gas_sensor import GasSensor
 from sensors.noise_sensor import NoiseSensor
+from sensors.weather_sensor import WeatherSensor
 
 
 # ---------- Fixtures ----------
@@ -77,7 +78,7 @@ class TestGasSensor:
         """
         sensor = GasSensor("GAS_01", "bathroom", mqtt_client=mqtt_client, env_manager=env_manager)
         sensor.publish_value()
-        time.sleep(1)  # give time for MQTT publish to be processed
+        time.sleep(1)
 
         output = capsys.readouterr().out
         assert "MyHome/bathroom/gassensor/GAS_01" in output
@@ -103,6 +104,22 @@ class TestNoiseSensor:
         assert '"value":' in out
         assert '"timestamp":' in out
 
-        # Optional: validate value range
         value = sensor.last_value
         assert 30.0 <= value <= 90.0
+
+
+class TestWeatherSensor:
+    def test_publish(self, mqtt_client, env_manager, capsys):
+        """
+        Test that the WeatherSensor publishes correct weather data via MQTT.
+        """
+        sensor = WeatherSensor("WEATHER_01", "balcony", mqtt_client=mqtt_client, env_manager=env_manager)
+        sensor.publish_value()
+        time.sleep(1)
+
+        out = capsys.readouterr().out
+        assert "MyHome/balcony/weathersensor/WEATHER_01" in out
+        assert '"sensor_id": "WEATHER_01"' in out
+        assert '"room": "balcony"' in out
+        assert '"value":' in out
+        assert '"timestamp":' in out

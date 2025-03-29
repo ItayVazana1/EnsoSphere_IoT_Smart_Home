@@ -1,10 +1,11 @@
-from core.environment_manager import EnvironmentManager
 import time
 import datetime
 import unittest
+from core.environment_manager import EnvironmentManager
 
 
 class TestEnvironmentManager(unittest.TestCase):
+    """Unit tests for the EnvironmentManager class."""
 
     def setUp(self):
         """Set up the environment manager instance for testing."""
@@ -18,6 +19,13 @@ class TestEnvironmentManager(unittest.TestCase):
         self.assertIsInstance(data['temperature'], float)
         self.assertIsInstance(data['weather_condition'], str)
 
+    def test_environment_data_structure(self):
+        """Verify structure of full environment data dictionary."""
+        data = self.env_manager.get_environment_data()
+        expected_keys = ['timestamp', 'season', 'is_daytime', 'temperature', 'weather_condition']
+        for key in expected_keys:
+            self.assertIn(key, data)
+
     def test_time_advancement(self):
         """Test simulated time advancement."""
         initial_time = self.env_manager.simulated_time
@@ -27,25 +35,21 @@ class TestEnvironmentManager(unittest.TestCase):
 
     def test_season_transition(self):
         """Forcefully test seasonal transitions."""
-        # Manually set dates and verify seasons
         test_dates = {
             datetime.datetime(2025, 1, 15): 'Winter',
             datetime.datetime(2025, 4, 15): 'Spring',
             datetime.datetime(2025, 7, 15): 'Summer',
             datetime.datetime(2025, 10, 15): 'Autumn',
         }
-
         for date, expected_season in test_dates.items():
             self.env_manager.simulated_time = date
             self.assertEqual(self.env_manager.get_current_season(), expected_season)
 
     def test_day_night_cycle(self):
         """Test correctness of day/night determination."""
-        # Set to a known daytime
         self.env_manager.simulated_time = datetime.datetime(2025, 6, 21, 12, 0)
         self.assertTrue(self.env_manager.is_daytime())
 
-        # Set to a known nighttime
         self.env_manager.simulated_time = datetime.datetime(2025, 6, 21, 23, 0)
         self.assertFalse(self.env_manager.is_daytime())
 
@@ -57,7 +61,6 @@ class TestEnvironmentManager(unittest.TestCase):
             'Summer': (25, 35),
             'Autumn': (15, 25)
         }
-
         for season, (min_temp, max_temp) in season_ranges.items():
             self.env_manager.current_season = season
             for _ in range(10):
@@ -73,7 +76,6 @@ class TestEnvironmentManager(unittest.TestCase):
             'Summer': ['Hot', 'Clear', 'Sunny', 'Cloudy'],
             'Autumn': ['Rainy', 'Windy', 'Cloudy', 'Clear']
         }
-
         for season in conditions_per_season:
             self.env_manager.current_season = season
             for _ in range(10):
@@ -82,10 +84,9 @@ class TestEnvironmentManager(unittest.TestCase):
                 self.assertIn(condition, conditions_per_season[season])
 
 
-# Optional: interactive simulation test
+# Optional interactive simulation
 def run_interactive_test(cycles=5):
     env_manager = EnvironmentManager()
-
     for cycle in range(cycles):
         env_manager.update_time()
         data = env_manager.get_environment_data()
@@ -100,9 +101,5 @@ def run_interactive_test(cycles=5):
 
 
 if __name__ == "__main__":
-
-    # Run unittest
     unittest.main(verbosity=2, exit=False)
-
-    # Optional interactive test (uncomment if needed)
-    run_interactive_test()
+    # run_interactive_test()  # Optional: uncomment to observe live behavior

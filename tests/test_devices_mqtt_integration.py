@@ -1,13 +1,20 @@
 import pytest
 import time
 from core import mqtt_client as mqtt_module
+
+# Devices
 from devices.lights import Lights
 from devices.blinds import Blinds
 from devices.air_conditioner import AirConditioner
 from devices.robot_vacuum import RobotVacuum
 from devices.pet_feeder import PetFeeder
 from devices.door_lock import DoorLock
+from devices.ventilation_fan import VentilationFan
+from devices.window import Window
+from devices.security_system import SecuritySystem
 
+
+# ---------- MQTT Fixture ----------
 
 @pytest.fixture(scope="module")
 def mqtt_client():
@@ -23,6 +30,8 @@ def mqtt_client():
     client.loop_stop()
     client.disconnect()
 
+
+# ---------- Device Tests ----------
 
 def test_lights(mqtt_client):
     lights = Lights("lights_01", "Living Room", mqtt_client)
@@ -77,3 +86,29 @@ def test_door_lock(mqtt_client):
     assert lock.state == "unlocked"
     lock.receive_command("lock")
     assert lock.state == "locked"
+
+
+def test_ventilation_fan(mqtt_client):
+    fan = VentilationFan("fan_01", "Bathroom", mqtt_client)
+    fan.receive_command("turn_on")
+    assert fan.state == "on"
+    fan.receive_command("turn_off")
+    assert fan.state == "off"
+
+
+def test_window(mqtt_client):
+    window = Window("window_01", "Bedroom", mqtt_client)
+    window.receive_command("open")
+    assert window.state == "open"
+    window.receive_command("close")
+    assert window.state == "closed"
+
+
+def test_security_system(mqtt_client):
+    system = SecuritySystem("sec_01", "Entrance", mqtt_client)
+    system.receive_command("arm")
+    assert system.state == "armed"
+    system.receive_command("alert")
+    assert system.state == "alert"
+    system.receive_command("disarm")
+    assert system.state == "disarmed"

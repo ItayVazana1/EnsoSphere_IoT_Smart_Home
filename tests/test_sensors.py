@@ -4,6 +4,7 @@ from sensors.motion_sensor import MotionSensor
 from sensors.humidity_sensor import HumiditySensor
 from sensors.gas_sensor import GasSensor
 from sensors.noise_sensor import NoiseSensor
+from sensors.weather_sensor import WeatherSensor
 
 
 def test_temperature_sensor():
@@ -71,3 +72,19 @@ def test_noise_sensor():
     assert data["sensor_id"] == "noise_01"
     assert data["room"] == "Living Room"
     assert data["value"] == value
+
+
+def test_weather_sensor():
+    """Test the Weather Sensor functionality."""
+    env = EnvironmentManager()
+    sensor = WeatherSensor("weather_01", "Balcony", env_manager=env)
+
+    value = sensor.read_value()
+    assert isinstance(value, str), "Weather condition should be a string."
+    assert value in ["Snowy", "Rainy", "Cloudy", "Clear", "Hot", "Sunny", "Windy"], "Unexpected weather condition."
+
+    data = sensor.get_data()
+    assert data["sensor_id"] == "weather_01"
+    assert data["room"] == "Balcony"
+    assert data["value"] == value
+
