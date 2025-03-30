@@ -2,9 +2,13 @@ import yaml
 import paho.mqtt.client as mqtt
 import time
 import uuid
+import os
 
-# Load MQTT configuration from config.yaml
-with open("../config.yaml", "r") as file:
+# Load MQTT configuration from config.yaml using dynamic path
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+config_path = os.path.join(base_dir, "config.yaml")
+
+with open(config_path, "r") as file:
     config = yaml.safe_load(file)
 
 mqtt_config = config["mqtt"]
