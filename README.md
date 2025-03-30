@@ -79,7 +79,7 @@ EnsoSphere/
 │   ├── Spring - Full Technical Event Table.xlsx
 │   ├── Summer - Full Technical Event Table.xlsx
 │   └── Autumn - Full Technical Event Table.xlsx
-├── docs/
+├── Archive/
 │   ├── Smart_Apartment_Full_Report.md
 │   ├── Smart_Apartment_Project_Plan_With_TODO.md
 │   ├── Smart_Apartment_Folder_Structure_and_Guide.md

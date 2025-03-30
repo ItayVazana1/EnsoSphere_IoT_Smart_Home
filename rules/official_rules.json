@@ -1,515 +1,1960 @@
-[
-  {
-    "id":"rule_kitchen_light_morning",
-    "category":"occupant_action",
-    "description":"Turn on kitchen lights if motion is detected and it's not daytime",
-    "conditions_logic":"AND",
-    "condition_1_type":"sensor",
-    "condition_1_sensor_id":"motion_kitchen",
-    "condition_1_parameter":"",
-    "condition_1_operator":"==",
-    "condition_1_value":"detected",
-    "condition_2_type":"environment",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"is_daytime",
-    "condition_2_operator":"==",
-    "condition_2_value":false,
-    "action_device_id":"lights_kitchen",
-    "action_command":"turn_on",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_open_blinds_morning",
-    "category":"time_based",
-    "description":"Open kitchen blinds when daytime begins (after 06:30)",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"is_daytime",
-    "condition_1_operator":"==",
-    "condition_1_value":true,
-    "condition_2_type":"environment",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"time",
-    "condition_2_operator":">=",
-    "condition_2_value":"06:30",
-    "action_device_id":"blinds_kitchen",
-    "action_command":"open_partial",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_bathroom_light_and_fan",
-    "category":"occupant_action",
-    "description":"Turn on bathroom light and fan if motion is detected in the morning",
-    "conditions_logic":"AND",
-    "condition_1_type":"sensor",
-    "condition_1_sensor_id":"motion_bathroom",
-    "condition_1_parameter":"",
-    "condition_1_operator":"==",
-    "condition_1_value":"detected",
-    "condition_2_type":"",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"",
-    "condition_2_operator":"",
-    "condition_2_value":"",
-    "action_device_id":"lights_bathroom + fan_bathroom",
-    "action_command":"turn_on",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_exit_home_morning",
-    "category":"occupant_action",
-    "description":"Turn off unused devices when door is opened after morning departure",
-    "conditions_logic":"AND",
-    "condition_1_type":"sensor",
-    "condition_1_sensor_id":"door_main",
-    "condition_1_parameter":"",
-    "condition_1_operator":"==",
-    "condition_1_value":"opened",
-    "condition_2_type":"environment",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"time",
-    "condition_2_operator":">=",
-    "condition_2_value":"07:30",
-    "action_device_id":"lights_unused + heating",
-    "action_command":"eco_mode",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_start_cleaning_when_empty",
-    "category":"occupant_action",
-    "description":"Start robot vacuum when no motion is detected and it's morning",
-    "conditions_logic":"AND",
-    "condition_1_type":"sensor",
-    "condition_1_sensor_id":"no_motion_all_rooms",
-    "condition_1_parameter":"",
-    "condition_1_operator":"==",
-    "condition_1_value":true,
-    "condition_2_type":"environment",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"time",
-    "condition_2_operator":">=",
-    "condition_2_value":"08:30",
-    "action_device_id":"robot_vacuum",
-    "action_command":"start",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_ventilation_if_dry",
-    "category":"threshold",
-    "description":"Reduce ventilation if humidity drops below 30%",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"humidity",
-    "condition_1_operator":"<",
-    "condition_1_value":30,
-    "condition_2_type":"",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"",
-    "condition_2_operator":"",
-    "condition_2_value":"",
-    "action_device_id":"ventilation",
-    "action_command":"reduce",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_open_window_warm_day",
-    "category":"weather",
-    "description":"Open living room window slightly if it's warm and daytime",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"temperature",
-    "condition_1_operator":">",
-    "condition_1_value":24,
-    "condition_2_type":"environment",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"is_daytime",
-    "condition_2_operator":"==",
-    "condition_2_value":true,
-    "action_device_id":"window_living_room",
-    "action_command":"open_partial",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_blinds_close_on_rain",
-    "category":"weather",
-    "description":"Close all blinds partially when rain starts",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"weather_condition",
-    "condition_1_operator":"==",
-    "condition_1_value":"rain",
-    "condition_2_type":"",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"",
-    "condition_2_operator":"",
-    "condition_2_value":"",
-    "action_device_id":"blinds_all",
-    "action_command":"close_partial",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_auto_tv_on_arrival",
-    "category":"occupant_action",
-    "description":"Turn on living room TV when someone arrives in the afternoon",
-    "conditions_logic":"AND",
-    "condition_1_type":"sensor",
-    "condition_1_sensor_id":"door_main",
-    "condition_1_parameter":"",
-    "condition_1_operator":"==",
-    "condition_1_value":"opened",
-    "condition_2_type":"environment",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"time",
-    "condition_2_operator":">=",
-    "condition_2_value":"13:00",
-    "action_device_id":"tv_living_room",
-    "action_command":"turn_on",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_heating_on_cold",
-    "category":"threshold",
-    "description":"Turn on heating if temperature drops below 19\u00b0C",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"temperature",
-    "condition_1_operator":"<",
-    "condition_1_value":19,
-    "condition_2_type":"",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"",
-    "condition_2_operator":"",
-    "condition_2_value":"",
-    "action_device_id":"heating",
-    "action_command":"turn_on",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_dim_lights_evening",
-    "category":"time_based",
-    "description":"Dim living room lights after dark in the evening",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"is_daytime",
-    "condition_1_operator":"==",
-    "condition_1_value":false,
-    "condition_2_type":"environment",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"time",
-    "condition_2_operator":">=",
-    "condition_2_value":"17:30",
-    "action_device_id":"lights_living_room",
-    "action_command":"dim",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_tv_off_dinner_time",
-    "category":"time_based",
-    "description":"Turn off TV automatically during dinner time",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"time",
-    "condition_1_operator":">=",
-    "condition_1_value":"18:30",
-    "condition_2_type":"environment",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"time",
-    "condition_2_operator":"<=",
-    "condition_2_value":"19:30",
-    "action_device_id":"tv_living_room",
-    "action_command":"turn_off",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_pet_feeder_evening",
-    "category":"time_based",
-    "description":"Feed pet automatically in the evening",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"time",
-    "condition_1_operator":"==",
-    "condition_1_value":"19:00",
-    "condition_2_type":"",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"",
-    "condition_2_operator":"",
-    "condition_2_value":"",
-    "action_device_id":"pet_feeder",
-    "action_command":"dispense",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_porch_light_on_motion",
-    "category":"occupant_action",
-    "description":"Turn on porch light when motion is detected outside",
-    "conditions_logic":"AND",
-    "condition_1_type":"sensor",
-    "condition_1_sensor_id":"motion_porch",
-    "condition_1_parameter":"",
-    "condition_1_operator":"==",
-    "condition_1_value":"detected",
-    "condition_2_type":"",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"",
-    "condition_2_operator":"",
-    "condition_2_value":"",
-    "action_device_id":"lights_porch",
-    "action_command":"turn_on",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_reduce_music_volume_night",
-    "category":"time_based",
-    "description":"Reduce music volume after 21:30",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"time",
-    "condition_1_operator":">=",
-    "condition_1_value":"21:30",
-    "condition_2_type":"",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"",
-    "condition_2_operator":"",
-    "condition_2_value":"",
-    "action_device_id":"audio_system",
-    "action_command":"reduce_volume",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_night_lock_and_blinds",
-    "category":"time_based",
-    "description":"Lock main door and close all blinds at 22:00",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"time",
-    "condition_1_operator":"==",
-    "condition_1_value":"22:00",
-    "condition_2_type":"",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"",
-    "condition_2_operator":"",
-    "condition_2_value":"",
-    "action_device_id":"door_main + blinds_all",
-    "action_command":"lock + close",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_night_lights_off",
-    "category":"time_based",
-    "description":"Turn off all lights at 23:00",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"time",
-    "condition_1_operator":"==",
-    "condition_1_value":"23:00",
-    "condition_2_type":"",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"",
-    "condition_2_operator":"",
-    "condition_2_value":"",
-    "action_device_id":"lights_all",
-    "action_command":"turn_off",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_no_cleaning_at_night",
-    "category":"time_based",
-    "description":"Prevent robot vacuum cleaning between midnight and early morning",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"time",
-    "condition_1_operator":">=",
-    "condition_1_value":"00:00",
-    "condition_2_type":"environment",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"time",
-    "condition_2_operator":"<=",
-    "condition_2_value":"05:30",
-    "action_device_id":"robot_vacuum",
-    "action_command":"disable_temporarily",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_morning_lights_soft_on",
-    "category":"time_based",
-    "description":"Gently turn on hallway and kitchen lights at 05:30",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"time",
-    "condition_1_operator":"==",
-    "condition_1_value":"05:30",
-    "condition_2_type":"",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"",
-    "condition_2_operator":"",
-    "condition_2_value":"",
-    "action_device_id":"lights_kitchen + lights_hallway",
-    "action_command":"turn_on_soft",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_pet_block_rain",
-    "category":"weather",
-    "description":"Prevent pet exit when it\u2019s raining",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"weather_condition",
-    "condition_1_operator":"==",
-    "condition_1_value":"rain",
-    "condition_2_type":"",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"",
-    "condition_2_operator":"",
-    "condition_2_value":"",
-    "action_device_id":"door_pet",
-    "action_command":"lock",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_blinds_close_on_wind",
-    "category":"weather",
-    "description":"Close all blinds when strong wind is detected",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"weather_condition",
-    "condition_1_operator":"==",
-    "condition_1_value":"windy",
-    "condition_2_type":"",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"",
-    "condition_2_operator":"",
-    "condition_2_value":"",
-    "action_device_id":"blinds_all",
-    "action_command":"close",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_heating_intensify_cold",
-    "category":"threshold",
-    "description":"Increase heating when temperature drops below 10\u00b0C",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"temperature",
-    "condition_1_operator":"<",
-    "condition_1_value":10,
-    "condition_2_type":"",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"",
-    "condition_2_operator":"",
-    "condition_2_value":"",
-    "action_device_id":"heating_bedroom",
-    "action_command":"increase",
-    "action_parameters":"{\"level\": \"high\"}"
-  },
-  {
-    "id":"rule_return_home_during_rain",
-    "category":"weather",
-    "description":"Activate hallway heater when someone returns home during rain",
-    "conditions_logic":"AND",
-    "condition_1_type":"sensor",
-    "condition_1_sensor_id":"door_main",
-    "condition_1_parameter":"",
-    "condition_1_operator":"==",
-    "condition_1_value":"opened",
-    "condition_2_type":"environment",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"weather_condition",
-    "condition_2_operator":"==",
-    "condition_2_value":"rain",
-    "action_device_id":"heating_hallway",
-    "action_command":"turn_on",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_heating_on_cold_entry",
-    "category":"threshold",
-    "description":"Turn on hallway heater when door opens and temperature is below 15\u00b0C",
-    "conditions_logic":"AND",
-    "condition_1_type":"sensor",
-    "condition_1_sensor_id":"door_main",
-    "condition_1_parameter":"",
-    "condition_1_operator":"==",
-    "condition_1_value":"opened",
-    "condition_2_type":"environment",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"temperature",
-    "condition_2_operator":"<",
-    "condition_2_value":15,
-    "action_device_id":"heating_hallway",
-    "action_command":"turn_on",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_night_heating_steady",
-    "category":"time_based",
-    "description":"Maintain minimum heating level during winter nights",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"time",
-    "condition_1_operator":">=",
-    "condition_1_value":"00:00",
-    "condition_2_type":"environment",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"time",
-    "condition_2_operator":"<",
-    "condition_2_value":"06:00",
-    "action_device_id":"heating",
-    "action_command":"maintain",
-    "action_parameters":"{\"mode\": \"night\", \"min_temp\": 18}"
-  },
-  {
-    "id":"rule_bark_security_light",
-    "category":"sensor_trigger",
-    "description":"Turn on hallway light if dog barks while house is empty",
-    "conditions_logic":"AND",
-    "condition_1_type":"sensor",
-    "condition_1_sensor_id":"noise_hallway",
-    "condition_1_parameter":"",
-    "condition_1_operator":">=",
-    "condition_1_value":70,
-    "condition_2_type":"environment",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"is_occupied",
-    "condition_2_operator":"==",
-    "condition_2_value":false,
-    "action_device_id":"lights_hallway",
-    "action_command":"turn_on",
-    "action_parameters":"{}"
-  },
-  {
-    "id":"rule_blinds_open_after_rain",
-    "category":"weather",
-    "description":"Open blinds partially when rain stops and it's daytime",
-    "conditions_logic":"AND",
-    "condition_1_type":"environment",
-    "condition_1_sensor_id":"",
-    "condition_1_parameter":"weather_condition",
-    "condition_1_operator":"==",
-    "condition_1_value":"clear",
-    "condition_2_type":"environment",
-    "condition_2_sensor_id":"",
-    "condition_2_parameter":"is_daytime",
-    "condition_2_operator":"==",
-    "condition_2_value":true,
-    "action_device_id":"blinds_living_room",
-    "action_command":"open_partial",
-    "action_parameters":"{}"
-  }
-]
+{
+  "rules": [
+    {
+      "id": "autumn_rule_0600",
+      "category": "occupant_action",
+      "description": "Hallway motion in the dark triggers lights",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_hallway",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "lights_hallway",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_0630",
+      "category": "time_based",
+      "description": "Kitchen motion in the morning turns on audio",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kitchen",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "morning_soft"
+          }
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_0700",
+      "category": "threshold",
+      "description": "High humidity in bathroom triggers ventilation fan",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "humidity_sensor",
+          "operator": ">",
+          "value": 70
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "ventilation_fan",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_0730",
+      "category": "occupant_action",
+      "description": "Morning motion + clear weather opens living room blinds",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_living_room",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": true
+        },
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Clear"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "open",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_0800",
+      "category": "occupant_action",
+      "description": "No motion anywhere triggers vacuum",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "robot_vacuum",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_0830",
+      "category": "weather",
+      "description": "Rainy weather closes bedroom window",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Rainy"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "window_bedroom",
+          "command": "close",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_0900",
+      "category": "occupant_action",
+      "description": "Pet near door triggers pet door",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "pet_near_door_sensor",
+          "operator": "==",
+          "value": "active"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_pet",
+          "command": "open",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_0930",
+      "category": "threshold",
+      "description": "High noise level reduces audio volume",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "noise_sensor",
+          "operator": ">",
+          "value": 80
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "set_volume",
+          "parameters": {
+            "level": "low"
+          }
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1000",
+      "category": "threshold",
+      "description": "Low temperature triggers heating via AC",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 18
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "air_conditioner",
+          "command": "set_temperature",
+          "parameters": {
+            "mode": "heat",
+            "temp": 22
+          }
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1030",
+      "category": "occupant_action",
+      "description": "Knock on door triggers doorbell ring",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "knock_sensor",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "doorbell",
+          "command": "ring",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1100",
+      "category": "occupant_action",
+      "description": "No motion in bathroom turns off fan",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_bathroom",
+          "operator": "==",
+          "value": "off"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "ventilation_fan",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1130",
+      "category": "occupant_action",
+      "description": "Motion at entrance during daytime disables security",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_entrance",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "security_system",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1200",
+      "category": "time_based",
+      "description": "Kitchen motion at noon plays lunch music",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kitchen",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "lunch_ambient"
+          }
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1230",
+      "category": "threshold",
+      "description": "High temperature closes blinds",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": ">",
+          "value": 27
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1300",
+      "category": "occupant_action",
+      "description": "Motion at entrance unlocks door",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_entrance",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "unlock",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1330",
+      "category": "occupant_action",
+      "description": "Motion in living room turns on TV",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_living_room",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "tv_living_room",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1400",
+      "category": "threshold",
+      "description": "High noise level plays calming music",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "noise_sensor",
+          "operator": ">",
+          "value": 85
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "dog_calm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1430",
+      "category": "weather",
+      "description": "Cold and rainy weather triggers safety mode",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Rainy"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 15
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_off",
+          "parameters": {}
+        },
+        {
+          "device_id": "window_bedroom",
+          "command": "close",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1500",
+      "category": "occupant_action",
+      "description": "No motion triggers vacuum",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "robot_vacuum",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1530",
+      "category": "occupant_action",
+      "description": "Motion in kids room plays kids music",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kids_room",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "kids_fun"
+          }
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1600",
+      "category": "threshold",
+      "description": "Motion + temperature triggers cooling AC",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_entrance",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": ">",
+          "value": 26
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "air_conditioner",
+          "command": "turn_on",
+          "parameters": {
+            "mode": "cool"
+          }
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1630",
+      "category": "environment",
+      "description": "Sunset triggers blinds to close",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1700",
+      "category": "occupant_action",
+      "description": "Evening motion in kitchen plays dinner music",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kitchen",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "family_dinner"
+          }
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1730",
+      "category": "weather",
+      "description": "Clear weather at night opens blinds",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Clear"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "open",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1800",
+      "category": "occupant_action",
+      "description": "Bathroom motion triggers fan",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_bathroom",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "ventilation_fan",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1830",
+      "category": "occupant_action",
+      "description": "Pet near door triggers pet door again",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "pet_near_door_sensor",
+          "operator": "==",
+          "value": "active"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_pet",
+          "command": "open",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1900",
+      "category": "occupant_action",
+      "description": "No motion in living room turns off TV",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_living_room",
+          "operator": "==",
+          "value": "off"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "tv_living_room",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_1930",
+      "category": "environment",
+      "description": "Nighttime locks main door",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "lock",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_2000",
+      "category": "occupant_action",
+      "description": "Nighttime motion in kids room plays soft music",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kids_room",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "night_soft"
+          }
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_2030",
+      "category": "occupant_action",
+      "description": "No motion triggers security system at night",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "security_system",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_2130",
+      "category": "weather",
+      "description": "Rain triggers blinds to close again",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Rainy"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_2200",
+      "category": "time_based",
+      "description": "Late night turns off audio",
+      "conditions_logic": "AND",
+      "conditions": [],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_2230",
+      "category": "threshold",
+      "description": "Low temp triggers quiet heat mode",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 17
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "air_conditioner",
+          "command": "set_temperature",
+          "parameters": {
+            "mode": "heat",
+            "temp": 21
+          }
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_2330",
+      "category": "occupant_action",
+      "description": "No motion locks door and enables security at night",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "lock",
+          "parameters": {}
+        },
+        {
+          "device_id": "security_system",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_0000",
+      "category": "occupant_action",
+      "description": "Night hallway motion triggers dim light",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_hallway",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "lights_hallway",
+          "command": "turn_on",
+          "parameters": {
+            "intensity": "low"
+          }
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_0030",
+      "category": "threshold",
+      "description": "Night temperature drop reactivates heating",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 16
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "air_conditioner",
+          "command": "set_temperature",
+          "parameters": {
+            "mode": "heat",
+            "temp": 22
+          }
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_0100",
+      "category": "occupant_action",
+      "description": "No motion keeps system locked and secure",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "lock",
+          "parameters": {}
+        },
+        {
+          "device_id": "security_system",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_0200",
+      "category": "time_based",
+      "description": "Scheduled late-night system silence (no audio/TV)",
+      "conditions_logic": "AND",
+      "conditions": [],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_off",
+          "parameters": {}
+        },
+        {
+          "device_id": "tv_living_room",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_0300",
+      "category": "environment",
+      "description": "Rain at night keeps all blinds closed",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Rainy"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_0400",
+      "category": "occupant_action",
+      "description": "Pet near door at night – no action if cold",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "pet_near_door_sensor",
+          "operator": "==",
+          "value": "active"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 10
+        }
+      ],
+      "actions": []
+    },
+    {
+      "id": "autumn_rule_0500",
+      "category": "occupant_action",
+      "description": "Bathroom motion triggers soft fan start",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_bathroom",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "ventilation_fan",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "autumn_rule_0530",
+      "category": "environment",
+      "description": "Pre-dawn clear sky opens blinds slightly",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        },
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Clear"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "open",
+          "parameters": {
+            "mode": "partial"
+          }
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_0600",
+      "category": "occupant_action",
+      "description": "Hallway motion in dark triggers light",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_hallway",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "lights_hallway",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_0630",
+      "category": "threshold",
+      "description": "Cold temperature in morning triggers heater",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 10
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "air_conditioner",
+          "command": "set_temperature",
+          "parameters": {
+            "mode": "heat",
+            "temp": 24
+          }
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_0700",
+      "category": "occupant_action",
+      "description": "Kitchen motion in the morning starts winter music",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kitchen",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "winter_morning"
+          }
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_0730",
+      "category": "occupant_action",
+      "description": "Kids room motion in morning turns on soft light",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kids_room",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "lights_hallway",
+          "command": "turn_on",
+          "parameters": {
+            "intensity": "low"
+          }
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_0800",
+      "category": "occupant_action",
+      "description": "No motion anywhere triggers vacuum",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "robot_vacuum",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_0830",
+      "category": "weather",
+      "description": "Rainy weather closes living room blinds",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Rainy"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_0900",
+      "category": "occupant_action",
+      "description": "Entrance motion in morning unlocks door",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_entrance",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "unlock",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_0930",
+      "category": "threshold",
+      "description": "Cold temperature prevents pet door opening",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "pet_near_door_sensor",
+          "operator": "==",
+          "value": "active"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 10
+        }
+      ],
+      "actions": []
+    },
+    {
+      "id": "winter_rule_1000",
+      "category": "threshold",
+      "description": "High humidity in bathroom turns on fan",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "humidity_sensor",
+          "operator": ">",
+          "value": 70
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "ventilation_fan",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1030",
+      "category": "time_based",
+      "description": "Audio system turns off after long runtime",
+      "conditions_logic": "AND",
+      "conditions": [],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1100",
+      "category": "occupant_action",
+      "description": "Rainy weather + motion triggers TV in living room",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Rainy"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "motion_living_room",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "tv_living_room",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1130",
+      "category": "occupant_action",
+      "description": "No motion triggers security system",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "security_system",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1200",
+      "category": "occupant_action",
+      "description": "Kitchen motion at lunch starts ambient music",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kitchen",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "lunch_warm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1230",
+      "category": "threshold",
+      "description": "High indoor temperature closes blinds",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": ">",
+          "value": 24
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1300",
+      "category": "occupant_action",
+      "description": "Motion in entrance area unlocks door",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_entrance",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "unlock",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1330",
+      "category": "occupant_action",
+      "description": "Motion in living room turns on TV",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_living_room",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "tv_living_room",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1400",
+      "category": "threshold",
+      "description": "Noise level above 85 lowers audio volume",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "noise_sensor",
+          "operator": ">",
+          "value": 85
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "set_volume",
+          "parameters": {
+            "level": "low"
+          }
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1430",
+      "category": "weather",
+      "description": "Rain and cold closes windows and audio",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Rainy"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 12
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_off",
+          "parameters": {}
+        },
+        {
+          "device_id": "window_bedroom",
+          "command": "close",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1500",
+      "category": "occupant_action",
+      "description": "No motion triggers vacuum cleaning",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "robot_vacuum",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1530",
+      "category": "occupant_action",
+      "description": "Kids room motion triggers soft music",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kids_room",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "kids_winter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1600",
+      "category": "threshold",
+      "description": "Cold entrance motion triggers heater",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_entrance",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 15
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "air_conditioner",
+          "command": "turn_on",
+          "parameters": {
+            "mode": "heat",
+            "temp": 23
+          }
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1630",
+      "category": "environment",
+      "description": "Sunset triggers blinds to close",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1700",
+      "category": "occupant_action",
+      "description": "Evening motion in kitchen triggers dinner music",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kitchen",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "family_dinner"
+          }
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1730",
+      "category": "weather",
+      "description": "Clear weather at night opens blinds partially",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Clear"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "open",
+          "parameters": {
+            "mode": "partial"
+          }
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1800",
+      "category": "occupant_action",
+      "description": "Bathroom motion triggers fan in evening",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_bathroom",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "ventilation_fan",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1830",
+      "category": "occupant_action",
+      "description": "Pet near door triggers pet door if warm enough",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "pet_near_door_sensor",
+          "operator": "==",
+          "value": "active"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": ">=",
+          "value": 10
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_pet",
+          "command": "open",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1900",
+      "category": "occupant_action",
+      "description": "No motion in living room turns off TV",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_living_room",
+          "operator": "==",
+          "value": "off"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "tv_living_room",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_1930",
+      "category": "environment",
+      "description": "Nighttime locks the main door automatically",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "lock",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_2000",
+      "category": "occupant_action",
+      "description": "Kids room motion at night plays quiet music",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kids_room",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "night_soft"
+          }
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_2030",
+      "category": "occupant_action",
+      "description": "No motion in home enables security system",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "security_system",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_2130",
+      "category": "weather",
+      "description": "Rain at night closes all blinds",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Rainy"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_2200",
+      "category": "time_based",
+      "description": "Late night turns off all audio",
+      "conditions_logic": "AND",
+      "conditions": [],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_2230",
+      "category": "threshold",
+      "description": "Low temperature at night reactivates heating",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 16
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "air_conditioner",
+          "command": "set_temperature",
+          "parameters": {
+            "mode": "heat",
+            "temp": 22
+          }
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_2300",
+      "category": "occupant_action",
+      "description": "Night hallway motion turns on dimmed light",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_hallway",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "lights_hallway",
+          "command": "turn_on",
+          "parameters": {
+            "intensity": "low"
+          }
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_2330",
+      "category": "occupant_action",
+      "description": "No motion triggers door lock and security",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "lock",
+          "parameters": {}
+        },
+        {
+          "device_id": "security_system",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_0000",
+      "category": "time_based",
+      "description": "Midnight resets systems – turns off TV and audio",
+      "conditions_logic": "AND",
+      "conditions": [],
+      "actions": [
+        {
+          "device_id": "tv_living_room",
+          "command": "turn_off",
+          "parameters": {}
+        },
+        {
+          "device_id": "audio_system",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_0100",
+      "category": "environment",
+      "description": "Rain during night keeps blinds closed",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Rainy"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_0200",
+      "category": "threshold",
+      "description": "Pet near door at freezing temp – door remains closed",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "pet_near_door_sensor",
+          "operator": "==",
+          "value": "active"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 8
+        }
+      ],
+      "actions": []
+    },
+    {
+      "id": "winter_rule_0300",
+      "category": "occupant_action",
+      "description": "Bathroom motion triggers fan",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_bathroom",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "ventilation_fan",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_0400",
+      "category": "occupant_action",
+      "description": "Hallway motion keeps guiding light on",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_hallway",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "lights_hallway",
+          "command": "turn_on",
+          "parameters": {
+            "intensity": "low"
+          }
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_0500",
+      "category": "occupant_action",
+      "description": "No motion ensures home remains locked",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "lock",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "id": "winter_rule_0530",
+      "category": "environment",
+      "description": "Pre-dawn clear weather opens blinds slightly",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        },
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Clear"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "open",
+          "parameters": {
+            "mode": "partial"
+          }
+        }
+      ]
+    }
+  ]
+}

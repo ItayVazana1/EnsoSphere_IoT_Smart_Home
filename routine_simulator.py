@@ -49,12 +49,17 @@ def simulate_routine():
         env_data = env_manager.get_environment_data()
 
         # Process rules based on current data
-        process_all_rules(
+        triggered, not_triggered = process_all_rules(
             rules=load_rules(),
             env_data=env_data,
             sensor_data=sensor_data,
             mqtt_client=mqtt_client
         )
+
+        # Summary log
+        print(f"📊 Rule Summary: {len(triggered)} triggered ✅ | {len(not_triggered)} not triggered ⏸")
+        for rule_id in triggered:
+            print(f"✅ {rule_id}")
 
         time.sleep(1)  # 1 sec real-time = X min simulated
 

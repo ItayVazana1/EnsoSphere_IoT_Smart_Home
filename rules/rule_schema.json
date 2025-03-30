@@ -7,7 +7,7 @@
     "id": { "type": "string" },
     "category": {
       "type": "string",
-      "enum": ["weather", "time_based", "occupant_action", "threshold"]
+      "enum": ["weather", "time_based", "occupant_action", "threshold", "sensor_trigger", "environment"]
     },
     "description": { "type": "string" },
     "conditions_logic": {

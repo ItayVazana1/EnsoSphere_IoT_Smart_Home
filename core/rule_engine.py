@@ -6,7 +6,8 @@ from core import mqtt_client as mqtt_module
 
 # Resolve dynamic base directory
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-RULES_PATH = os.path.join(base_dir, "rules", "rules_example.json")
+# RULES_PATH = os.path.join(base_dir, "rules", "rules_example.json")
+RULES_PATH = os.path.join(base_dir, "rules", "official_rules.json")
 SCHEMA_PATH = os.path.join(base_dir, "rules", "rule_schema.json")
 
 def load_json(path):
@@ -38,7 +39,7 @@ def evaluate_condition(condition, env_data, sensor_data):
         return False
 
     if actual is None:
-        print(f"⚠️ Missing value for condition: {condition}")
+        # print(f"⚠️ Missing value for condition: {condition}")
         return False
 
     try:
@@ -58,7 +59,7 @@ def evaluate_condition(condition, env_data, sensor_data):
             print(f"❌ Unsupported operator: {operator}")
             return False
     except Exception as e:
-        print(f"⚠️ Error evaluating condition: {e}")
+        # print(f"⚠️ Error evaluating condition: {e}")
         return False
 
 def display_rules(rules):
@@ -90,14 +91,26 @@ def evaluate_rule(rule, env_data, sensor_data):
         return False
 
 def process_all_rules(rules, env_data, sensor_data, mqtt_client):
+    """
+    Evaluate all rules and trigger their actions if conditions are met.
+    Returns:
+        triggered (list): IDs of rules that were triggered.
+        not_triggered (list): IDs of rules that were not triggered.
+    """
+    triggered = []
+    not_triggered = []
+
     for rule in rules:
         rule_id = rule["id"]
         if evaluate_rule(rule, env_data, sensor_data):
-            print(f"\n✅ Rule '{rule_id}' triggered!")
+            triggered.append(rule_id)
             for action in rule["actions"]:
                 execute_action(action, mqtt_client)
         else:
-            print(f"\n⏸ Rule '{rule_id}' conditions not met.")
+            not_triggered.append(rule_id)
+
+    return triggered, not_triggered
+
 
 def execute_action(action, mqtt_client):
     device_id = action["device_id"]
