@@ -1,6 +1,687 @@
 {
   "rules": [
     {
+      "id": "summer_rule_0600",
+      "category": "time_based",
+      "description": "David wakes up and opens bedroom blinds in summer",
+      "conditions_logic": "AND",
+      "conditions": [],
+      "actions": [
+        {
+          "device_id": "blinds_bedroom",
+          "command": "open",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_0630",
+      "category": "occupant_action",
+      "description": "Motion in bathroom triggers ventilation fan",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_bathroom",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "ventilation_fan",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_0700",
+      "category": "occupant_action",
+      "description": "Kitchen motion triggers summer playlist on audio system",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kitchen",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "summer_morning"
+          }
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_0730",
+      "category": "occupant_action",
+      "description": "Living room blinds open when motion is detected and weather is clear",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_living_room",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Clear"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "open",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_0800",
+      "category": "occupant_action",
+      "description": "No motion in all rooms triggers robot vacuum",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "robot_vacuum",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_0830",
+      "category": "occupant_action",
+      "description": "Pet near door sensor opens pet door in the morning",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "pet_near_door_sensor",
+          "operator": "==",
+          "value": "active"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_pet",
+          "command": "open",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_0900",
+      "category": "occupant_action",
+      "description": "Main door opened during daytime disables security system",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "door_main_sensor",
+          "operator": "==",
+          "value": "open"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "security_system",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_0930",
+      "category": "threshold",
+      "description": "High temperature triggers air conditioning to cooling mode",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": ">",
+          "value": 28
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "air_conditioner",
+          "command": "set_temperature",
+          "parameters": {
+            "mode": "cool",
+            "temp": 23
+          }
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_1000",
+      "category": "occupant_action",
+      "description": "Motion in kids room plays summer fun playlist",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kids_room",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "kids_summer"
+          }
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_1030",
+      "category": "threshold",
+      "description": "Humidity above 70 triggers ventilation",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "humidity_sensor",
+          "operator": ">",
+          "value": 70
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "ventilation_fan",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_1100",
+      "category": "threshold",
+      "description": "Noise above 85 lowers audio volume",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "noise_sensor",
+          "operator": ">",
+          "value": 85
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "set_volume",
+          "parameters": {
+            "level": "low"
+          }
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_1130",
+      "category": "occupant_action",
+      "description": "Entrance motion unlocks the door",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_entrance",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "unlock",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_1200",
+      "category": "time_based",
+      "description": "Kitchen motion at noon plays lunch playlist",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kitchen",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "summer_lunch"
+          }
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_1230",
+      "category": "threshold",
+      "description": "High temperature in living room closes blinds",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": ">",
+          "value": 29
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_1300",
+      "category": "occupant_action",
+      "description": "No motion triggers robot vacuum again",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "robot_vacuum",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_1400",
+      "category": "occupant_action",
+      "description": "Living room motion plays summer afternoon playlist",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_living_room",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "summer_afternoon"
+          }
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_1430",
+      "category": "threshold",
+      "description": "High temperature triggers full AC cooling",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": ">",
+          "value": 29
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "air_conditioner",
+          "command": "set_temperature",
+          "parameters": {
+            "mode": "cool",
+            "temp": 22
+          }
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_1500",
+      "category": "occupant_action",
+      "description": "Kids room motion plays summer kids playlist",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kids_room",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "kids_summer_fun"
+          }
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_1600",
+      "category": "occupant_action",
+      "description": "Entrance motion and heat triggers AC and door unlock",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_entrance",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": ">=",
+          "value": 28
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "air_conditioner",
+          "command": "turn_on",
+          "parameters": {
+            "mode": "cool"
+          }
+        },
+        {
+          "device_id": "door_lock",
+          "command": "unlock",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_1630",
+      "category": "environment",
+      "description": "Sunset closes blinds automatically",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_1700",
+      "category": "occupant_action",
+      "description": "Evening kitchen motion plays dinner music",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kitchen",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "summer_dinner"
+          }
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_0000",
+      "category": "time_based",
+      "description": "Midnight turns off audio and TV for sleep mode",
+      "conditions_logic": "AND",
+      "conditions": [],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_off",
+          "parameters": {}
+        },
+        {
+          "device_id": "tv_living_room",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_0100",
+      "category": "occupant_action",
+      "description": "No motion in apartment ensures door is locked and system is armed",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "lock",
+          "parameters": {}
+        },
+        {
+          "device_id": "security_system",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_0200",
+      "category": "time_based",
+      "description": "Scheduled summer quiet hours disables entertainment",
+      "conditions_logic": "AND",
+      "conditions": [],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_off",
+          "parameters": {}
+        },
+        {
+          "device_id": "tv_living_room",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_0300",
+      "category": "weather",
+      "description": "Rain during summer night closes all windows",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Rainy"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "window_bedroom",
+          "command": "close",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_0400",
+      "category": "occupant_action",
+      "description": "Pet near door at night doesn't trigger door if it's hot",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "pet_near_door_sensor",
+          "operator": "==",
+          "value": "active"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": ">",
+          "value": 30
+        }
+      ],
+      "actions": [],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_0500",
+      "category": "occupant_action",
+      "description": "Early bathroom motion triggers gentle ventilation",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_bathroom",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "ventilation_fan",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "summer"
+    },
+    {
+      "id": "summer_rule_0530",
+      "category": "environment",
+      "description": "Pre-sunrise clear sky opens blinds partially in living room",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        },
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Clear"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "open",
+          "parameters": {
+            "mode": "partial"
+          }
+        }
+      ],
+      "season": "summer"
+    },
+    {
       "id": "autumn_rule_0600",
       "category": "occupant_action",
       "description": "Hallway motion in the dark triggers lights",
@@ -25,7 +706,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0630",
@@ -54,7 +736,8 @@
             "playlist": "morning_soft"
           }
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0700",
@@ -75,7 +758,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0730",
@@ -108,7 +792,8 @@
           "command": "open",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0800",
@@ -129,7 +814,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0830",
@@ -150,7 +836,8 @@
           "command": "close",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0900",
@@ -171,7 +858,8 @@
           "command": "open",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0930",
@@ -194,7 +882,8 @@
             "level": "low"
           }
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1000",
@@ -218,7 +907,8 @@
             "temp": 22
           }
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1030",
@@ -239,7 +929,8 @@
           "command": "ring",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1100",
@@ -260,7 +951,8 @@
           "command": "turn_off",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1130",
@@ -287,7 +979,8 @@
           "command": "turn_off",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1200",
@@ -310,7 +1003,8 @@
             "playlist": "lunch_ambient"
           }
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1230",
@@ -337,7 +1031,8 @@
           "command": "close",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1300",
@@ -358,7 +1053,8 @@
           "command": "unlock",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1330",
@@ -379,7 +1075,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1400",
@@ -402,7 +1099,8 @@
             "playlist": "dog_calm"
           }
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1430",
@@ -434,7 +1132,8 @@
           "command": "close",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1500",
@@ -455,7 +1154,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1530",
@@ -478,7 +1178,8 @@
             "playlist": "kids_fun"
           }
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1600",
@@ -507,7 +1208,8 @@
             "mode": "cool"
           }
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1630",
@@ -528,7 +1230,8 @@
           "command": "close",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1700",
@@ -557,7 +1260,8 @@
             "playlist": "family_dinner"
           }
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1730",
@@ -584,7 +1288,8 @@
           "command": "open",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1800",
@@ -605,7 +1310,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1830",
@@ -626,7 +1332,8 @@
           "command": "open",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1900",
@@ -647,7 +1354,8 @@
           "command": "turn_off",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_1930",
@@ -668,7 +1376,8 @@
           "command": "lock",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_2000",
@@ -691,7 +1400,8 @@
             "playlist": "night_soft"
           }
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_2030",
@@ -712,7 +1422,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_2130",
@@ -733,7 +1444,8 @@
           "command": "close",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_2200",
@@ -747,7 +1459,8 @@
           "command": "turn_off",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_2230",
@@ -771,7 +1484,8 @@
             "temp": 21
           }
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_2330",
@@ -797,7 +1511,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0000",
@@ -826,7 +1541,8 @@
             "intensity": "low"
           }
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0030",
@@ -850,7 +1566,8 @@
             "temp": 22
           }
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0100",
@@ -876,7 +1593,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0200",
@@ -895,7 +1613,8 @@
           "command": "turn_off",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0300",
@@ -916,7 +1635,8 @@
           "command": "close",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0400",
@@ -937,7 +1657,8 @@
           "value": 10
         }
       ],
-      "actions": []
+      "actions": [],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0500",
@@ -958,7 +1679,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "autumn_rule_0530",
@@ -987,7 +1709,8 @@
             "mode": "partial"
           }
         }
-      ]
+      ],
+      "season": "autumn"
     },
     {
       "id": "winter_rule_0600",
@@ -1014,7 +1737,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_0630",
@@ -1038,7 +1762,8 @@
             "temp": 24
           }
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_0700",
@@ -1067,7 +1792,8 @@
             "playlist": "winter_morning"
           }
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_0730",
@@ -1090,7 +1816,8 @@
             "intensity": "low"
           }
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_0800",
@@ -1111,7 +1838,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_0830",
@@ -1132,7 +1860,8 @@
           "command": "close",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_0900",
@@ -1159,7 +1888,8 @@
           "command": "unlock",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_0930",
@@ -1180,7 +1910,8 @@
           "value": 10
         }
       ],
-      "actions": []
+      "actions": [],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1000",
@@ -1201,7 +1932,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1030",
@@ -1215,7 +1947,8 @@
           "command": "turn_off",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1100",
@@ -1242,7 +1975,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1130",
@@ -1263,7 +1997,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1200",
@@ -1286,7 +2021,8 @@
             "playlist": "lunch_warm"
           }
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1230",
@@ -1307,7 +2043,8 @@
           "command": "close",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1300",
@@ -1328,7 +2065,8 @@
           "command": "unlock",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1330",
@@ -1349,7 +2087,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1400",
@@ -1372,7 +2111,8 @@
             "level": "low"
           }
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1430",
@@ -1404,7 +2144,8 @@
           "command": "close",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1500",
@@ -1425,7 +2166,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1530",
@@ -1448,7 +2190,8 @@
             "playlist": "kids_winter"
           }
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1600",
@@ -1478,7 +2221,8 @@
             "temp": 23
           }
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1630",
@@ -1499,7 +2243,8 @@
           "command": "close",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1700",
@@ -1522,7 +2267,8 @@
             "playlist": "family_dinner"
           }
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1730",
@@ -1551,7 +2297,8 @@
             "mode": "partial"
           }
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1800",
@@ -1572,7 +2319,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1830",
@@ -1599,7 +2347,8 @@
           "command": "open",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1900",
@@ -1620,7 +2369,8 @@
           "command": "turn_off",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_1930",
@@ -1641,7 +2391,8 @@
           "command": "lock",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_2000",
@@ -1664,7 +2415,8 @@
             "playlist": "night_soft"
           }
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_2030",
@@ -1685,7 +2437,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_2130",
@@ -1706,7 +2459,8 @@
           "command": "close",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_2200",
@@ -1720,7 +2474,8 @@
           "command": "turn_off",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_2230",
@@ -1744,7 +2499,8 @@
             "temp": 22
           }
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_2300",
@@ -1773,7 +2529,8 @@
             "intensity": "low"
           }
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_2330",
@@ -1799,7 +2556,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_0000",
@@ -1818,7 +2576,8 @@
           "command": "turn_off",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_0100",
@@ -1839,7 +2598,8 @@
           "command": "close",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_0200",
@@ -1860,7 +2620,8 @@
           "value": 8
         }
       ],
-      "actions": []
+      "actions": [],
+      "season": "winter"
     },
     {
       "id": "winter_rule_0300",
@@ -1881,7 +2642,8 @@
           "command": "turn_on",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_0400",
@@ -1904,7 +2666,8 @@
             "intensity": "low"
           }
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_0500",
@@ -1925,7 +2688,8 @@
           "command": "lock",
           "parameters": {}
         }
-      ]
+      ],
+      "season": "winter"
     },
     {
       "id": "winter_rule_0530",
@@ -1954,7 +2718,1105 @@
             "mode": "partial"
           }
         }
-      ]
+      ],
+      "season": "winter"
+    },
+    {
+      "id": "spring_rule_0600",
+      "category": "occupant_action",
+      "description": "Motion in hallway before sunrise turns on hallway light",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_hallway",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "lights_hallway",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0630",
+      "category": "occupant_action",
+      "description": "Kitchen motion in morning triggers soft spring music",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kitchen",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "spring_morning"
+          }
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0700",
+      "category": "threshold",
+      "description": "Humidity above 70 in bathroom triggers ventilation",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "humidity_sensor",
+          "operator": ">",
+          "value": 70
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "ventilation_fan",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0730",
+      "category": "occupant_action",
+      "description": "Living room motion and clear weather opens blinds",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_living_room",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Clear"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "open",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0800",
+      "category": "occupant_action",
+      "description": "No motion in house triggers robot vacuum",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "robot_vacuum",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0830",
+      "category": "weather",
+      "description": "Windy weather closes window",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Windy"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "window_bedroom",
+          "command": "close",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0900",
+      "category": "occupant_action",
+      "description": "Pet near door opens pet door",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "pet_near_door_sensor",
+          "operator": "==",
+          "value": "active"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_pet",
+          "command": "open",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0930",
+      "category": "threshold",
+      "description": "Noise above 85 lowers volume of audio system",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "noise_sensor",
+          "operator": ">",
+          "value": 85
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "set_volume",
+          "parameters": {
+            "level": "low"
+          }
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1000",
+      "category": "threshold",
+      "description": "Low temperature in spring triggers heating",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 17
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "air_conditioner",
+          "command": "set_temperature",
+          "parameters": {
+            "mode": "heat",
+            "temp": 22
+          }
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1030",
+      "category": "occupant_action",
+      "description": "Main door opened during daytime disables security system",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "door_main_sensor",
+          "operator": "==",
+          "value": "open"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "security_system",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1100",
+      "category": "occupant_action",
+      "description": "No motion in bathroom turns off fan",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_bathroom",
+          "operator": "==",
+          "value": "off"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "ventilation_fan",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1130",
+      "category": "occupant_action",
+      "description": "Daytime entrance motion disables security system",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_entrance",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "security_system",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1200",
+      "category": "time_based",
+      "description": "Motion in kitchen at noon plays lunch playlist",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kitchen",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "spring_lunch"
+          }
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1230",
+      "category": "threshold",
+      "description": "High temperature in daytime closes blinds",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": ">",
+          "value": 27
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1300",
+      "category": "occupant_action",
+      "description": "Entrance motion unlocks door",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_entrance",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "unlock",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1330",
+      "category": "occupant_action",
+      "description": "Motion in living room turns on TV",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_living_room",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "tv_living_room",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1400",
+      "category": "threshold",
+      "description": "High noise level plays calming music for Luna",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "noise_sensor",
+          "operator": ">",
+          "value": 85
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "dog_calm"
+          }
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1430",
+      "category": "weather",
+      "description": "Cold and rainy weather closes windows and turns off audio",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Rainy"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 15
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "window_bedroom",
+          "command": "close",
+          "parameters": {}
+        },
+        {
+          "device_id": "audio_system",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1500",
+      "category": "occupant_action",
+      "description": "No motion triggers robot vacuum",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "robot_vacuum",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1530",
+      "category": "occupant_action",
+      "description": "Motion in kids room triggers kids playlist",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kids_room",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "kids_fun"
+          }
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1600",
+      "category": "threshold",
+      "description": "Entrance motion + hot temp triggers AC cooling",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_entrance",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": ">",
+          "value": 26
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "air_conditioner",
+          "command": "turn_on",
+          "parameters": {
+            "mode": "cool"
+          }
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1630",
+      "category": "environment",
+      "description": "Sunset triggers blinds to close",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1700",
+      "category": "occupant_action",
+      "description": "Evening motion in kitchen plays dinner music",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kitchen",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "family_dinner"
+          }
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1730",
+      "category": "weather",
+      "description": "Clear weather at night opens blinds partially",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Clear"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "open",
+          "parameters": {
+            "mode": "partial"
+          }
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1800",
+      "category": "occupant_action",
+      "description": "Bathroom motion triggers fan in evening",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_bathroom",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "ventilation_fan",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1830",
+      "category": "occupant_action",
+      "description": "Pet near door triggers pet door if mild weather",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "pet_near_door_sensor",
+          "operator": "==",
+          "value": "active"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": ">=",
+          "value": 14
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_pet",
+          "command": "open",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1900",
+      "category": "occupant_action",
+      "description": "No motion in living room turns off TV",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_living_room",
+          "operator": "==",
+          "value": "off"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "tv_living_room",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_1930",
+      "category": "environment",
+      "description": "Nighttime locks the main door automatically",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "lock",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_2000",
+      "category": "occupant_action",
+      "description": "Kids room motion at night plays quiet music",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_kids_room",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_on",
+          "parameters": {
+            "playlist": "night_soft"
+          }
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_2030",
+      "category": "occupant_action",
+      "description": "No motion triggers security system at night",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "security_system",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_2100",
+      "category": "threshold",
+      "description": "Low nighttime temperature reactivates heating",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 16
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "air_conditioner",
+          "command": "set_temperature",
+          "parameters": {
+            "mode": "heat",
+            "temp": 21
+          }
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_2130",
+      "category": "weather",
+      "description": "Rain at night closes blinds",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Rainy"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_2200",
+      "category": "time_based",
+      "description": "Late night turns off audio and TV",
+      "conditions_logic": "AND",
+      "conditions": [],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_off",
+          "parameters": {}
+        },
+        {
+          "device_id": "tv_living_room",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_2230",
+      "category": "occupant_action",
+      "description": "No motion triggers door lock and security",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "lock",
+          "parameters": {}
+        },
+        {
+          "device_id": "security_system",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_2300",
+      "category": "occupant_action",
+      "description": "Night hallway motion turns on dimmed light",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_hallway",
+          "operator": "==",
+          "value": "detected"
+        },
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "lights_hallway",
+          "command": "turn_on",
+          "parameters": {
+            "intensity": "low"
+          }
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_2330",
+      "category": "occupant_action",
+      "description": "No motion keeps system secure and locked",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "lock",
+          "parameters": {}
+        },
+        {
+          "device_id": "security_system",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0000",
+      "category": "time_based",
+      "description": "Midnight silence mode: turns off audio and TV",
+      "conditions_logic": "AND",
+      "conditions": [],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_off",
+          "parameters": {}
+        },
+        {
+          "device_id": "tv_living_room",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0030",
+      "category": "threshold",
+      "description": "Night temperature drop triggers gentle heating",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 15
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "air_conditioner",
+          "command": "set_temperature",
+          "parameters": {
+            "mode": "heat",
+            "temp": 22
+          }
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0100",
+      "category": "occupant_action",
+      "description": "No motion ensures security and door lock remain active",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "no_motion_all_rooms",
+          "operator": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "door_lock",
+          "command": "lock",
+          "parameters": {}
+        },
+        {
+          "device_id": "security_system",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0200",
+      "category": "time_based",
+      "description": "Scheduled nighttime silence – no audio, no TV",
+      "conditions_logic": "AND",
+      "conditions": [],
+      "actions": [
+        {
+          "device_id": "audio_system",
+          "command": "turn_off",
+          "parameters": {}
+        },
+        {
+          "device_id": "tv_living_room",
+          "command": "turn_off",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0300",
+      "category": "weather",
+      "description": "Rain at night keeps all blinds closed",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Rainy"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "close",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0400",
+      "category": "occupant_action",
+      "description": "Pet near door at night – no action if cold",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "pet_near_door_sensor",
+          "operator": "==",
+          "value": "active"
+        },
+        {
+          "type": "sensor",
+          "sensor_id": "temperature_sensor",
+          "operator": "<",
+          "value": 10
+        }
+      ],
+      "actions": [],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0500",
+      "category": "occupant_action",
+      "description": "Bathroom motion triggers soft fan start",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensor_id": "motion_bathroom",
+          "operator": "==",
+          "value": "detected"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "ventilation_fan",
+          "command": "turn_on",
+          "parameters": {}
+        }
+      ],
+      "season": "spring"
+    },
+    {
+      "id": "spring_rule_0530",
+      "category": "environment",
+      "description": "Pre-dawn clear sky opens blinds partially",
+      "conditions_logic": "AND",
+      "conditions": [
+        {
+          "type": "environment",
+          "parameter": "is_daytime",
+          "operator": "==",
+          "value": false
+        },
+        {
+          "type": "environment",
+          "parameter": "weather_condition",
+          "operator": "==",
+          "value": "Clear"
+        }
+      ],
+      "actions": [
+        {
+          "device_id": "blinds_living_room",
+          "command": "open",
+          "parameters": {
+            "mode": "partial"
+          }
+        }
+      ],
+      "season": "spring"
     }
   ]
 }

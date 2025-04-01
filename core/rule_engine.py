@@ -90,9 +90,11 @@ def evaluate_rule(rule, env_data, sensor_data):
         print(f"⚠️ Unknown logic type in rule {rule['id']}: {logic}")
         return False
 
-def process_all_rules(rules, env_data, sensor_data, mqtt_client):
+def process_all_rules(rules, env_data, sensor_data, mqtt_client, current_season=None):
     """
     Evaluate all rules and trigger their actions if conditions are met.
+    Only rules matching the current season (if provided) are evaluated.
+
     Returns:
         triggered (list): IDs of rules that were triggered.
         not_triggered (list): IDs of rules that were not triggered.
@@ -101,6 +103,11 @@ def process_all_rules(rules, env_data, sensor_data, mqtt_client):
     not_triggered = []
 
     for rule in rules:
+        # Ignore rules not matching the current season
+        rule_season = rule.get("season")
+        if current_season and rule_season and rule_season.lower() != current_season.lower():
+            continue
+
         rule_id = rule["id"]
         if evaluate_rule(rule, env_data, sensor_data):
             triggered.append(rule_id)
@@ -110,6 +117,7 @@ def process_all_rules(rules, env_data, sensor_data, mqtt_client):
             not_triggered.append(rule_id)
 
     return triggered, not_triggered
+
 
 
 def execute_action(action, mqtt_client):
@@ -147,9 +155,7 @@ def main():
     print("✅ Rules validated successfully.")
     display_rules(rules)
 
-if __name__ == "__main__":
-    main()
-
+    # Example setup
     mqtt = mqtt_module.create_mqtt_client()
     mqtt.loop_start()
 
@@ -159,10 +165,10 @@ if __name__ == "__main__":
     }
     sensor_data = {}
 
-    rules_data = load_json(RULES_PATH)
-    rules = rules_data["rules"]
+    # You can set the current season here
+    current_season = "summer"
 
-    process_all_rules(rules, env_data, sensor_data, mqtt)
+    process_all_rules(rules, env_data, sensor_data, mqtt, current_season=current_season)
 
     mqtt.loop_stop()
     mqtt.disconnect()

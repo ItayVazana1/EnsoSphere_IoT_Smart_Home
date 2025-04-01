@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Single Rule Schema",
   "type": "object",
-  "required": ["id", "category", "description", "conditions_logic", "conditions", "actions"],
+  "required": ["id", "category", "description", "conditions_logic", "conditions", "actions", "season"],
   "properties": {
     "id": { "type": "string" },
     "category": {
@@ -45,6 +45,10 @@
           "parameters": { "type": "object" }
         }
       }
+    },
+    "season": {
+      "type": "string",
+      "enum": ["autumn", "winter", "spring", "summer"]
     }
   }
 }
