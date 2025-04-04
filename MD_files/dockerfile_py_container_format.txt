@@ -1,0 +1,18 @@
+# 🐍 Use minimal Python image
+FROM python:3.10-slim
+
+# 📁 Set working directory inside the container
+WORKDIR /app
+
+# 📥 Copy full project into container
+COPY . .
+
+# 📦 Install dependencies
+# Tip: use one shared requirements.txt or per-module (adjust if needed)
+RUN pip install --no-cache-dir -r corelogic/requirements.txt
+
+# 📚 Enable project-wide imports
+ENV PYTHONPATH=/app
+
+# 🚀 Define default start command (adjust per container)
+CMD ["python", "corelogic/corelogic_main.py"]

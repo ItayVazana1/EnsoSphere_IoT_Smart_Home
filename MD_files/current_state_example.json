@@ -1,0 +1,103 @@
+// ✅ Example state message
+{
+  "timestamp": "2025-08-01T07:30:00",
+  "season": "Summer",
+  "is_daytime": true,
+  "temperature": 31.5,
+  "weather": "Sunny",
+  "occupants": [
+    {
+      "name": "David",
+      "location": "Living Room"
+    },
+    {
+      "name": "Mishel",
+      "location": "Kitchen"
+    },
+    {
+      "name": "Kobe",
+      "location": "Kids Room"
+    },
+    {
+      "name": "Gavriella",
+      "location": "Bathroom"
+    },
+    {
+      "name": "Luna",
+      "location": "Near Door"
+    }
+  ],
+  "rooms": [
+    {
+      "name": "Living Room",
+      "occupants": [
+        "David"
+      ]
+    },
+    {
+      "name": "Kitchen",
+      "occupants": [
+        "Mishel"
+      ]
+    },
+    {
+      "name": "Kids Room",
+      "occupants": [
+        "Kobe"
+      ]
+    },
+    {
+      "name": "Bathroom",
+      "occupants": [
+        "Gavriella"
+      ]
+    },
+    {
+      "name": "Entrance",
+      "occupants": [
+        "Luna"
+      ]
+    },
+    {
+      "name": "Balcony",
+      "occupants": []
+    }
+  ],
+  "house_status": {
+    "is_empty": false,
+    "active_rooms": [
+      "Living Room",
+      "Kitchen",
+      "Bathroom"
+    ]
+  }
+}
+
+// 📐 Format template
+{
+  "timestamp": "<ISO timestamp>",
+  "season": "<Winter|Spring|Summer|Autumn>",
+  "is_daytime": "<true|false>",
+  "temperature": "<float - current simulated temp>",
+  "weather": "<Clear|Rainy|Snowy|Windy|Sunny|Cloudy|Hot>",
+  "occupants": [
+    {
+      "name": "<string - occupant name>",
+      "location": "<string - room or context description>"
+    }
+  ],
+  "rooms": [
+    {
+      "name": "<string - room name>",
+      "occupants": [
+        "<list of occupant names>"
+      ]
+    }
+  ],
+  "house_status": {
+    "is_empty": "<true|false>",
+    "active_rooms": [
+      "<list of active room names>"
+    ]
+  }
+}

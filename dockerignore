@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Node
+node_modules/
+npm-debug.log
+
+# Git
+.git/
+.gitignore
+
+# Editors
+.vscode/
+.idea/
+
+# OS/System
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+System Volume Information/
+ehthumbs.db
+
+# Dotenv
+.env
+
+# Ignore MySQL DB files
+data/
