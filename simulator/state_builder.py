@@ -44,7 +44,8 @@ class StateBuilder:
         weather = self.weather_engine.get_weather(season)
         temperature = self.weather_engine.get_temperature(season, is_daytime)
 
-        occupants = self.occupant_engine.get_occupant_locations(character_names, time_str)
+        # Updated line: pass season to occupant_engine
+        occupants = self.occupant_engine.get_occupant_locations(character_names, time_str, season)
         rooms = self.occupant_engine.get_rooms_map(occupants)
 
         self.house_engine.update_room_status(occupants)

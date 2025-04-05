@@ -45,20 +45,28 @@ class TimeManager:
 
     def get_season(self) -> str:
         """
-        Determine the current season based on the month.
+        Determine the current season based on the actual date,
+        using realistic equinox and solstice transitions.
 
         Returns:
             str: One of ['Winter', 'Spring', 'Summer', 'Autumn']
         """
-        month = self.get_simulation_datetime().month
-        if month in [12, 1, 2]:
-            return "Winter"
-        elif month in [3, 4, 5]:
+        dt = self.get_simulation_datetime()
+        year = dt.year
+
+        spring_start = datetime(year, 3, 21)
+        summer_start = datetime(year, 6, 21)
+        autumn_start = datetime(year, 9, 23)
+        winter_start = datetime(year, 12, 21)
+
+        if spring_start <= dt < summer_start:
             return "Spring"
-        elif month in [6, 7, 8]:
+        elif summer_start <= dt < autumn_start:
             return "Summer"
-        else:
+        elif autumn_start <= dt < winter_start:
             return "Autumn"
+        else:
+            return "Winter"
 
     def is_daytime(self) -> bool:
         """

@@ -9,25 +9,24 @@ from pathlib import Path
 from typing import List, Dict
 
 class OccupantEngine:
-    def __init__(self, season: str, routines_dir: str = "routines/"):
+    def __init__(self, routines_dir: str = "routines/"):
         """
         Initialize the occupant engine.
 
         Args:
-            season (str): Current simulation season.
             routines_dir (str): Path to folder containing routine files.
         """
-        self.season = season
         self.routines_dir = Path(routines_dir)
         self.cache = {}  # Cache loaded DataFrames by character
 
-    def get_character_location(self, character: str, time_str: str) -> str:
+    def get_character_location(self, character: str, time_str: str, season: str) -> str:
         """
         Get a character's location at a given time and season.
 
         Args:
             character (str): Name of the character (matches filename).
             time_str (str): Simulation time in HH:MM format (e.g., "07:30").
+            season (str): Season name ('Spring', 'Summer', etc.)
 
         Returns:
             str: Room or location (e.g., 'Kitchen', 'Work')
@@ -36,21 +35,24 @@ class OccupantEngine:
         row = df[df["Time"] == time_str]
         if row.empty:
             raise ValueError(f"Time '{time_str}' not found in routine for {character}")
-        return row.iloc[0][self.season]
+        if season not in df.columns:
+            raise ValueError(f"Season '{season}' not found in routine file for {character}")
+        return row.iloc[0][season]
 
-    def get_occupant_locations(self, characters: List[str], time_str: str) -> List[Dict]:
+    def get_occupant_locations(self, characters: List[str], time_str: str, season: str) -> List[Dict]:
         """
         Returns full list of occupants and their current locations.
 
         Args:
             characters (list): Character names
             time_str (str): Time in HH:MM format
+            season (str): Current season
 
         Returns:
             list[dict]: e.g., [{'name': 'Testy', 'location': 'Bathroom'}, ...]
         """
         return [
-            {"name": name, "location": self.get_character_location(name, time_str)}
+            {"name": name, "location": self.get_character_location(name, time_str, season)}
             for name in characters
         ]
 
@@ -91,8 +93,8 @@ class OccupantEngine:
             raise FileNotFoundError(f"Routine file not found: {path}")
 
         df = pd.read_excel(path)
-        if "Time" not in df.columns or self.season not in df.columns:
-            raise ValueError(f"Routine file missing required columns: {path}")
+        if "Time" not in df.columns:
+            raise ValueError(f"Routine file missing 'Time' column: {path}")
 
         self.cache[character] = df
         return df
