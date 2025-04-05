@@ -1,0 +1,960 @@
+
+📦 Tick @ 2025-04-10 06:00 → Spring, Cloudy, 14.5°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: ParentsRoom
+  - Mishel: ParentsRoom
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'ParentsRoom', 'KobeRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 1)
+
+📦 Tick @ 2025-04-10 06:30 → Spring, Sunny, 15.5°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Bathroom1
+  - Mishel: Bathroom1
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'KobeRoom', 'GavriellaRoom', 'Bathroom1']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Active
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 2)
+
+📦 Tick @ 2025-04-10 07:00 → Spring, Rainy, 15.0°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Kitchen
+  - Mishel: Kitchen
+  - Kobe: Bathroom2
+  - Gavriella: Bathroom2
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'Kitchen', 'Bathroom2']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Active
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Active
+✔ Stored batch of 1 ticks (Total: 3)
+
+📦 Tick @ 2025-04-10 07:30 → Spring, Sunny, 18.6°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Balcony
+  - Mishel: Outside
+  - Kobe: Kitchen
+  - Gavriella: Kitchen
+  - Luna: Outside
+🏠 Active Rooms: ['Kitchen', 'Balcony']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Active
+  - Balcony: Active
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 4)
+
+📦 Tick @ 2025-04-10 08:00 → Spring, Sunny, 23.9°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Outside
+  - Mishel: ParentsRoom
+  - Kobe: Kitchen
+  - Gavriella: Outside
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'Kitchen', 'ParentsRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Active
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 5)
+
+📦 Tick @ 2025-04-10 08:30 → Spring, Cloudy, 16.6°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Car
+  - Mishel: Outside
+  - Kobe: School
+  - Gavriella: Outside
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 6)
+
+📦 Tick @ 2025-04-10 09:00 → Spring, Sunny, 16.1°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Work
+  - Kobe: School
+  - Gavriella: Outside
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 7)
+
+📦 Tick @ 2025-04-10 09:30 → Spring, Rainy, 16.7°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Work
+  - Kobe: School
+  - Gavriella: Outside
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 8)
+
+📦 Tick @ 2025-04-10 10:00 → Spring, Sunny, 20.9°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Work
+  - Kobe: School
+  - Gavriella: Outside
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 9)
+
+📦 Tick @ 2025-04-10 10:30 → Spring, Sunny, 23.4°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Work
+  - Kobe: School
+  - Gavriella: Outside
+  - Luna: Kitchen
+🏠 Active Rooms: ['Kitchen']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Active
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 10)
+
+📦 Tick @ 2025-04-10 11:00 → Spring, Cloudy, 17.0°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Work
+  - Kobe: School
+  - Gavriella: Outside
+  - Luna: ParentsRoom
+🏠 Active Rooms: ['ParentsRoom']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 11)
+
+📦 Tick @ 2025-04-10 11:30 → Spring, Rainy, 23.3°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Work
+  - Kobe: School
+  - Gavriella: Outside
+  - Luna: ParentsRoom
+🏠 Active Rooms: ['ParentsRoom']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 12)
+
+📦 Tick @ 2025-04-10 12:00 → Spring, Cloudy, 15.3°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Work
+  - Kobe: School
+  - Gavriella: Outside
+  - Luna: ParentsRoom
+🏠 Active Rooms: ['ParentsRoom']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 13)
+
+📦 Tick @ 2025-04-10 12:30 → Spring, Sunny, 18.0°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Work
+  - Kobe: School
+  - Gavriella: Outside
+  - Luna: ParentsRoom
+🏠 Active Rooms: ['ParentsRoom']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 14)
+
+📦 Tick @ 2025-04-10 13:00 → Spring, Sunny, 23.8°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Work
+  - Kobe: School
+  - Gavriella: Outside
+  - Luna: ParentsRoom
+🏠 Active Rooms: ['ParentsRoom']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 15)
+
+📦 Tick @ 2025-04-10 13:30 → Spring, Sunny, 17.0°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Work
+  - Kobe: School
+  - Gavriella: Outside
+  - Luna: ParentsRoom
+🏠 Active Rooms: ['ParentsRoom']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 16)
+
+📦 Tick @ 2025-04-10 14:00 → Spring, Sunny, 18.2°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Work
+  - Kobe: Kitchen
+  - Gavriella: GavriellaRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'Kitchen', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Active
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 17)
+
+📦 Tick @ 2025-04-10 14:30 → Spring, Rainy, 21.1°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Work
+  - Kobe: Kitchen
+  - Gavriella: GavriellaRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'Kitchen', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Active
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 18)
+
+📦 Tick @ 2025-04-10 15:00 → Spring, Sunny, 23.1°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Work
+  - Kobe: LivingRoom
+  - Gavriella: GavriellaRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 19)
+
+📦 Tick @ 2025-04-10 15:30 → Spring, Sunny, 20.3°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Outside
+  - Kobe: LivingRoom
+  - Gavriella: Outside
+  - Luna: Outside
+🏠 Active Rooms: ['LivingRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 20)
+
+📦 Tick @ 2025-04-10 16:00 → Spring, Sunny, 18.1°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Kitchen
+  - Kobe: LivingRoom
+  - Gavriella: Outside
+  - Luna: Outside
+🏠 Active Rooms: ['LivingRoom', 'Kitchen']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Active
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 21)
+
+📦 Tick @ 2025-04-10 16:30 → Spring, Sunny, 17.5°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: Kitchen
+  - Kobe: LivingRoom
+  - Gavriella: Bathroom2
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'Kitchen', 'Bathroom2']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Active
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Active
+✔ Stored batch of 1 ticks (Total: 22)
+
+📦 Tick @ 2025-04-10 17:00 → Spring, Rainy, 19.9°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: LivingRoom
+  - Kobe: Kitchen
+  - Gavriella: LivingRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'Kitchen']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Active
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 23)
+
+📦 Tick @ 2025-04-10 17:30 → Spring, Rainy, 18.6°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Work
+  - Mishel: LivingRoom
+  - Kobe: Kitchen
+  - Gavriella: LivingRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'Kitchen']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Active
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 24)
+
+📦 Tick @ 2025-04-10 18:00 → Spring, Cloudy, 16.4°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Car
+  - Mishel: Outside
+  - Kobe: Bathroom2
+  - Gavriella: LivingRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'Bathroom2']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Active
+✔ Stored batch of 1 ticks (Total: 25)
+
+📦 Tick @ 2025-04-10 18:30 → Spring, Sunny, 22.7°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Kitchen
+  - Mishel: Kitchen
+  - Kobe: KobeRoom
+  - Gavriella: LivingRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'Kitchen', 'KobeRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Active
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Active
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 26)
+
+📦 Tick @ 2025-04-10 19:00 → Spring, Cloudy, 22.7°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Kitchen
+  - Mishel: Kitchen
+  - Kobe: Kitchen
+  - Gavriella: Kitchen
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'Kitchen']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Active
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 27)
+
+📦 Tick @ 2025-04-10 19:30 → Spring, Sunny, 15.7°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Kitchen
+  - Mishel: Kitchen
+  - Kobe: Kitchen
+  - Gavriella: Kitchen
+  - Luna: Kitchen
+🏠 Active Rooms: ['Kitchen']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Active
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 28)
+
+📦 Tick @ 2025-04-10 20:00 → Spring, Cloudy, 16.7°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Kitchen
+  - Mishel: Bathroom1
+  - Kobe: KobeRoom
+  - Gavriella: Bathroom2
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'Kitchen', 'KobeRoom', 'Bathroom1', 'Bathroom2']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Active
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Active
+  - GavriellaRoom: Inactive
+  - Bathroom1: Active
+  - Bathroom2: Active
+✔ Stored batch of 1 ticks (Total: 29)
+
+📦 Tick @ 2025-04-10 20:30 → Spring, Sunny, 16.3°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: ParentsRoom
+  - Mishel: Bathroom1
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'ParentsRoom', 'KobeRoom', 'GavriellaRoom', 'Bathroom1']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Active
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 30)
+
+📦 Tick @ 2025-04-10 21:00 → Spring, Cloudy, 12.5°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Outside
+  - Mishel: Outside
+  - Kobe: KobeRoom
+  - Gavriella: LivingRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'KobeRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Active
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 31)
+
+📦 Tick @ 2025-04-10 21:30 → Spring, Sunny, 20.3°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Outside
+  - Mishel: Outside
+  - Kobe: LivingRoom
+  - Gavriella: LivingRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 32)
+
+📦 Tick @ 2025-04-10 22:00 → Spring, Sunny, 17.7°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Balcony
+  - Mishel: Balcony
+  - Kobe: LivingRoom
+  - Gavriella: Bathroom2
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'Balcony', 'Bathroom2']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Active
+  - ParentsRoom: Inactive
+  - KobeRoom: Inactive
+  - GavriellaRoom: Inactive
+  - Bathroom1: Inactive
+  - Bathroom2: Active
+✔ Stored batch of 1 ticks (Total: 33)
+
+📦 Tick @ 2025-04-10 22:30 → Spring, Sunny, 14.2°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Bathroom1
+  - Mishel: ParentsRoom
+  - Kobe: LivingRoom
+  - Gavriella: GavriellaRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'ParentsRoom', 'GavriellaRoom', 'Bathroom1']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Inactive
+  - GavriellaRoom: Active
+  - Bathroom1: Active
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 34)
+
+📦 Tick @ 2025-04-10 23:00 → Spring, Sunny, 17.1°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: ParentsRoom
+  - Mishel: ParentsRoom
+  - Kobe: LivingRoom
+  - Gavriella: GavriellaRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'ParentsRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Inactive
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 35)
+
+📦 Tick @ 2025-04-10 23:30 → Spring, Sunny, 19.7°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: LivingRoom
+  - Mishel: ParentsRoom
+  - Kobe: LivingRoom
+  - Gavriella: GavriellaRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'ParentsRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Inactive
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 36)
+
+📦 Tick @ 2025-04-11 00:00 → Spring, Rainy, 19.3°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: LivingRoom
+  - Mishel: ParentsRoom
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'ParentsRoom', 'KobeRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 37)
+
+📦 Tick @ 2025-04-11 00:30 → Spring, Sunny, 15.2°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Balcony
+  - Mishel: ParentsRoom
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'Balcony', 'ParentsRoom', 'KobeRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Active
+  - ParentsRoom: Active
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 38)
+
+📦 Tick @ 2025-04-11 01:00 → Spring, Cloudy, 16.8°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: Bathroom1
+  - Mishel: ParentsRoom
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: Near Door
+🏠 Active Rooms: ['ParentsRoom', 'KobeRoom', 'GavriellaRoom', 'Bathroom1']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Active
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 39)
+
+📦 Tick @ 2025-04-11 01:30 → Spring, Sunny, 12.6°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: ParentsRoom
+  - Mishel: ParentsRoom
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: LivingRoom
+🏠 Active Rooms: ['LivingRoom', 'ParentsRoom', 'KobeRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Active
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 40)
+
+📦 Tick @ 2025-04-11 02:00 → Spring, Cloudy, 17.5°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: ParentsRoom
+  - Mishel: ParentsRoom
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: ParentsRoom
+🏠 Active Rooms: ['ParentsRoom', 'KobeRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 41)
+
+📦 Tick @ 2025-04-11 02:30 → Spring, Sunny, 17.0°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: ParentsRoom
+  - Mishel: ParentsRoom
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: ParentsRoom
+🏠 Active Rooms: ['ParentsRoom', 'KobeRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 42)
+
+📦 Tick @ 2025-04-11 03:00 → Spring, Sunny, 18.9°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: ParentsRoom
+  - Mishel: ParentsRoom
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: ParentsRoom
+🏠 Active Rooms: ['ParentsRoom', 'KobeRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 43)
+
+📦 Tick @ 2025-04-11 03:30 → Spring, Cloudy, 17.3°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: ParentsRoom
+  - Mishel: ParentsRoom
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: ParentsRoom
+🏠 Active Rooms: ['ParentsRoom', 'KobeRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 44)
+
+📦 Tick @ 2025-04-11 04:00 → Spring, Sunny, 19.3°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: ParentsRoom
+  - Mishel: ParentsRoom
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: ParentsRoom
+🏠 Active Rooms: ['ParentsRoom', 'KobeRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 45)
+
+📦 Tick @ 2025-04-11 04:30 → Spring, Sunny, 16.2°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: ParentsRoom
+  - Mishel: ParentsRoom
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: ParentsRoom
+🏠 Active Rooms: ['ParentsRoom', 'KobeRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 46)
+
+📦 Tick @ 2025-04-11 05:00 → Spring, Rainy, 16.8°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: ParentsRoom
+  - Mishel: ParentsRoom
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: ParentsRoom
+🏠 Active Rooms: ['ParentsRoom', 'KobeRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 47)
+
+📦 Tick @ 2025-04-11 05:30 → Spring, Sunny, 13.0°C
+👥 Occupants: ['David', 'Mishel', 'Kobe', 'Gavriella', 'Luna']
+🧍 Occupant Locations:
+  - David: ParentsRoom
+  - Mishel: ParentsRoom
+  - Kobe: KobeRoom
+  - Gavriella: GavriellaRoom
+  - Luna: ParentsRoom
+🏠 Active Rooms: ['ParentsRoom', 'KobeRoom', 'GavriellaRoom']
+📊 Full Room State:
+  - LivingRoom: Inactive
+  - Kitchen: Inactive
+  - Balcony: Inactive
+  - ParentsRoom: Active
+  - KobeRoom: Active
+  - GavriellaRoom: Active
+  - Bathroom1: Inactive
+  - Bathroom2: Inactive
+✔ Stored batch of 1 ticks (Total: 48)

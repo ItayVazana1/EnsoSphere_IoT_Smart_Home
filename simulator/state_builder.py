@@ -10,6 +10,7 @@ from typing import List, Dict
 from simulator.time_manager import TimeManager
 from simulator.weather_engine import WeatherEngine
 from simulator.occupant_engine import OccupantEngine
+from simulator.house_engine import HouseEngine
 
 class StateBuilder:
     def __init__(self, time_manager: TimeManager, weather_engine: WeatherEngine, occupant_engine: OccupantEngine):
@@ -24,6 +25,7 @@ class StateBuilder:
         self.time_manager = time_manager
         self.weather_engine = weather_engine
         self.occupant_engine = occupant_engine
+        self.house_engine = HouseEngine()
 
     def build_state(self, character_names: List[str]) -> Dict:
         """
@@ -45,7 +47,9 @@ class StateBuilder:
         occupants = self.occupant_engine.get_occupant_locations(character_names, time_str)
         rooms = self.occupant_engine.get_rooms_map(occupants)
 
-        active_rooms = [room["name"] for room in rooms if room["occupants"]]
+        self.house_engine.update_room_status(occupants)
+        active_rooms = self.house_engine.get_active_rooms()
+        room_state = self.house_engine.get_room_state()
         is_empty = len(occupants) == 0
 
         state = {
@@ -59,7 +63,8 @@ class StateBuilder:
             "rooms": rooms,
             "house_status": {
                 "is_empty": is_empty,
-                "active_rooms": active_rooms
+                "active_rooms": active_rooms,
+                "room_state": room_state
             },
             "notes": {
                 "source": "simulator"

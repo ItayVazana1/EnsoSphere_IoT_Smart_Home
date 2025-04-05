@@ -1,8 +1,9 @@
-"""
+
+""" 
 Module: simulator/simulator_main.py
-Purpose: Run simulation loop, generate state_json per tick, and store in database.
+Purpose: Run simulation loop, generate state_json per tick, store in DB and log outputs.
 Author: Itay Vazana
-"""
+""" 
 
 import time
 import json
@@ -28,7 +29,6 @@ TICK_BATCH_SIZE = int(os.getenv("TICK_BATCH_SIZE", 1))
 MAX_TICKS = os.getenv("MAX_TICKS")
 MAX_TICKS = int(MAX_TICKS) if MAX_TICKS and MAX_TICKS.isdigit() else None
 
-
 DB_CONFIG = {
     "host": os.getenv("MYSQL_HOST", "localhost"),
     "port": int(os.getenv("MYSQL_PORT", 3306)),
@@ -37,6 +37,11 @@ DB_CONFIG = {
     "database": os.getenv("MYSQL_DATABASE", "ensosphere")
 }
 
+# Logging setup
+LOG_DIR = "sim_log"
+os.makedirs(LOG_DIR, exist_ok=True)
+RAW_LOG_PATH = os.path.join(LOG_DIR, "full_day_raw_states.txt")
+OUTPUT_LOG_PATH = os.path.join(LOG_DIR, "full_day_output.txt")
 
 def wait_for_db_connection(config, retries=10, delay=2):
     for attempt in range(retries):
@@ -50,7 +55,6 @@ def wait_for_db_connection(config, retries=10, delay=2):
             print("❌ DB not ready, retrying...")
             time.sleep(delay)
     raise RuntimeError("🛑 Could not connect to DB after multiple retries.")
-
 
 def store_state_in_db(state: dict, connection) -> None:
     cursor = connection.cursor()
@@ -79,6 +83,10 @@ def main():
     oe = OccupantEngine(season=SEASON)
     sb = StateBuilder(tm, we, oe)
 
+    # Prepare log files
+    raw_log = open(RAW_LOG_PATH, "w", encoding="utf-8")
+    output_log = open(OUTPUT_LOG_PATH, "w", encoding="utf-8")
+
     # Wait for DB to be available
     wait_for_db_connection(DB_CONFIG)
 
@@ -93,25 +101,39 @@ def main():
                 break
 
             state = sb.build_state(CHARACTERS)
-            print(f"\n📦 Tick @ {state['simulation_time']} → {state['season']}, {state['weather']}, {state['temperature']}°C")
-            print(f"👥 Occupants: {[o['name'] for o in state['occupants']]}")
-            print("🧍 Occupant Locations:")
+
+            # Log raw JSON state
+            raw_log.write(json.dumps(state) + "\n")
+
+            # Build log output string
+            log_lines = []
+            log_lines.append(f"\n📦 Tick @ {state['simulation_time']} → {state['season']}, {state['weather']}, {state['temperature']}°C")
+            log_lines.append(f"👥 Occupants: {[o['name'] for o in state['occupants']]}")
+            log_lines.append("🧍 Occupant Locations:")
             for occupant in state['occupants']:
                 name = occupant['name']
                 location = occupant.get('location', 'Unknown')
-                print(f"  - {name}: {location}")
-            print(f"🏠 Active Rooms: {state['house_status']['active_rooms']}")
-            print("📊 Full Room State:")
+                log_lines.append(f"  - {name}: {location}")
+            log_lines.append(f"🏠 Active Rooms: {state['house_status']['active_rooms']}")
+            log_lines.append("📊 Full Room State:")
             for room, data in state["house_status"]["room_state"].items():
-                print(f"  - {room}: {'Active' if data['active'] else 'Inactive'}")
+                log_lines.append(f"  - {room}: {'Active' if data['active'] else 'Inactive'}")
+
+            # Print and log to file
+            for line in log_lines:
+                print(line)
+                output_log.write(line + "\n")
 
             store_state_in_db(state, connection)
             tm.advance_tick()
             total_ticks += 1
 
         print(f"✔ Stored batch of {TICK_BATCH_SIZE} ticks (Total: {total_ticks})")
+        output_log.write(f"✔ Stored batch of {TICK_BATCH_SIZE} ticks (Total: {total_ticks})\n")
         time.sleep(TICK_DELAY)
 
+    raw_log.close()
+    output_log.close()
 
 if __name__ == "__main__":
     main()
