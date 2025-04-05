@@ -1,0 +1,48 @@
+Hello! I need your help creating **three files** for a new character in my EnsoSphere project:
+
+1. **<CHARACTER_NAME>_minimal.xlsx**
+   - This is a routine file with 48 half-hour slots (06:00 to 05:30).
+   - Columns: "Time", "Autumn", "Winter", "Spring", "Summer".
+   - Each cell (besides "Time") should contain **only a single location** (like "LivingRoom", "Kitchen", "Outside", etc.) with **no extra text**.
+   - Use English only, no Hebrew or special characters.
+
+2. **<CHARACTER_NAME>_detailed.xlsx**
+   - Same 48 time slots and columns, but **each cell can include brief parentheses** describing what happens.
+     For example: "Kitchen (coffee)" or "Balcony (light workout)".
+   - Still keep columns "Time", "Autumn", "Winter", "Spring", "Summer".
+   - Use English only.
+
+3. **<CHARACTER_NAME>.md**
+   - A Markdown file containing a short day-in-the-life story for each season (Autumn, Winter, Spring, Summer).
+   - Base the story on the final schedule from `<CHARACTER_NAME>_detailed.xlsx`.
+   - Write a mini-paragraph for each season, going through the time blocks in chronological order, describing the main activities and transitions.
+
+### Please follow these steps:
+
+1. **Ask me the following questions** about this new character:
+   - **Name**: What is the character’s name or nickname?
+   - **General Lifestyle**: Do they work from home, travel a lot, study, have kids or pets, etc.?
+   - **Base Routine**: Describe the typical daily pattern (e.g., waking time, meal times, commute, bedtime).
+   - **Seasonal Differences**:
+     - **Autumn**: Any special morning/evening changes, activities, or location changes?
+     - **Winter**: Are there weather constraints, do they skip exercise, or stay indoors?
+     - **Spring**: Maybe it’s identical to base routine or have mild variations.
+     - **Summer**: Possibly a day off, more outside errands, or special events.
+   - **Location Names**: Do you have a set list of valid rooms (e.g. "LivingRoom", "Kitchen", "Balcony", "ParentsRoom"), or are they free-form?
+
+2. **Wait for me to answer**. Then use my answers to build:
+   - `<CHARACTER_NAME>_minimal.xlsx` with only short location labels in each cell.
+   - `<CHARACTER_NAME>_detailed.xlsx` including short parentheses to clarify.
+   - `<CHARACTER_NAME>.md` containing a story, one mini-paragraph per season, using a chronological timeline from 06:00 to 05:30.
+
+3. **Ensure all code or file outputs** are presented in a way I can copy and paste.
+   - For the XLSX creation, you can either output CSV form or show Python code (pandas) that generates the `.xlsx`.
+   - For the `.md` story, provide the full Markdown content.
+
+4. **Final request**:
+   - Please do not include any Hebrew or special characters.
+   - Keep everything in English.
+   - If certain hours are not specified, you can fill them in logically.
+   - No extra commentary beyond the required steps.
+
+That’s it! Once you have my answers, please produce the three files as described. Thanks!
