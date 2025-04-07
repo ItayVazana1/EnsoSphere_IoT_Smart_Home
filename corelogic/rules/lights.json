@@ -1,0 +1,109 @@
+[
+  {
+    "rule_id": "lights_kitchen_motion_night",
+    "sensor_conditions": [
+      { "sensor_id": "motion_kitchen", "equals": true },
+      { "sensor_id": "is_daytime", "equals": false }
+    ],
+    "actions": [
+      { "device_id": "lights_kitchen", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "lights_livingroom_motion_night",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "is_daytime", "equals": false }
+    ],
+    "actions": [
+      { "device_id": "lights_livingroom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "lights_bathroom1_motion",
+    "sensor_conditions": [
+      { "sensor_id": "motion_bathroom1", "equals": true }
+    ],
+    "actions": [
+      { "device_id": "lights_bathroom1", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "lights_bathroom2_motion",
+    "sensor_conditions": [
+      { "sensor_id": "motion_bathroom2", "equals": true }
+    ],
+    "actions": [
+      { "device_id": "lights_bathroom2", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "lights_koberoom_motion_night",
+    "sensor_conditions": [
+      { "sensor_id": "motion_koberoom", "equals": true },
+      { "sensor_id": "is_daytime", "equals": false },
+      { "sensor_id": "hour", "in_range": [6, 23] }
+    ],
+    "actions": [
+      { "device_id": "lights_koberoom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "lights_gavriellaroom_motion_night",
+    "sensor_conditions": [
+      { "sensor_id": "motion_gavriellaroom", "equals": true },
+      { "sensor_id": "is_daytime", "equals": false },
+      { "sensor_id": "hour", "in_range": [6, 23] }
+    ],
+    "actions": [
+      { "device_id": "lights_gavriellaroom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "lights_parentsroom_motion_night",
+    "sensor_conditions": [
+      { "sensor_id": "motion_parentsroom", "equals": true },
+      { "sensor_id": "is_daytime", "equals": false },
+      { "sensor_id": "hour", "in_range": [6, 23] }
+    ],
+    "actions": [
+      { "device_id": "lights_parentsroom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "lights_balcony_motion_day",
+    "sensor_conditions": [
+      { "sensor_id": "motion_balcony", "equals": true },
+      { "sensor_id": "is_daytime", "equals": true }
+    ],
+    "actions": [
+      { "device_id": "lights_balcony", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "lights_livingroom_motion_cloudy",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "weather_sensor", "equals": "Cloudy" }
+    ],
+    "actions": [
+      { "device_id": "lights_livingroom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "lights_all_off_no_motion",
+    "sensor_conditions": [
+      { "sensor_id": "no_motion_all_rooms", "equals": true }
+    ],
+    "actions": [
+      { "device_id": "lights_livingroom", "command": { "status": "off" } },
+      { "device_id": "lights_kitchen", "command": { "status": "off" } },
+      { "device_id": "lights_balcony", "command": { "status": "off" } },
+      { "device_id": "lights_parentsroom", "command": { "status": "off" } },
+      { "device_id": "lights_koberoom", "command": { "status": "off" } },
+      { "device_id": "lights_gavriellaroom", "command": { "status": "off" } },
+      { "device_id": "lights_bathroom1", "command": { "status": "off" } },
+      { "device_id": "lights_bathroom2", "command": { "status": "off" } }
+    ]
+  }
+]

@@ -1,0 +1,101 @@
+[
+  {
+    "rule_id": "audio_livingroom_morning_motion",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "hour", "in_range": [7, 9] }
+    ],
+    "actions": [
+      { "device_id": "audio_system", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "audio_livingroom_cold_weather",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "temperature_livingroom", "less_than": 20 }
+    ],
+    "actions": [
+      { "device_id": "audio_system", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "audio_livingroom_evening_motion",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "hour", "in_range": [17, 21] }
+    ],
+    "actions": [
+      { "device_id": "audio_system", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "audio_livingroom_rainy_day",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "weather_sensor", "equals": "Rainy" },
+      { "sensor_id": "temperature_livingroom", "less_than": 20 }
+    ],
+    "actions": [
+      { "device_id": "audio_system", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "audio_livingroom_morning_quiet",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "hour", "in_range": [7, 9] },
+      { "sensor_id": "noise_livingroom", "less_than": 40 }
+    ],
+    "actions": [
+      { "device_id": "audio_system", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "audio_livingroom_no_motion",
+    "sensor_conditions": [
+      { "sensor_id": "no_motion_all_rooms", "equals": true }
+    ],
+    "actions": [
+      { "device_id": "audio_system", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "audio_livingroom_high_noise",
+    "sensor_conditions": [
+      { "sensor_id": "noise_livingroom", "greater_than": 70 }
+    ],
+    "actions": [
+      { "device_id": "audio_system", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "audio_livingroom_idle_timeout",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": false },
+      { "sensor_id": "idle_minutes_livingroom", "greater_than": 15 }
+    ],
+    "actions": [
+      { "device_id": "audio_system", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "audio_livingroom_late_night",
+    "sensor_conditions": [
+      { "sensor_id": "hour", "greater_than": 23 }
+    ],
+    "actions": [
+      { "device_id": "audio_system", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "audio_livingroom_no_sound",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "noise_livingroom", "greater_than": 65 }
+    ],
+    "actions": [
+      { "device_id": "audio_system", "command": { "status": "off" } }
+    ]
+  }
+]

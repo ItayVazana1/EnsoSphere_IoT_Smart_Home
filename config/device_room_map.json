@@ -1,0 +1,44 @@
+{
+  "LivingRoom": [
+    { "id": "lights_livingroom", "type": "lights" },
+    { "id": "tv_living_room", "type": "tv" },
+    { "id": "audio_system", "type": "audio_system" },
+    { "id": "blinds_livingroom", "type": "blinds" },
+    { "id": "air_conditioner_livingroom", "type": "air_conditioner" }
+  ],
+  "Kitchen": [
+    { "id": "lights_kitchen", "type": "lights" },
+    { "id": "air_conditioner_kitchen", "type": "air_conditioner" },
+    { "id": "blinds_kitchen", "type": "blinds" }
+  ],
+  "Balcony": [
+    { "id": "lights_balcony", "type": "lights" },
+    { "id": "blinds_balcony", "type": "blinds" }
+  ],
+  "ParentsRoom": [
+    { "id": "lights_parentsroom", "type": "lights" },
+    { "id": "tv_parentsroom", "type": "tv" },
+    { "id": "blinds_parentsroom", "type": "blinds" },
+    { "id": "air_conditioner_parentsroom", "type": "air_conditioner" }
+  ],
+  "KobeRoom": [
+    { "id": "lights_koberoom", "type": "lights" },
+    { "id": "tv_koberoom", "type": "tv" },
+    { "id": "blinds_koberoom", "type": "blinds" },
+    { "id": "air_conditioner_koberoom", "type": "air_conditioner" }
+  ],
+  "GavriellaRoom": [
+    { "id": "lights_gavriellaroom", "type": "lights" },
+    { "id": "tv_gavriellaroom", "type": "tv" },
+    { "id": "blinds_gavriellaroom", "type": "blinds" },
+    { "id": "air_conditioner_gavriellaroom", "type": "air_conditioner" }
+  ],
+  "Bathroom1": [
+    { "id": "lights_bathroom1", "type": "lights" },
+    { "id": "ventilation_fan_bathroom1", "type": "ventilation_fan" }
+  ],
+  "Bathroom2": [
+    { "id": "lights_bathroom2", "type": "lights" },
+    { "id": "ventilation_fan_bathroom2", "type": "ventilation_fan" }
+  ]
+}

@@ -1,0 +1,120 @@
+[
+  {
+    "rule_id": "tv_livingroom_evening_motion",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "hour", "in_range": [17, 22] }
+    ],
+    "actions": [
+      { "device_id": "tv_living_room", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "tv_livingroom_cold_weather",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "temperature_livingroom", "less_than": 18.0 }
+    ],
+    "actions": [
+      { "device_id": "tv_living_room", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "tv_livingroom_no_motion",
+    "sensor_conditions": [
+      { "sensor_id": "no_motion_all_rooms", "equals": true }
+    ],
+    "actions": [
+      { "device_id": "tv_living_room", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "tv_parentsroom_evening_motion",
+    "sensor_conditions": [
+      { "sensor_id": "motion_parentsroom", "equals": true },
+      { "sensor_id": "hour", "in_range": [21, 23] }
+    ],
+    "actions": [
+      { "device_id": "tv_parentsroom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "tv_parentsroom_morning_quiet",
+    "sensor_conditions": [
+      { "sensor_id": "motion_parentsroom", "equals": true },
+      { "sensor_id": "hour", "in_range": [6, 8] },
+      { "sensor_id": "noise_parentsroom", "less_than": 50.0 }
+    ],
+    "actions": [
+      { "device_id": "tv_parentsroom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "tv_parentsroom_noise_high",
+    "sensor_conditions": [
+      { "sensor_id": "noise_parentsroom", "greater_than": 70.0 }
+    ],
+    "actions": [
+      { "device_id": "tv_parentsroom", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "tv_parentsroom_idle_timeout",
+    "sensor_conditions": [
+      { "sensor_id": "motion_parentsroom", "equals": false },
+      { "sensor_id": "idle_minutes_parentsroom", "greater_than": 15 }
+    ],
+    "actions": [
+      { "device_id": "tv_parentsroom", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "tv_koberoom_evening_motion",
+    "sensor_conditions": [
+      { "sensor_id": "motion_koberoom", "equals": true },
+      { "sensor_id": "hour", "in_range": [16, 22] }
+    ],
+    "actions": [
+      { "device_id": "tv_koberoom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "tv_koberoom_idle_timeout",
+    "sensor_conditions": [
+      { "sensor_id": "motion_koberoom", "equals": false },
+      { "sensor_id": "idle_minutes_koberoom", "greater_than": 15 }
+    ],
+    "actions": [
+      { "device_id": "tv_koberoom", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "tv_gavriellaroom_evening_motion",
+    "sensor_conditions": [
+      { "sensor_id": "motion_gavriellaroom", "equals": true },
+      { "sensor_id": "hour", "in_range": [17, 21] }
+    ],
+    "actions": [
+      { "device_id": "tv_gavriellaroom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "tv_gavriellaroom_noise_high",
+    "sensor_conditions": [
+      { "sensor_id": "noise_gavriellaroom", "greater_than": 70.0 }
+    ],
+    "actions": [
+      { "device_id": "tv_gavriellaroom", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "tv_gavriellaroom_idle_timeout",
+    "sensor_conditions": [
+      { "sensor_id": "motion_gavriellaroom", "equals": false },
+      { "sensor_id": "idle_minutes_gavriellaroom", "greater_than": 15 }
+    ],
+    "actions": [
+      { "device_id": "tv_gavriellaroom", "command": { "status": "off" } }
+    ]
+  }
+]

@@ -1,0 +1,51 @@
+{
+  "LivingRoom": [
+    { "id": "motion_livingroom", "type": "motion" },
+    { "id": "temperature_livingroom", "type": "temperature" },
+    { "id": "noise_livingroom", "type": "noise" }
+  ],
+  "Kitchen": [
+    { "id": "motion_kitchen", "type": "motion" },
+    { "id": "temperature_kitchen", "type": "temperature" },
+    { "id": "humidity_kitchen", "type": "humidity" },
+    { "id": "gas_kitchen", "type": "gas" }
+  ],
+  "Balcony": [
+    { "id": "motion_balcony", "type": "motion" },
+    { "id": "temperature_balcony", "type": "temperature" },
+    { "id": "noise_balcony", "type": "noise" }
+  ],
+  "ParentsRoom": [
+    { "id": "motion_parentsroom", "type": "motion" },
+    { "id": "temperature_parentsroom", "type": "temperature" },
+    { "id": "noise_parentsroom", "type": "noise" }
+  ],
+  "KobeRoom": [
+    { "id": "motion_koberoom", "type": "motion" },
+    { "id": "temperature_koberoom", "type": "temperature" },
+    { "id": "noise_koberoom", "type": "noise" }
+  ],
+  "GavriellaRoom": [
+    { "id": "motion_gavriellaroom", "type": "motion" },
+    { "id": "temperature_gavriellaroom", "type": "temperature" },
+    { "id": "noise_gavriellaroom", "type": "noise" }
+  ],
+  "Bathroom1": [
+    { "id": "motion_bathroom1", "type": "motion" },
+    { "id": "temperature_bathroom1", "type": "temperature" },
+    { "id": "humidity_bathroom1", "type": "humidity" }
+  ],
+  "Bathroom2": [
+    { "id": "motion_bathroom2", "type": "motion" },
+    { "id": "temperature_bathroom2", "type": "temperature" },
+    { "id": "humidity_bathroom2", "type": "humidity" }
+  ],
+  "Entrance": [
+    { "id": "door_main_sensor", "type": "door_contact" },
+    { "id": "pet_near_door_sensor", "type": "pet_proximity" }
+  ],
+  "Global": [
+    { "id": "weather_sensor", "type": "weather" },
+    { "id": "no_motion_all_rooms", "type": "logical" }
+  ]
+}
