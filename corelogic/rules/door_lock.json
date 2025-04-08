@@ -1,0 +1,50 @@
+[
+  {
+    "rule_id": "door_lock_lock_no_motion_evening",
+    "sensor_conditions": [
+      { "sensor_id": "no_motion_all_rooms", "equals": true },
+      { "sensor_id": "hour", "greater_than": 21 }
+    ],
+    "actions": [
+      { "device_id": "door_lock", "command": { "status": "locked" } }
+    ]
+  },
+  {
+    "rule_id": "door_lock_lock_at_23",
+    "sensor_conditions": [
+      { "sensor_id": "hour", "equals": 23 }
+    ],
+    "actions": [
+      { "device_id": "door_lock", "command": { "status": "locked" } }
+    ]
+  },
+  {
+    "rule_id": "door_lock_lock_daytime_no_motion",
+    "sensor_conditions": [
+      { "sensor_id": "no_motion_all_rooms", "equals": true },
+      { "sensor_id": "hour", "in_range": [9, 17] }
+    ],
+    "actions": [
+      { "device_id": "door_lock", "command": { "status": "locked" } }
+    ]
+  },
+  {
+    "rule_id": "door_lock_unlock_motion_detected",
+    "sensor_conditions": [
+      { "sensor_id": "no_motion_all_rooms", "equals": false },
+      { "sensor_id": "hour", "less_than": 22 }
+    ],
+    "actions": [
+      { "device_id": "door_lock", "command": { "status": "unlocked" } }
+    ]
+  },
+  {
+    "rule_id": "door_lock_unlock_morning",
+    "sensor_conditions": [
+      { "sensor_id": "hour", "equals": 6 }
+    ],
+    "actions": [
+      { "device_id": "door_lock", "command": { "status": "unlocked" } }
+    ]
+  }
+]

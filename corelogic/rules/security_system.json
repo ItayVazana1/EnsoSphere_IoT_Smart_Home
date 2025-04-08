@@ -1,0 +1,41 @@
+[
+  {
+    "rule_id": "security_system_arm_daytime",
+    "sensor_conditions": [
+      { "sensor_id": "no_motion_all_rooms", "equals": true },
+      { "sensor_id": "hour", "in_range": [9, 16] }
+    ],
+    "actions": [
+      { "device_id": "security_system", "command": { "status": "armed" } }
+    ]
+  },
+  {
+    "rule_id": "security_system_arm_night",
+    "sensor_conditions": [
+      { "sensor_id": "no_motion_all_rooms", "equals": true },
+      { "sensor_id": "hour", "greater_than": 0 }
+    ],
+    "actions": [
+      { "device_id": "security_system", "command": { "status": "armed" } }
+    ]
+  },
+  {
+    "rule_id": "security_system_disarm_motion_detected",
+    "sensor_conditions": [
+      { "sensor_id": "no_motion_all_rooms", "equals": false }
+    ],
+    "actions": [
+      { "device_id": "security_system", "command": { "status": "disarmed" } }
+    ]
+  },
+  {
+    "rule_id": "security_system_disarm_on_entry",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "hour", "less_than": 22 }
+    ],
+    "actions": [
+      { "device_id": "security_system", "command": { "status": "disarmed" } }
+    ]
+  }
+]

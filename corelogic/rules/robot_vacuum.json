@@ -1,0 +1,20 @@
+[
+  {
+    "rule_id": "robot_vacuum_start_morning",
+    "sensor_conditions": [
+      { "sensor_id": "hour", "equals": 8 }
+    ],
+    "actions": [
+      { "device_id": "robot_vacuum", "command": { "status": "start_cleaning" } }
+    ]
+  },
+  {
+    "rule_id": "robot_vacuum_start_afternoon",
+    "sensor_conditions": [
+      { "sensor_id": "hour", "equals": 15 }
+    ],
+    "actions": [
+      { "device_id": "robot_vacuum", "command": { "status": "start_cleaning" } }
+    ]
+  }
+]

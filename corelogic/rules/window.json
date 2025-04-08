@@ -1,0 +1,60 @@
+[
+  {
+    "rule_id": "window_open_sunny_comfy_day",
+    "sensor_conditions": [
+      { "sensor_id": "weather_sensor", "in": ["Sunny", "Cloudy"] },
+      { "sensor_id": "temperature_livingroom", "in_range": [18, 26] },
+      { "sensor_id": "hour", "in_range": [8, 18] }
+    ],
+    "actions": [
+      { "device_id": "window_livingroom", "command": { "status": "open" } }
+    ]
+  },
+  {
+    "rule_id": "window_close_rainy",
+    "sensor_conditions": [
+      { "sensor_id": "weather_sensor", "equals": "Rainy" }
+    ],
+    "actions": [
+      { "device_id": "window_livingroom", "command": { "status": "closed" } }
+    ]
+  },
+  {
+    "rule_id": "window_close_too_hot",
+    "sensor_conditions": [
+      { "sensor_id": "temperature_livingroom", "greater_than": 28 }
+    ],
+    "actions": [
+      { "device_id": "window_livingroom", "command": { "status": "closed" } }
+    ]
+  },
+  {
+    "rule_id": "window_close_too_cold",
+    "sensor_conditions": [
+      { "sensor_id": "temperature_livingroom", "less_than": 16 }
+    ],
+    "actions": [
+      { "device_id": "window_livingroom", "command": { "status": "closed" } }
+    ]
+  },
+  {
+    "rule_id": "window_close_evening",
+    "sensor_conditions": [
+      { "sensor_id": "hour", "greater_than": 19 }
+    ],
+    "actions": [
+      { "device_id": "window_livingroom", "command": { "status": "closed" } }
+    ]
+  },
+  {
+    "rule_id": "window_open_sunny_low_temp",
+    "sensor_conditions": [
+      { "sensor_id": "weather_sensor", "equals": "Sunny" },
+      { "sensor_id": "temperature_livingroom", "in_range": [16, 20] },
+      { "sensor_id": "hour", "in_range": [9, 12] }
+    ],
+    "actions": [
+      { "device_id": "window_livingroom", "command": { "status": "open" } }
+    ]
+  }
+]

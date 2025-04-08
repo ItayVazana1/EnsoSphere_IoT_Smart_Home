@@ -1,0 +1,29 @@
+[
+  {
+    "rule_id": "pet_feeder_feed_08",
+    "sensor_conditions": [
+      { "sensor_id": "hour", "equals": 8 }
+    ],
+    "actions": [
+      { "device_id": "pet_feeder", "command": { "status": "dispense" } }
+    ]
+  },
+  {
+    "rule_id": "pet_feeder_feed_13",
+    "sensor_conditions": [
+      { "sensor_id": "hour", "equals": 13 }
+    ],
+    "actions": [
+      { "device_id": "pet_feeder", "command": { "status": "dispense" } }
+    ]
+  },
+  {
+    "rule_id": "pet_feeder_feed_19",
+    "sensor_conditions": [
+      { "sensor_id": "hour", "equals": 19 }
+    ],
+    "actions": [
+      { "device_id": "pet_feeder", "command": { "status": "dispense" } }
+    ]
+  }
+]

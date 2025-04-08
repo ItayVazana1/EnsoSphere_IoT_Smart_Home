@@ -1,0 +1,80 @@
+[
+  {
+    "rule_id": "fan_bathroom1_motion_humidity_high",
+    "sensor_conditions": [
+      { "sensor_id": "motion_bathroom1", "equals": true },
+      { "sensor_id": "humidity_bathroom1", "greater_than": 60 }
+    ],
+    "actions": [
+      { "device_id": "ventilation_fan_bathroom1", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "fan_bathroom2_motion_humidity_high",
+    "sensor_conditions": [
+      { "sensor_id": "motion_bathroom2", "equals": true },
+      { "sensor_id": "humidity_bathroom2", "greater_than": 60 }
+    ],
+    "actions": [
+      { "device_id": "ventilation_fan_bathroom2", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "fan_bathroom1_humidity_very_high",
+    "sensor_conditions": [
+      { "sensor_id": "humidity_bathroom1", "greater_than": 70 }
+    ],
+    "actions": [
+      { "device_id": "ventilation_fan_bathroom1", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "fan_bathroom2_humidity_very_high",
+    "sensor_conditions": [
+      { "sensor_id": "humidity_bathroom2", "greater_than": 70 }
+    ],
+    "actions": [
+      { "device_id": "ventilation_fan_bathroom2", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "fan_bathroom1_humidity_low_no_motion",
+    "sensor_conditions": [
+      { "sensor_id": "motion_bathroom1", "equals": false },
+      { "sensor_id": "humidity_bathroom1", "less_than": 50 }
+    ],
+    "actions": [
+      { "device_id": "ventilation_fan_bathroom1", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "fan_bathroom2_humidity_low_no_motion",
+    "sensor_conditions": [
+      { "sensor_id": "motion_bathroom2", "equals": false },
+      { "sensor_id": "humidity_bathroom2", "less_than": 50 }
+    ],
+    "actions": [
+      { "device_id": "ventilation_fan_bathroom2", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "fan_bathroom1_idle_timeout",
+    "sensor_conditions": [
+      { "sensor_id": "motion_bathroom1", "equals": false },
+      { "sensor_id": "idle_minutes_bathroom1", "greater_than": 30 }
+    ],
+    "actions": [
+      { "device_id": "ventilation_fan_bathroom1", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "fan_bathroom2_idle_timeout",
+    "sensor_conditions": [
+      { "sensor_id": "motion_bathroom2", "equals": false },
+      { "sensor_id": "idle_minutes_bathroom2", "greater_than": 30 }
+    ],
+    "actions": [
+      { "device_id": "ventilation_fan_bathroom2", "command": { "status": "off" } }
+    ]
+  }
+]

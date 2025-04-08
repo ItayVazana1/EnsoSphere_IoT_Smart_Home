@@ -1,0 +1,153 @@
+[
+  {
+    "rule_id": "ac_livingroom_hot_motion",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "temperature_livingroom", "greater_than": 27 }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_livingroom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "ac_livingroom_cold_motion",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "temperature_livingroom", "less_than": 18 }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_livingroom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "ac_livingroom_comfy_temp",
+    "sensor_conditions": [
+      { "sensor_id": "temperature_livingroom", "in_range": [20, 25] }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_livingroom", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "ac_livingroom_idle_timeout",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": false },
+      { "sensor_id": "idle_minutes_livingroom", "greater_than": 30 }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_livingroom", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "ac_livingroom_late_night_no_motion",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": false },
+      { "sensor_id": "hour", "greater_than": 23 }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_livingroom", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "ac_parentsroom_evening_hot",
+    "sensor_conditions": [
+      { "sensor_id": "motion_parentsroom", "equals": true },
+      { "sensor_id": "temperature_parentsroom", "greater_than": 26 },
+      { "sensor_id": "hour", "in_range": [21, 23] }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_parentsroom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "ac_parentsroom_night_cold",
+    "sensor_conditions": [
+      { "sensor_id": "temperature_parentsroom", "less_than": 18 },
+      { "sensor_id": "hour", "greater_than": 22 }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_parentsroom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "ac_parentsroom_idle_comfy",
+    "sensor_conditions": [
+      { "sensor_id": "motion_parentsroom", "equals": false },
+      { "sensor_id": "idle_minutes_parentsroom", "greater_than": 30 },
+      { "sensor_id": "temperature_parentsroom", "in_range": [20, 25] }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_parentsroom", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "ac_parentsroom_auto_off_after_midnight",
+    "sensor_conditions": [
+      { "sensor_id": "hour", "greater_than": 0 }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_parentsroom", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "ac_koberoom_afternoon_hot",
+    "sensor_conditions": [
+      { "sensor_id": "motion_koberoom", "equals": true },
+      { "sensor_id": "temperature_koberoom", "greater_than": 28 },
+      { "sensor_id": "hour", "in_range": [16, 22] }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_koberoom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "ac_koberoom_idle_timeout",
+    "sensor_conditions": [
+      { "sensor_id": "motion_koberoom", "equals": false },
+      { "sensor_id": "idle_minutes_koberoom", "greater_than": 30 }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_koberoom", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "ac_koberoom_comfy_temp",
+    "sensor_conditions": [
+      { "sensor_id": "temperature_koberoom", "in_range": [20, 25] }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_koberoom", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "ac_gavriellaroom_evening_cold",
+    "sensor_conditions": [
+      { "sensor_id": "motion_gavriellaroom", "equals": true },
+      { "sensor_id": "temperature_gavriellaroom", "less_than": 17 },
+      { "sensor_id": "hour", "in_range": [18, 22] }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_gavriellaroom", "command": { "status": "on" } }
+    ]
+  },
+  {
+    "rule_id": "ac_gavriellaroom_idle_late",
+    "sensor_conditions": [
+      { "sensor_id": "motion_gavriellaroom", "equals": false },
+      { "sensor_id": "idle_minutes_gavriellaroom", "greater_than": 30 },
+      { "sensor_id": "hour", "greater_than": 22 }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_gavriellaroom", "command": { "status": "off" } }
+    ]
+  },
+  {
+    "rule_id": "ac_gavriellaroom_comfy_temp",
+    "sensor_conditions": [
+      { "sensor_id": "temperature_gavriellaroom", "in_range": [21, 24] }
+    ],
+    "actions": [
+      { "device_id": "air_conditioner_gavriellaroom", "command": { "status": "off" } }
+    ]
+  }
+]

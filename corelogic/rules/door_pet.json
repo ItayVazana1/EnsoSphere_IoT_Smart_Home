@@ -1,0 +1,66 @@
+[
+  {
+    "rule_id": "door_pet_morning_access",
+    "sensor_conditions": [
+      { "sensor_id": "pet_near_door", "equals": true },
+      { "sensor_id": "hour", "in_range": [6, 10] }
+    ],
+    "actions": [
+      { "device_id": "door_pet", "command": { "status": "open" } }
+    ]
+  },
+  {
+    "rule_id": "door_pet_evening_access",
+    "sensor_conditions": [
+      { "sensor_id": "pet_near_door", "equals": true },
+      { "sensor_id": "hour", "in_range": [17, 21] }
+    ],
+    "actions": [
+      { "device_id": "door_pet", "command": { "status": "open" } }
+    ]
+  },
+  {
+    "rule_id": "door_pet_weather_clear_and_comfy",
+    "sensor_conditions": [
+      { "sensor_id": "pet_near_door", "equals": true },
+      { "sensor_id": "weather_sensor", "equals": "Sunny" },
+      { "sensor_id": "temperature_global", "in_range": [15, 30] }
+    ],
+    "actions": [
+      { "device_id": "door_pet", "command": { "status": "open" } }
+    ]
+  },
+  {
+    "rule_id": "door_pet_no_longer_near",
+    "sensor_conditions": [
+      { "sensor_id": "pet_near_door", "equals": false }
+    ],
+    "actions": [
+      { "device_id": "door_pet", "command": { "status": "close" } }
+    ]
+  },
+  {
+    "rule_id": "door_pet_bad_weather",
+    "sensor_conditions": [
+      {
+        "any": [
+          { "sensor_id": "weather_sensor", "equals": "Rainy" },
+          { "sensor_id": "temperature_global", "less_than": 10 },
+          { "sensor_id": "temperature_global", "greater_than": 35 }
+        ]
+      }
+    ],
+    "actions": [
+      { "device_id": "door_pet", "command": { "status": "close" } }
+    ]
+  },
+  {
+    "rule_id": "door_pet_late_night",
+    "sensor_conditions": [
+      { "sensor_id": "hour", "greater_than": 22 }
+    ],
+    "actions": [
+      { "device_id": "door_pet", "command": { "status": "close" } }
+    ]
+  }
+]

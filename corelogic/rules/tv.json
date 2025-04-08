@@ -62,7 +62,7 @@
     "rule_id": "tv_parentsroom_idle_timeout",
     "sensor_conditions": [
       { "sensor_id": "motion_parentsroom", "equals": false },
-      { "sensor_id": "idle_minutes_parentsroom", "greater_than": 15 }
+      { "sensor_id": "idle_minutes_parentsroom", "greater_than": 30 }
     ],
     "actions": [
       { "device_id": "tv_parentsroom", "command": { "status": "off" } }
@@ -82,7 +82,7 @@
     "rule_id": "tv_koberoom_idle_timeout",
     "sensor_conditions": [
       { "sensor_id": "motion_koberoom", "equals": false },
-      { "sensor_id": "idle_minutes_koberoom", "greater_than": 15 }
+      { "sensor_id": "idle_minutes_koberoom", "greater_than": 30 }
     ],
     "actions": [
       { "device_id": "tv_koberoom", "command": { "status": "off" } }
@@ -111,7 +111,7 @@
     "rule_id": "tv_gavriellaroom_idle_timeout",
     "sensor_conditions": [
       { "sensor_id": "motion_gavriellaroom", "equals": false },
-      { "sensor_id": "idle_minutes_gavriellaroom", "greater_than": 15 }
+      { "sensor_id": "idle_minutes_gavriellaroom", "greater_than": 30 }
     ],
     "actions": [
       { "device_id": "tv_gavriellaroom", "command": { "status": "off" } }

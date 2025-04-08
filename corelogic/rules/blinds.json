@@ -1,0 +1,87 @@
+[
+  {
+    "rule_id": "blinds_open_morning_motion",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "hour", "in_range": [7, 10] }
+    ],
+    "actions": [
+      { "device_id": "blinds_livingroom", "command": { "status": "open" } }
+    ]
+  },
+  {
+    "rule_id": "blinds_open_sunny_comfy",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "weather_sensor", "equals": "Sunny" },
+      { "sensor_id": "temperature_livingroom", "in_range": [15, 27] }
+    ],
+    "actions": [
+      { "device_id": "blinds_livingroom", "command": { "status": "open" } }
+    ]
+  },
+  {
+    "rule_id": "blinds_open_quiet_morning",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": true },
+      { "sensor_id": "hour", "in_range": [7, 10] },
+      { "sensor_id": "noise_livingroom", "less_than": 45 }
+    ],
+    "actions": [
+      { "device_id": "blinds_livingroom", "command": { "status": "open" } }
+    ]
+  },
+  {
+    "rule_id": "blinds_close_evening_time",
+    "sensor_conditions": [
+      { "sensor_id": "hour", "greater_than": 19 }
+    ],
+    "actions": [
+      { "device_id": "blinds_livingroom", "command": { "status": "closed" } }
+    ]
+  },
+  {
+    "rule_id": "blinds_close_extreme_weather",
+    "sensor_conditions": [
+      {
+        "any": [
+          { "sensor_id": "weather_sensor", "equals": "Rainy" },
+          { "sensor_id": "temperature_livingroom", "greater_than": 30 },
+          { "sensor_id": "temperature_livingroom", "less_than": 10 }
+        ]
+      }
+    ],
+    "actions": [
+      { "device_id": "blinds_livingroom", "command": { "status": "closed" } }
+    ]
+  },
+  {
+    "rule_id": "blinds_close_idle_timeout",
+    "sensor_conditions": [
+      { "sensor_id": "motion_livingroom", "equals": false },
+      { "sensor_id": "idle_minutes_livingroom", "greater_than": 30 }
+    ],
+    "actions": [
+      { "device_id": "blinds_livingroom", "command": { "status": "closed" } }
+    ]
+  },
+  {
+    "rule_id": "blinds_close_noise_evening",
+    "sensor_conditions": [
+      { "sensor_id": "noise_livingroom", "greater_than": 60 },
+      { "sensor_id": "hour", "in_range": [18, 22] }
+    ],
+    "actions": [
+      { "device_id": "blinds_livingroom", "command": { "status": "closed" } }
+    ]
+  },
+  {
+    "rule_id": "blinds_close_night",
+    "sensor_conditions": [
+      { "sensor_id": "hour", "greater_than": 22 }
+    ],
+    "actions": [
+      { "device_id": "blinds_livingroom", "command": { "status": "closed" } }
+    ]
+  }
+]
