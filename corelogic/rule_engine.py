@@ -1,73 +1,79 @@
 """
-Module: corelogic/rule_engine.py
-Purpose: Evaluate rules against current sensor outputs and return triggered actions.
-Author: Itay Vazana
+Module: rule_engine.py
+Purpose: Loads and evaluates JSON-based rules for device automation
 """
 
-from typing import List, Dict, Any
+import os
 import json
+from datetime import datetime
 
 class RuleEngine:
-    def __init__(self, rules: List[Dict[str, Any]]):
+    def __init__(self, rules_folder):
+        self.rules_folder = rules_folder
+        self.rules = []
+
+    def load_rules_from_folder(self):
         """
-        Initialize RuleEngine with list of rule definitions.
+        Loads all JSON rule files from the specified folder into memory.
+        """
+        for filename in os.listdir(self.rules_folder):
+            if filename.endswith(".json"):
+                path = os.path.join(self.rules_folder, filename)
+                with open(path, 'r', encoding='utf-8') as file:
+                    rules = json.load(file)
+                    self.rules.extend(rules)
+        print(f"📥 Loaded {len(self.rules)} rules from {self.rules_folder}")
+
+    def evaluate_rules(self, state_id, sensor_outputs):
+        """
+        Evaluates all loaded rules based on the current sensor outputs.
 
         Args:
-            rules (list): List of rule dicts as loaded from JSON file.
-        """
-        self.rules = rules
-
-    def evaluate_rules(self, sensor_outputs: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """
-        Evaluate all rules based on current sensor outputs.
-
-        Args:
-            sensor_outputs (dict): Dictionary of sensor_id to current value.
+            state_id (int): ID of the current tick/state.
+            sensor_outputs (dict): Dictionary of all evaluated sensors in current tick.
 
         Returns:
-            list: List of rule results. Each includes rule_id, triggered, conditions_json, actions_json
+            list: A list of actions (dicts) to execute.
         """
-        results = []
-
+        triggered = []
         for rule in self.rules:
-            rule_id = rule["rule_id"]
-            conditions = rule.get("sensor_conditions", [])
-            actions = rule.get("actions", [])
-            triggered = self._check_conditions(conditions, sensor_outputs)
+            if self._evaluate_conditions(rule.get("sensor_conditions", []), sensor_outputs):
+                for action in rule.get("actions", []):
+                    triggered.append({
+                        "state_id": state_id,
+                        "rule_id": rule["rule_id"],
+                        "device_id": action["device_id"],
+                        "command": action["command"],
+                        "timestamp": datetime.utcnow().isoformat(),
+                        "triggered": True,
+                        "conditions_json": rule.get("sensor_conditions", []),
+                        "actions_json": [action]
+                    })
+        return triggered
 
-            results.append({
-                "rule_id": rule_id,
-                "triggered": triggered,
-                "conditions_json": json.dumps(conditions),
-                "actions_json": json.dumps(actions if triggered else [])
-            })
+    def _evaluate_conditions(self, conditions, sensor_outputs):
+        for condition in conditions:
+            if "any" in condition:
+                if not any(self._evaluate_conditions([sub], sensor_outputs) for sub in condition["any"]):
+                    return False
+            elif "sensor_id" in condition:
+                sensor_id = condition["sensor_id"]
+                value = sensor_outputs.get(sensor_id)
+                if value is None:
+                    return False
 
-        return results
-
-    def _check_conditions(self, conditions: List[Dict[str, Any]], sensors: Dict[str, Any]) -> bool:
-        """
-        Check whether all conditions match the current sensor values.
-
-        Args:
-            conditions (list): List of sensor condition dicts.
-            sensors (dict): Current sensor values.
-
-        Returns:
-            bool: True if all conditions are met.
-        """
-        for cond in conditions:
-            sensor_id = cond["sensor_id"]
-            expected_value = cond.get("equals")
-            lt = cond.get("less_than")
-            gt = cond.get("greater_than")
-
-            actual = sensors.get(sensor_id)
-
-            if expected_value is not None and actual != expected_value:
+                if "equals" in condition and value != condition["equals"]:
+                    return False
+                if "in_range" in condition:
+                    min_val, max_val = condition["in_range"]
+                    if not (min_val <= float(value) <= max_val):
+                        return False
+                if "less_than" in condition and float(value) >= condition["less_than"]:
+                    return False
+                if "greater_than" in condition and float(value) <= condition["greater_than"]:
+                    return False
+                if "in" in condition and value not in condition["in"]:
+                    return False
+            else:
                 return False
-            if lt is not None and not (isinstance(actual, (int, float)) and actual < lt):
-                return False
-            if gt is not None and not (isinstance(actual, (int, float)) and actual > gt):
-                return False
-
         return True
