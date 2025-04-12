@@ -3,7 +3,7 @@ import time
 from core import mqtt_client as mqtt_module
 
 # Devices
-from devices.lights import Lights
+from devices.light import Lights
 from devices.blinds import Blinds
 from devices.air_conditioner import AirConditioner
 from devices.robot_vacuum import RobotVacuum

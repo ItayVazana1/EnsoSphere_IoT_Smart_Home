@@ -67,7 +67,7 @@ smart_apartment/
 │   ├── base_device.py
 │   ├── air_conditioner.py
 │   ├── blinds.py
-│   ├── lights.py
+│   ├── light.py
 │   ├── robot_vacuum.py
 │   └── pet_feeder.py
 │
