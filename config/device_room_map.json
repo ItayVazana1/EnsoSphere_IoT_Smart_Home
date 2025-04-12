@@ -40,5 +40,15 @@
   "Bathroom2": [
     { "id": "lights_bathroom2", "type": "lights" },
     { "id": "ventilation_fan_bathroom2", "type": "ventilation_fan" }
+  ],
+  "Entrance": [
+    { "id": "door_lock_main", "type": "door_lock" },
+    { "id": "pet_door", "type": "pet_door" }
+  ],
+  "Global": [
+    { "id": "pet_feeder", "type": "pet_feeder" },
+    { "id": "robot_vacuum", "type": "robot_vacuum" },
+    { "id": "security_system", "type": "security_system" },
+    { "id": "window_livingroom", "type": "window" }
   ]
 }

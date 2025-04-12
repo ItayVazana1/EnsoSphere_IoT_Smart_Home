@@ -40,12 +40,7 @@
     { "id": "temperature_bathroom2", "type": "temperature" },
     { "id": "humidity_bathroom2", "type": "humidity" }
   ],
-  "Entrance": [
-    { "id": "door_main_sensor", "type": "door_contact" },
-    { "id": "pet_near_door_sensor", "type": "pet_proximity" }
-  ],
   "Global": [
-    { "id": "weather_sensor", "type": "weather" },
     { "id": "no_motion_all_rooms", "type": "logical" }
   ]
 }

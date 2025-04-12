@@ -1,46 +1,46 @@
 [
   {
-    "rule_id": "door_pet_morning_access",
+    "rule_id": "pet_door_morning_access",
     "sensor_conditions": [
       { "sensor_id": "pet_near_door", "equals": true },
       { "sensor_id": "hour", "in_range": [6, 10] }
     ],
     "actions": [
-      { "device_id": "door_pet", "command": { "status": "open" } }
+      { "device_id": "pet_door", "command": { "status": "open" } }
     ]
   },
   {
-    "rule_id": "door_pet_evening_access",
+    "rule_id": "pet_door_evening_access",
     "sensor_conditions": [
       { "sensor_id": "pet_near_door", "equals": true },
       { "sensor_id": "hour", "in_range": [17, 21] }
     ],
     "actions": [
-      { "device_id": "door_pet", "command": { "status": "open" } }
+      { "device_id": "pet_door", "command": { "status": "open" } }
     ]
   },
   {
-    "rule_id": "door_pet_weather_clear_and_comfy",
+    "rule_id": "pet_door_weather_clear_and_comfy",
     "sensor_conditions": [
       { "sensor_id": "pet_near_door", "equals": true },
       { "sensor_id": "weather_sensor", "equals": "Sunny" },
       { "sensor_id": "temperature_global", "in_range": [15, 30] }
     ],
     "actions": [
-      { "device_id": "door_pet", "command": { "status": "open" } }
+      { "device_id": "pet_door", "command": { "status": "open" } }
     ]
   },
   {
-    "rule_id": "door_pet_no_longer_near",
+    "rule_id": "pet_door_no_longer_near",
     "sensor_conditions": [
       { "sensor_id": "pet_near_door", "equals": false }
     ],
     "actions": [
-      { "device_id": "door_pet", "command": { "status": "close" } }
+      { "device_id": "pet_door", "command": { "status": "close" } }
     ]
   },
   {
-    "rule_id": "door_pet_bad_weather",
+    "rule_id": "pet_door_bad_weather",
     "sensor_conditions": [
       {
         "any": [
@@ -51,16 +51,16 @@
       }
     ],
     "actions": [
-      { "device_id": "door_pet", "command": { "status": "close" } }
+      { "device_id": "pet_door", "command": { "status": "close" } }
     ]
   },
   {
-    "rule_id": "door_pet_late_night",
+    "rule_id": "pet_door_late_night",
     "sensor_conditions": [
       { "sensor_id": "hour", "greater_than": 22 }
     ],
     "actions": [
-      { "device_id": "door_pet", "command": { "status": "close" } }
+      { "device_id": "pet_door", "command": { "status": "close" } }
     ]
   }
 ]
