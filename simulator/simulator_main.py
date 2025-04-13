@@ -76,8 +76,17 @@ def wait_for_db_connection(config, retries=10, delay=2):
 def store_state_in_db(state: dict, connection) -> None:
     cursor = connection.cursor()
     insert_query = """
-    INSERT INTO state_raw (timestamp, simulation_time, season, is_daytime, temperature, weather, state_json)
-    VALUES (%s, %s, %s, %s, %s, %s, %s)
+    INSERT INTO state_raw (
+        timestamp,
+        simulation_time,
+        season,
+        is_daytime,
+        temperature,
+        weather,
+        state_json,
+        processed_by_core
+    )
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """
     cursor.execute(insert_query, (
         state["timestamp"],
@@ -86,7 +95,8 @@ def store_state_in_db(state: dict, connection) -> None:
         state["is_daytime"],
         state["temperature"],
         state["weather"],
-        json.dumps(state)
+        json.dumps(state),
+        False
     ))
     connection.commit()
     cursor.close()

@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS state_raw (
     temperature FLOAT NOT NULL,
     weather VARCHAR(20) NOT NULL,
     state_json JSON NOT NULL,
-    processed_by_core BOOLEAN DEFAULT FALSE,
+    processed_by_core BOOLEAN NOT NULL DEFAULT FALSE,
     processed_at TEXT
 );
 
