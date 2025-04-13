@@ -4,9 +4,7 @@ Purpose: Validate full routine loading and logic for occupant location and room 
 Author: Itay Vazana
 """
 
-import pytest
-from pathlib import Path
-from simulator.occupant_engine import OccupantEngine
+from simulator.engines.occupant_engine import OccupantEngine
 
 # Resolve full path to routines/ so tests run from anywhere
 ROUTINES_DIR = "../routines/"

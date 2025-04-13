@@ -4,8 +4,7 @@ Purpose: Unit tests for the WeatherEngine class
 Author: Itay Vazana
 """
 
-import pytest
-from simulator.weather_engine import WeatherEngine
+from simulator.engines.weather_engine import WeatherEngine
 
 def test_weather_output_validity():
     we = WeatherEngine()

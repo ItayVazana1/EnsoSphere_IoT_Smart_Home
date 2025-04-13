@@ -22,6 +22,8 @@ class MQTTClient:
         self.connected = False
 
     def connect(self):
+        if self.connected:
+            return
         try:
             self.client.connect(MQTT_HOST, MQTT_PORT, MQTT_KEEPALIVE)
             self.client.loop_start()
@@ -36,3 +38,10 @@ class MQTTClient:
             self.client.publish(topic, json.dumps(payload))
         else:
             print(f"⚠️ MQTT not connected. Could not publish to topic '{topic}'")
+
+    def disconnect(self):
+        if self.connected:
+            self.client.loop_stop()
+            self.client.disconnect()
+            self.connected = False
+            print("📴 MQTT client disconnected.")

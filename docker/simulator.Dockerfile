@@ -3,4 +3,4 @@ WORKDIR /app
 COPY . .
 RUN pip install --no-cache-dir -r simulator/requirements.txt
 ENV PYTHONPATH=/app
-CMD ["python", "simulator/simulator_main.py"]
+CMD ["python", "simulator/logic/simulator_main.py"]

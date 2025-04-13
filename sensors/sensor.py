@@ -6,7 +6,7 @@ Author: Itay Vazana
 
 from abc import ABC, abstractmethod
 from typing import Any, Optional
-from simulator.sensor_publisher import SensorPublisher
+from simulator.infra.sensor_publisher import SensorPublisher
 
 
 class Sensor(ABC):

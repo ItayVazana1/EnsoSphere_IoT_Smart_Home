@@ -4,9 +4,8 @@ Purpose: Unit tests for the TimeManager class
 Author: Itay Vazana
 """
 
-import pytest
 from datetime import datetime
-from simulator.time_manager import TimeManager
+from simulator.engines.time_manager import TimeManager
 
 def test_initial_time():
     tm = TimeManager(start_datetime=datetime(2025, 8, 1, 6, 0))

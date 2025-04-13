@@ -1,6 +1,6 @@
 """
 Module: simulator/simulator_main.py
-Purpose: Run simulation loop, generate state_json per tick, and store in database.
+Purpose: Run simulation loop, generate state_json per tick, store in DB and log outputs.
 Author: Itay Vazana
 """
 
@@ -12,11 +12,11 @@ import mysql.connector
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 
-from simulator.time_manager import TimeManager
-from simulator.weather_engine import WeatherEngine
-from simulator.occupant_engine import OccupantEngine
-from simulator.state_builder import StateBuilder
-from simulator.device_state_fetcher import fetch_device_states
+from simulator.engines.time_manager import TimeManager
+from simulator.engines.weather_engine import WeatherEngine
+from simulator.engines.occupant_engine import OccupantEngine
+from simulator.logic.state_builder import StateBuilder
+from simulator.infra.device_state_fetcher import fetch_device_states
 
 # Load environment variables
 load_dotenv()
@@ -40,13 +40,18 @@ CHARACTERS = os.getenv("SIM_CHARACTERS", "Testy").split(",")
 # Console output mode
 CONCISE_MODE = os.getenv("SIMULATOR_CONCISE_MODE", "False").lower() in ("1", "true", "yes")
 
+# Logging setup
+LOG_DIR = "sim_log"
+os.makedirs(LOG_DIR, exist_ok=True)
+RAW_LOG_PATH = os.path.join(LOG_DIR, "full_day_raw_states.txt")
+OUTPUT_LOG_PATH = os.path.join(LOG_DIR, "full_day_output.txt")
+
 # Generate or read start datetime
 def get_random_start_datetime():
     year = 2025
     start = datetime(year, 1, 1, 6, 0)
     end = datetime(year, 12, 31, 6, 0)
     return start + timedelta(days=random.randint(0, (end - start).days))
-
 
 start_datetime_str = os.getenv("SIM_START_DATETIME")
 if start_datetime_str:
@@ -101,24 +106,9 @@ def store_state_in_db(state: dict, connection) -> None:
     connection.commit()
     cursor.close()
 
-def print_concise_state(state, previous_state):
-    print(f"\n📦 Tick @ {state['simulation_time']} → {state['season']}, {state['weather']}, {state['temperature']}°C")
-
-    occupants_str = " | ".join(f"{o['name']} → {o.get('location', 'Unknown')}" for o in state['occupants'])
-    print(f"🧍 Occupants: {occupants_str}")
-
-    changed_sensors = []
-    for sid, val in state['sensors'].items():
-        prev_val = previous_state.get("sensors", {}).get(sid) if previous_state else None
-        if val != prev_val:
-            changed_sensors.append((sid, prev_val, val))
-
-    if changed_sensors:
-        print("🛰️ Sensor Changes:")
-        for sid, old, new in changed_sensors:
-            print(f"  - {sid}: {old} → {new}")
-    else:
-        print("🛰️ No sensor changes from last tick.")
+def print_and_log(line: str, output_log):
+    print(line)
+    output_log.write(line + "\n")
 
 def main():
     print("🚀 Starting simulation...")
@@ -131,6 +121,10 @@ def main():
     wait_for_db_connection(DB_CONFIG)
     connection = mysql.connector.connect(**DB_CONFIG)
 
+    # Prepare logs
+    raw_log = open(RAW_LOG_PATH, "w", encoding="utf-8")
+    output_log = open(OUTPUT_LOG_PATH, "w", encoding="utf-8")
+
     total_ticks = 0
     previous_state = None
 
@@ -142,30 +136,44 @@ def main():
             device_states = fetch_device_states()
             state = sb.build_state(CHARACTERS, device_states)
 
-            if CONCISE_MODE:
-                print_concise_state(state, previous_state)
+            raw_log.write(json.dumps(state) + "\n")
+
+            log_lines = []
+            log_lines.append(f"\n📦 Tick @ {state['simulation_time']} → {state['season']}, {state['weather']}, {state['temperature']}°C")
+            occupants_str = " | ".join(f"{o['name']} → {o.get('location', 'Unknown')}" for o in state['occupants'])
+            log_lines.append(f"🧍 Occupants: {occupants_str}")
+
+            changed_sensors = []
+            for sid, val in state['sensors'].items():
+                prev_val = previous_state.get("sensors", {}).get(sid) if previous_state else None
+                if val != prev_val:
+                    changed_sensors.append((sid, prev_val, val))
+
+            if changed_sensors:
+                log_lines.append("🛰️ Sensor Changes:")
+                for sid, old, new in changed_sensors:
+                    log_lines.append(f"  - {sid}: {old} → {new}")
             else:
-                print(f"\n📦 Tick @ {state['simulation_time']} → {state['season']}, {state['weather']}, {state['temperature']}°C")
-                print(f"👥 Occupants: {[o['name'] for o in state['occupants']]}")
-                print("🧍 Occupant Locations:")
-                for o in state['occupants']:
-                    print(f"  - {o['name']}: {o.get('location', 'Unknown')}")
-                print(f"🏠 Active Rooms: {state['house_status']['active_rooms']}")
-                print("📊 Full Room State:")
-                for room, data in state["house_status"]["room_state"].items():
-                    print(f"  - {room}: {'Active' if data['active'] else 'Inactive'}")
-                print("🛰️ Sample Sensor Values:")
-                for sensor_id in list(state["sensors"].keys())[:5]:
-                    print(f"  - {sensor_id}: {state['sensors'][sensor_id]}")
+                log_lines.append("🛰️ No sensor changes from last tick.")
+
+            log_lines.append(f"🏠 Active Rooms: {state['house_status']['active_rooms']}")
+            log_lines.append("📊 Full Room State:")
+            for room, data in state["house_status"]["room_state"].items():
+                log_lines.append(f"  - {room}: {'Active' if data['active'] else 'Inactive'}")
+
+            for line in log_lines:
+                print_and_log(line, output_log)
 
             store_state_in_db(state, connection)
             tm.advance_tick()
             total_ticks += 1
             previous_state = state
 
-        print(f"✔ Stored batch of {TICK_BATCH_SIZE} ticks (Total: {total_ticks})")
+        print_and_log(f"✔ Stored batch of {TICK_BATCH_SIZE} ticks (Total: {total_ticks})", output_log)
         time.sleep(TICK_DELAY)
 
+    raw_log.close()
+    output_log.close()
 
 if __name__ == "__main__":
     main()

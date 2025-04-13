@@ -9,10 +9,10 @@ import pytest
 from jsonschema import validate, ValidationError
 from datetime import datetime
 
-from simulator.time_manager import TimeManager
-from simulator.weather_engine import WeatherEngine
-from simulator.occupant_engine import OccupantEngine
-from simulator.state_builder import StateBuilder
+from simulator.engines.time_manager import TimeManager
+from simulator.engines.weather_engine import WeatherEngine
+from simulator.engines.occupant_engine import OccupantEngine
+from simulator.logic.state_builder import StateBuilder
 
 SCHEMA_DIR = "../docs/state_json_schema.json"
 ROUTINES_DIR = "../routines/"
