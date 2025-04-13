@@ -1,6 +1,6 @@
 """
 Module: sensors/sensors_registry.py
-Purpose: Registers all sensors in the system for CoreLogic use.
+Purpose: Registers all sensors in the system for CoreLogic and Simulator use.
 Author: Itay Vazana
 """
 
@@ -14,7 +14,7 @@ from sensors.gas_sensor import GasSensor
 from sensors.noise_sensor import NoiseSensor
 from sensors.logical_sensor import NoMotionAllRoomsSensor
 
-CONFIG_PATH = "../config/sensor_room_map.json"
+CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "config", "sensor_room_map.json")
 
 SENSOR_TYPE_MAP = {
     "motion": MotionSensor,
@@ -47,20 +47,26 @@ def get_all_sensors() -> list:
             sensor_type = sensor["type"]
             cls = SENSOR_TYPE_MAP.get(sensor_type)
             if cls:
+                # Logical sensor (e.g., no_motion_all_rooms) receives full monitored room list
                 if sensor_type == "logical" and sensor_id == "no_motion_all_rooms":
                     sensors.append(cls(sensor_id, monitored_rooms))
-                elif sensor_type in ["motion", "noise"]:
+
+                # Room-based sensors (motion, noise, temperature, humidity, gas)
+                elif sensor_type in ["motion", "noise", "temperature", "humidity", "gas"]:
                     sensors.append(cls(sensor_id, room))
+
+                # (Other types if added later can go here...)
                 else:
-                    sensors.append(cls(sensor_id))
+                    print(f"⚠️ Unsupported sensor type or missing room binding: {sensor_id}")
 
     return sensors
 
 
+# Alias for simulator usage
+load_all_sensors = get_all_sensors
+
 if __name__ == "__main__":
     sensors = get_all_sensors()
     print(f"Total sensors registered: {len(sensors)}")
-    count = 1
-    for sensor in sensors:
-        print(f"{count}. {sensor.sensor_id} → {sensor.__class__.__name__}")
-        count += 1
+    for i, sensor in enumerate(sensors, start=1):
+        print(f"{i}. {sensor.sensor_id} → {sensor.__class__.__name__}")

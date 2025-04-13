@@ -6,6 +6,7 @@ Author: Itay Vazana
 
 from abc import ABC, abstractmethod
 from typing import Any, Optional
+from simulator.sensor_publisher import SensorPublisher
 
 
 class Sensor(ABC):
@@ -19,31 +20,42 @@ class Sensor(ABC):
         """
         self.sensor_id = sensor_id
         self.room = room
+        self.active = True
         self.last_value: Optional[Any] = None
+        self.publisher = SensorPublisher()  # handles MQTT publishing
 
     @abstractmethod
-    def evaluate(self, state_json: dict) -> Any:
+    def evaluate(self, state_json: dict, room_engine: Any) -> Any:
         """
-        Evaluate the sensor's value based on the given simulation state.
+        Evaluate the sensor's value based on the simulation state and room environment.
 
         Args:
-            state_json (dict): The state JSON object for the current tick.
+            state_json (dict): The current simulation state.
+            room_engine (RoomEngine): Environment engine for room-specific values.
 
         Returns:
             Any: The sensor's output value.
         """
         pass
 
-    def evaluate_and_store(self, state_json: dict) -> Any:
+    def evaluate_and_store(self, state_json: dict, room_engine: Any) -> Any:
         """
-        Evaluates and stores the result for internal tracking.
+        Evaluates the value, stores it internally, and publishes via MQTT if active.
 
         Args:
             state_json (dict): The simulation state input.
+            room_engine (RoomEngine): Environmental data provider.
 
         Returns:
             Any: The computed sensor output.
         """
-        value = self.evaluate(state_json)
+        value = self.evaluate(state_json, room_engine)
         self.last_value = value
+
+        if self.active:
+            self.publisher.publish_sensor_outputs({self.sensor_id: value})
+
         return value
+
+    def get_id(self) -> str:
+        return self.sensor_id

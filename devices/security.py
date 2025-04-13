@@ -40,7 +40,15 @@ class SecuritySystem(Device):
             new_state (dict): Must contain 'armed': True/False.
             manual (bool): Whether this is a manual override.
         """
+        # Normalize status → armed
+        if "status" in new_state and "armed" not in new_state:
+            if new_state["status"] == "armed":
+                new_state["armed"] = True
+            elif new_state["status"] == "disarmed":
+                new_state["armed"] = False
+
         if "armed" not in new_state:
             raise ValueError(f"SecuritySystem requires 'armed' boolean in command: {new_state}")
 
         super().apply_state(mqtt_client, new_state, manual)
+

@@ -39,17 +39,30 @@ class RuleEngine:
         for rule in self.rules:
             if self._evaluate_conditions(rule.get("sensor_conditions", []), sensor_outputs):
                 for action in rule.get("actions", []):
+                    command = action["command"]
+
+                    # הגנה ← אם זה string, ננסה להמיר ל־dict
+                    if isinstance(command, str):
+                        try:
+                            command = json.loads(command)
+                            print(f"[DEBUG] Parsed string command for {action['device_id']}")
+                        except json.JSONDecodeError:
+                            print(f"[WARNING] Malformed command string for {action['device_id']}: {command}")
+                            continue
+
                     triggered.append({
                         "state_id": state_id,
                         "rule_id": rule["rule_id"],
                         "device_id": action["device_id"],
-                        "command": action["command"],
+                        "command": command,
                         "timestamp": datetime.utcnow().isoformat(),
                         "triggered": True,
                         "conditions_json": rule.get("sensor_conditions", []),
                         "actions_json": [action]
                     })
         return triggered
+
+
 
     def _evaluate_conditions(self, conditions, sensor_outputs):
         for condition in conditions:

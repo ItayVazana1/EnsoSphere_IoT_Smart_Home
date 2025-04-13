@@ -43,6 +43,13 @@ class AirConditioner(Device):
             new_state (dict): State dict with at least 'status'.
             manual (bool): Whether this is a manual override.
         """
+        # Normalize shorthand status → detailed
+        if "status" in new_state:
+            if new_state["status"] == "off":
+                new_state.setdefault("mode", "off")
+            elif new_state["status"] == "on":
+                new_state.setdefault("mode", "cool")
+
         if "status" not in new_state:
             raise ValueError(f"AirConditioner requires 'status' in command: {new_state}")
 

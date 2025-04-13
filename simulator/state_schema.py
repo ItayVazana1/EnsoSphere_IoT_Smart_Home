@@ -14,8 +14,10 @@ STATE_JSON_FIELDS = {
     "occupants": list,
     "rooms": list,
     "house_status": dict,
+    "sensors": dict,
     "notes": dict
 }
+
 
 def validate_state_json(state_json: dict) -> bool:
     """

@@ -40,3 +40,13 @@ CREATE TABLE IF NOT EXISTS device_states (
     state_json JSON NOT NULL,
     last_updated DATETIME NOT NULL
 );
+
+-- Table for per-tick logging of device actions
+CREATE TABLE IF NOT EXISTS device_actions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    state_id INT NOT NULL,
+    device_id VARCHAR(100) NOT NULL,
+    command_json JSON NOT NULL,
+    executed_at DATETIME NOT NULL,
+    FOREIGN KEY (state_id) REFERENCES state_raw(id)
+);

@@ -12,6 +12,7 @@
     "occupants",
     "rooms",
     "house_status",
+    "sensors",
     "notes"
   ],
   "properties": {
@@ -24,12 +25,7 @@
     },
     "season": {
       "type": "string",
-      "enum": [
-        "Winter",
-        "Spring",
-        "Summer",
-        "Autumn"
-      ]
+      "enum": ["Winter", "Spring", "Summer", "Autumn"]
     },
     "is_daytime": {
       "type": "boolean"
@@ -44,17 +40,10 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": [
-          "name",
-          "location"
-        ],
+        "required": ["name", "location"],
         "properties": {
-          "name": {
-            "type": "string"
-          },
-          "location": {
-            "type": "string"
-          }
+          "name": { "type": "string" },
+          "location": { "type": "string" }
         }
       }
     },
@@ -62,50 +51,47 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": [
-          "name",
-          "occupants"
-        ],
+        "required": ["name", "occupants"],
         "properties": {
-          "name": {
-            "type": "string"
-          },
+          "name": { "type": "string" },
           "occupants": {
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": { "type": "string" }
           }
         }
       }
     },
     "house_status": {
       "type": "object",
-      "required": [
-        "is_empty",
-        "active_rooms"
-      ],
+      "required": ["is_empty", "active_rooms", "room_state"],
       "properties": {
-        "is_empty": {
-          "type": "boolean"
-        },
+        "is_empty": { "type": "boolean" },
         "active_rooms": {
           "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "items": { "type": "string" }
         },
         "room_state": {
-          "type": "string"
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["active"],
+            "properties": {
+              "active": { "type": "boolean" }
+            }
+          }
         }
+      }
+    },
+    "sensors": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["boolean", "number", "string", "null"]
       }
     },
     "notes": {
       "type": "object",
       "properties": {
-        "source": {
-          "type": "string"
-        }
+        "source": { "type": "string" }
       }
     }
   }

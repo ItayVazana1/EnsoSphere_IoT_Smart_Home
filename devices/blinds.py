@@ -32,15 +32,15 @@ class Blinds(Device):
         return self.last_state.get("position") != new_state.get("position")
 
     def apply_state(self, mqtt_client, new_state: dict, manual: bool = False):
-        """
-        Apply the new position state to the smart blinds.
+        # Normalize status → position
+        if "position" not in new_state and "status" in new_state:
+            if new_state["status"] == "closed":
+                new_state["position"] = "down"
+            elif new_state["status"] == "open":
+                new_state["position"] = "up"
 
-        Args:
-            mqtt_client: MQTT client instance.
-            new_state (dict): Must contain 'position' key.
-            manual (bool): Whether this is a manual override.
-        """
         if "position" not in new_state:
             raise ValueError(f"Blinds device requires 'position' in command: {new_state}")
 
         super().apply_state(mqtt_client, new_state, manual)
+

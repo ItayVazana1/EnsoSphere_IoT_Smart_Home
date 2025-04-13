@@ -40,6 +40,10 @@ class AudioSystem(Device):
             new_state (dict): New desired state. Must contain 'status'.
             manual (bool): Whether this is a manual override.
         """
+        # Normalize "on"/"off" to explicit status if needed
+        if "power" in new_state and "status" not in new_state:
+            new_state["status"] = new_state["power"]
+
         if "status" not in new_state:
             raise ValueError(f"AudioSystem device requires 'status' in command: {new_state}")
 

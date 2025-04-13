@@ -1,30 +1,39 @@
 """
 Module: sensors/gas_sensor.py
-Purpose: Global gas level sensor.
+Purpose: Gas level sensor (room-specific).
 Author: Itay Vazana
 """
 
 from sensors.sensor import Sensor
+from typing import Any
+import random
 
 
 class GasSensor(Sensor):
-    def __init__(self, sensor_id: str):
+    def __init__(self, sensor_id: str, room: str):
         """
-        Initialize a gas sensor (global).
+        Initialize a gas sensor for a specific room.
 
         Args:
             sensor_id (str): Unique ID of the gas sensor.
+            room (str): Room in which the sensor is installed.
         """
-        super().__init__(sensor_id)
+        super().__init__(sensor_id, room)
 
-    def evaluate(self, state_json: dict) -> float:
+    def evaluate(self, state_json: dict, room_engine: Any) -> float:
         """
-        Retrieves the gas level from the simulation state.
+        Simulate gas level in the given room. Currently returns a fixed safe value.
 
         Args:
-            state_json (dict): Current tick simulation state.
+            state_json (dict): Simulation tick state.
+            room_engine (RoomEngine): Room environment manager.
 
         Returns:
-            float: The gas level value.
+            float: Gas level (0.0 to 10.0 scale).
         """
-        return float(state_json.get("gas", 0.0))
+        env = room_engine.get_environment(self.room)
+        if env is None:
+            return 0.0
+
+        # For now, simulate slight fluctuation near 0 (safe)
+        return round(random.uniform(0.0, 0.3), 2)

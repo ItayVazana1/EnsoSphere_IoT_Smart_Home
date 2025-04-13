@@ -1,30 +1,34 @@
 """
 Module: sensors/temperature_sensor.py
-Purpose: Global temperature sensor.
+Purpose: Room-based temperature sensor.
 Author: Itay Vazana
 """
 
 from sensors.sensor import Sensor
+from typing import Any
 
 
 class TemperatureSensor(Sensor):
-    def __init__(self, sensor_id: str):
+    def __init__(self, sensor_id: str, room: str):
         """
-        Initialize a temperature sensor (global).
+        Initialize a temperature sensor for a specific room.
 
         Args:
             sensor_id (str): Unique ID of the sensor.
+            room (str): Room this temperature sensor is located in.
         """
-        super().__init__(sensor_id)
+        super().__init__(sensor_id, room)
 
-    def evaluate(self, state_json: dict) -> float:
+    def evaluate(self, state_json: dict, room_engine: Any) -> float:
         """
-        Retrieves the global temperature from the simulation state.
+        Retrieves the temperature value for the given room from RoomEngine.
 
         Args:
             state_json (dict): Current tick simulation state.
+            room_engine (RoomEngine): Engine managing room conditions.
 
         Returns:
-            float: The temperature value.
+            float: Room temperature.
         """
-        return float(state_json.get("temperature", 0.0))
+        env = room_engine.get_environment(self.room)
+        return env["temperature"] if env and "temperature" in env else 0.0

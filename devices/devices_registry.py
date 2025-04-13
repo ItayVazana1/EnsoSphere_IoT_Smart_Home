@@ -22,7 +22,7 @@ from devices.ventilation_fan import VentilationFan
 from devices.pet_door import PetDoor
 
 
-CONFIG_PATH = "../config/device_room_map.json"
+CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "config", "device_room_map.json")
 
 DEVICE_TYPE_MAP = {
     "tv": TV,

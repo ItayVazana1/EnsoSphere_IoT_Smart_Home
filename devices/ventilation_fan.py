@@ -40,6 +40,10 @@ class VentilationFan(Device):
             new_state (dict): Must contain 'status'.
             manual (bool): Whether this is a manual override.
         """
+        # Accept shorthand 'power' instead of 'status'
+        if "power" in new_state and "status" not in new_state:
+            new_state["status"] = new_state["power"]
+
         if "status" not in new_state:
             raise ValueError(f"VentilationFan requires 'status' in command: {new_state}")
 

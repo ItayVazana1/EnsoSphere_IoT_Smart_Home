@@ -40,7 +40,12 @@ class TV(Device):
             new_state (dict): New desired state. Must contain 'status'.
             manual (bool): Whether this is a manual override.
         """
+        # Normalize power → status
+        if "power" in new_state and "status" not in new_state:
+            new_state["status"] = new_state["power"]
+
         if "status" not in new_state:
             raise ValueError(f"TV device requires 'status' in command: {new_state}")
 
         super().apply_state(mqtt_client, new_state, manual)
+

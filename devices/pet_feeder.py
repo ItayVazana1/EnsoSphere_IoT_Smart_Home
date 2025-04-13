@@ -38,6 +38,10 @@ class PetFeeder(Device):
             new_state (dict): Must contain 'dispense': True.
             manual (bool): Whether this is a manual override.
         """
+        # Normalize on 'action' key
+        if "action" in new_state and new_state["action"] == "dispense":
+            new_state["dispense"] = True
+
         if new_state.get("dispense") is not True:
             raise ValueError(f"PetFeeder requires 'dispense': True in command: {new_state}")
 

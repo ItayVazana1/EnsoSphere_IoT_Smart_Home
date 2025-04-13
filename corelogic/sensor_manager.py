@@ -26,6 +26,7 @@ class SensorManager:
         """
         outputs = {}
         for sensor in self.sensors:
-            value = sensor.evaluate_and_store(state_json)
-            outputs[sensor.sensor_id] = value
+            if sensor.active:  # ✅ Only process active sensors
+                value = sensor.evaluate_and_store(state_json)
+                outputs[sensor.sensor_id] = value
         return outputs

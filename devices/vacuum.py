@@ -40,6 +40,12 @@ class RobotVacuum(Device):
             new_state (dict): Must include 'status'.
             manual (bool): Whether this is a manual override.
         """
+        # Normalize "power" or "mode" to status
+        if "power" in new_state and "status" not in new_state:
+            new_state["status"] = new_state["power"]
+        elif "mode" in new_state and "status" not in new_state:
+            new_state["status"] = new_state["mode"]
+
         if "status" not in new_state:
             raise ValueError(f"RobotVacuum requires 'status' in command: {new_state}")
 

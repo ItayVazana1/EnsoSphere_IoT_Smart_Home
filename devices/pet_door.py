@@ -40,6 +40,10 @@ class PetDoor(Device):
             new_state (dict): Must contain 'status' key.
             manual (bool): Whether this is a manual override.
         """
+        # Normalize shorthand
+        if "mode" in new_state and "status" not in new_state:
+            new_state["status"] = new_state["mode"]
+
         if "status" not in new_state:
             raise ValueError(f"PetDoor requires 'status' in command: {new_state}")
 

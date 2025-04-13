@@ -5,6 +5,7 @@ Author: Itay Vazana
 """
 
 from sensors.sensor import Sensor
+from typing import Any
 
 
 class NoMotionAllRoomsSensor(Sensor):
@@ -19,15 +20,16 @@ class NoMotionAllRoomsSensor(Sensor):
         super().__init__(sensor_id)
         self.monitored_rooms = monitored_rooms
 
-    def evaluate(self, state_json: dict) -> bool:
+    def evaluate(self, state_json: dict, room_engine: Any) -> bool:
         """
         Evaluates whether all monitored rooms are inactive.
 
         Args:
             state_json (dict): Simulation state.
+            room_engine (RoomEngine): (Unused in logical sensor)
 
         Returns:
             bool: True if no motion in all monitored rooms.
         """
-        room_states = state_json.get("room_states", {})
-        return all(room_states.get(room) != "Active" for room in self.monitored_rooms)
+        room_states = state_json.get("house_status", {}).get("room_state", {})
+        return all(not room_states.get(room, {}).get("active", False) for room in self.monitored_rooms)

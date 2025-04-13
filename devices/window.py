@@ -40,6 +40,10 @@ class SmartWindow(Device):
             new_state (dict): Must include 'position'.
             manual (bool): Whether this is a manual override.
         """
+        # Normalize 'status' → 'position'
+        if "status" in new_state and "position" not in new_state:
+            new_state["position"] = new_state["status"]
+
         if "position" not in new_state:
             raise ValueError(f"SmartWindow requires 'position' in command: {new_state}")
 

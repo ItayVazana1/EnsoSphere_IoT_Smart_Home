@@ -5,6 +5,7 @@ Author: Itay Vazana
 """
 
 from sensors.sensor import Sensor
+from typing import Any
 
 
 class NoiseSensor(Sensor):
@@ -18,14 +19,16 @@ class NoiseSensor(Sensor):
         """
         super().__init__(sensor_id, room)
 
-    def evaluate(self, state_json: dict) -> float:
+    def evaluate(self, state_json: dict, room_engine: Any) -> float:
         """
-        Retrieves noise level for the associated room.
+        Retrieves noise level for the associated room from room environment.
 
         Args:
             state_json (dict): Simulation state.
+            room_engine (RoomEngine): Room environment data.
 
         Returns:
             float: Noise level in the room.
         """
-        return float(state_json.get("noise_levels", {}).get(self.room, 0.0))
+        env = room_engine.get_environment(self.room)
+        return env["noise"] if env and "noise" in env else 0.0

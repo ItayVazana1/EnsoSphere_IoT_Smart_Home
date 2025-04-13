@@ -40,6 +40,13 @@ class DoorLock(Device):
             new_state (dict): Must contain 'locked' key (True/False).
             manual (bool): Whether this is a manual override.
         """
+        # Normalize status → locked
+        if "status" in new_state and "locked" not in new_state:
+            if new_state["status"] == "locked":
+                new_state["locked"] = True
+            elif new_state["status"] == "unlocked":
+                new_state["locked"] = False
+
         if "locked" not in new_state:
             raise ValueError(f"DoorLock requires 'locked' boolean in command: {new_state}")
 

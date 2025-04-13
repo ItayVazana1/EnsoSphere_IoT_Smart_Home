@@ -28,12 +28,6 @@ class DBConnector:
         return mysql.connector.connect(**self.config)
 
     def get_next_unprocessed_state(self) -> Optional[Dict[str, Any]]:
-        """
-        Retrieves the next unprocessed state from state_raw.
-
-        Returns:
-            dict or None: Row containing id, state_json if available.
-        """
         query = """
             SELECT id, state_json FROM state_raw
             WHERE processed_by_core = 0
@@ -48,12 +42,6 @@ class DBConnector:
             return None
 
     def mark_state_as_processed(self, state_id: int):
-        """
-        Marks a state as processed in state_raw.
-
-        Args:
-            state_id (int): ID of the state to mark.
-        """
         query = """
             UPDATE state_raw
             SET processed_by_core = 1, processed_at = %s
@@ -65,13 +53,6 @@ class DBConnector:
             cursor.execute(query, (timestamp, state_id))
 
     def insert_sensor_outputs(self, state_id: int, sensor_outputs: Dict[str, Any]):
-        """
-        Inserts sensor output values into sensor_outputs table.
-
-        Args:
-            state_id (int): Associated state ID.
-            sensor_outputs (dict): Dictionary of {sensor_id: value}
-        """
         query = """
             INSERT INTO sensor_outputs (state_id, sensor_id, value, evaluated_at)
             VALUES (%s, %s, %s, %s)
@@ -83,13 +64,6 @@ class DBConnector:
                 cursor.execute(query, (state_id, sensor_id, str(value), timestamp))
 
     def insert_rule_triggers(self, rule_results: List[Dict[str, Any]]):
-        """
-        Inserts rule evaluation results into rule_triggers table.
-
-        Args:
-            rule_results (list): List of rule trigger data dicts with keys:
-                - state_id, rule_id, device_id, timestamp
-        """
         query = """
             INSERT INTO rule_triggers (state_id, rule_id, triggered, conditions_json, actions_json, evaluated_at)
             VALUES (%s, %s, %s, %s, %s, %s)
@@ -107,15 +81,6 @@ class DBConnector:
                 ))
 
     def insert_device_states(self, device_states: List[Dict[str, Any]]):
-        """
-        Inserts or updates device states based on triggered actions.
-
-        Args:
-            device_states (list): List of dicts with keys:
-                - device_id (str)
-                - command (dict)
-                - timestamp (str)
-        """
         query = """
             INSERT INTO device_states (device_id, state_json, last_updated)
             VALUES (%s, %s, %s)
@@ -126,21 +91,32 @@ class DBConnector:
         with self._connect() as conn:
             cursor = conn.cursor()
             for state in device_states:
-                cursor.execute(query, (
-                    state['device_id'],
-                    dumps(state['command']),
-                    state['timestamp']
-                ))
+                try:
+                    if isinstance(state, str):
+                        state = json.loads(state)
+
+                    if not isinstance(state, dict):
+                        continue
+
+                    device_id = state.get('device_id')
+                    command = state.get('command')
+                    timestamp = state.get('timestamp')
+
+                    if isinstance(command, str):
+                        try:
+                            command = json.loads(command)
+                        except json.JSONDecodeError:
+                            continue
+
+                    cursor.execute(query, (
+                        device_id,
+                        dumps(command),
+                        timestamp
+                    ))
+                except Exception:
+                    continue
 
     def upsert_device_state(self, device_id: str, state_json: str, timestamp: Optional[str] = None):
-        """
-        Inserts or updates device state in device_states table.
-
-        Args:
-            device_id (str): Unique ID of device.
-            state_json (str): JSON string of current state.
-            timestamp (str): Optional UTC timestamp. Defaults to now.
-        """
         if not timestamp:
             timestamp = datetime.utcnow().isoformat()
 
@@ -155,11 +131,7 @@ class DBConnector:
             cursor = conn.cursor()
             cursor.execute(query, (device_id, state_json, timestamp))
 
-
     def get_device_current_state(self, device_id: str) -> Optional[Dict[str, Any]]:
-        """
-        Returns the current state of a device from the database.
-        """
         query = """
             SELECT state_json FROM device_states
             WHERE device_id = %s
@@ -171,3 +143,32 @@ class DBConnector:
             if row:
                 return json.loads(row[0])
             return None
+
+    def insert_device_actions(self, device_actions: List[Dict[str, Any]]):
+        """
+        Insert device action records for a specific tick.
+
+        Args:
+            device_actions: A list of dicts with keys: state_id, device_id, command, timestamp (optional).
+        """
+        query = """
+            INSERT INTO device_actions (state_id, device_id, command_json, executed_at)
+            VALUES (%s, %s, %s, %s)
+        """
+        with self._connect() as conn:
+            cursor = conn.cursor()
+            for action in device_actions:
+                try:
+                    state_id = action["state_id"]
+                    device_id = action["device_id"]
+                    command = action["command"]
+                    executed_at = action.get("timestamp", datetime.utcnow().isoformat())
+
+                    cursor.execute(query, (
+                        state_id,
+                        device_id,
+                        dumps(command),
+                        executed_at
+                    ))
+                except Exception:
+                    continue
