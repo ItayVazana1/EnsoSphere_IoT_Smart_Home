@@ -6,26 +6,47 @@ Author: Itay Vazana
 
 from datetime import datetime
 from typing import List, Dict
-
 from simulator.core.world import World
 from simulator.core.house import House
+from simulator.infra.sensor_publisher import SensorPublisher
 from sensors.sensors_registry import load_all_sensors
 
 
 class StateBuilder:
-    def __init__(self, world: World, house: House):
+    def __init__(self, world: World, house: House, publisher: SensorPublisher):
+        """
+        Initializes the state builder with injected dependencies.
+
+        Args:
+            world (World): The global simulation context (time, weather, etc.).
+            house (House): The smart apartment structure and behavior.
+            publisher (SensorPublisher): Shared MQTT publisher for sensor outputs.
+        """
         self.world = world
         self.house = house
-        self.sensors = load_all_sensors()
+        self.sensors = load_all_sensors(publisher)
         self.expected_sensor_ids = self._extract_sensor_ids()
 
     def _extract_sensor_ids(self) -> List[str]:
         """
         Builds a flat list of all expected sensor IDs from loaded sensors.
+
+        Returns:
+            List[str]: Sensor ID list
         """
         return [sensor.get_id() for sensor in self.sensors]
 
     def build_state(self, character_names: List[str], device_states: Dict[str, dict]) -> Dict:
+        """
+        Constructs the full state_json based on current simulation context.
+
+        Args:
+            character_names (List[str]): Names of simulated occupants.
+            device_states (Dict[str, dict]): Current device states.
+
+        Returns:
+            Dict: The constructed state_json for this tick.
+        """
         # Extract world state
         current_datetime: datetime = self.world.get_datetime()
         time_str = self.world.get_time_str()

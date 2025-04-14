@@ -26,10 +26,13 @@ SENSOR_TYPE_MAP = {
 }
 
 
-def get_sensors_by_room() -> dict:
+def get_sensors_by_room(shared_publisher=None) -> dict:
     """
     Reads the sensor config and returns a mapping:
     room_name → list of Sensor objects
+
+    Args:
+        shared_publisher (SensorPublisher, optional): Shared instance to inject into sensors
 
     Returns:
         dict[str, list[Sensor]]
@@ -53,19 +56,21 @@ def get_sensors_by_room() -> dict:
                 print(f"⚠️ Unknown sensor type: {sensor_type} ({sensor_id})")
                 continue
 
-            # Logical sensors are not room-specific
             if sensor_type == "logical":
-                continue  # handled separately if needed
+                continue  # Logical sensors handled separately
 
-            sensor_obj = cls(sensor_id, room)
+            sensor_obj = cls(sensor_id, room, publisher=shared_publisher)
             room_sensors.setdefault(room, []).append(sensor_obj)
 
     return room_sensors
 
 
-def get_logical_sensors() -> list:
+def get_logical_sensors(shared_publisher=None) -> list:
     """
     Returns logical sensors (global context sensors)
+
+    Args:
+        shared_publisher (SensorPublisher, optional): Shared instance to inject into logical sensors
 
     Returns:
         list of Sensor objects (logical only)
@@ -78,13 +83,21 @@ def get_logical_sensors() -> list:
         if room not in ["Entrance", "Global"]
     ]
 
-    return [NoMotionAllRoomsSensor("no_motion_all_rooms", monitored_rooms)]
+    return [NoMotionAllRoomsSensor("no_motion_all_rooms", monitored_rooms, publisher=shared_publisher)]
 
 
-# Legacy alias for compatibility (used in StateBuilder)
-def load_all_sensors() -> list:
-    room_sensor_map = get_sensors_by_room()
-    logical_sensors = get_logical_sensors()
+def load_all_sensors(shared_publisher=None) -> list:
+    """
+    Loads all sensors (room + logical) with optional shared publisher.
+
+    Args:
+        shared_publisher (SensorPublisher, optional): MQTT publisher instance
+
+    Returns:
+        list[Sensor]: List of all sensor objects
+    """
+    room_sensor_map = get_sensors_by_room(shared_publisher)
+    logical_sensors = get_logical_sensors(shared_publisher)
     all_sensors = []
 
     for sensors in room_sensor_map.values():
@@ -92,10 +105,3 @@ def load_all_sensors() -> list:
 
     all_sensors.extend(logical_sensors)
     return all_sensors
-
-
-if __name__ == "__main__":
-    all_sensors = load_all_sensors()
-    print(f"Total sensors registered: {len(all_sensors)}")
-    for i, sensor in enumerate(all_sensors, start=1):
-        print(f"{i}. {sensor.sensor_id} → {sensor.__class__.__name__}")

@@ -1,92 +1,94 @@
 """
-Module: rule_engine.py
-Purpose: Loads and evaluates JSON-based rules for device automation
+Module: corelogic/rule_engine.py
+Purpose: Loads and evaluates rules per tick based on sensor values
+Author: Itay Vazana
 """
 
 import os
 import json
-from datetime import datetime
+from typing import List, Dict, Any
+
+RULES_DIR = os.path.join(os.path.dirname(__file__), "../rules")
+
 
 class RuleEngine:
-    def __init__(self, rules_folder):
-        self.rules_folder = rules_folder
-        self.rules = []
+    def __init__(self):
+        """
+        Initializes the RuleEngine by loading all rule files from the rules/ directory.
+        """
+        self.rules: List[Dict[str, Any]] = []
+        self.load_all_rules()
 
-    def load_rules_from_folder(self):
+    def load_all_rules(self):
         """
-        Loads all JSON rule files from the specified folder into memory.
+        Loads all rule JSON files from the rules directory.
         """
-        for filename in os.listdir(self.rules_folder):
+        for filename in os.listdir(RULES_DIR):
             if filename.endswith(".json"):
-                path = os.path.join(self.rules_folder, filename)
-                with open(path, 'r', encoding='utf-8') as file:
-                    rules = json.load(file)
-                    self.rules.extend(rules)
-        print(f"📥 Loaded {len(self.rules)} rules from {self.rules_folder}")
+                filepath = os.path.join(RULES_DIR, filename)
+                with open(filepath, "r", encoding="utf-8") as file:
+                    try:
+                        rules = json.load(file)
+                        self.rules.extend(rules)
+                    except json.JSONDecodeError as e:
+                        print(f"Failed to load {filename}: {e}")
 
-    def evaluate_rules(self, state_id, sensor_outputs):
+    def evaluate_rules(self, sensors: Dict[str, Any]) -> List[Dict[str, Any]]:
         """
-        Evaluates all loaded rules based on the current sensor outputs.
+        Evaluates all rules against the provided sensor values.
 
         Args:
-            state_id (int): ID of the current tick/state.
-            sensor_outputs (dict): Dictionary of all evaluated sensors in current tick.
+            sensors (dict): Sensor values from the current tick.
 
         Returns:
-            list: A list of actions (dicts) to execute.
+            List[dict]: List of activated rules with their actions and metadata.
         """
-        triggered = []
+        activated_rules = []
+
         for rule in self.rules:
-            if self._evaluate_conditions(rule.get("sensor_conditions", []), sensor_outputs):
-                for action in rule.get("actions", []):
-                    command = action["command"]
+            if self.evaluate_conditions(rule.get("sensor_conditions", []), sensors):
+                activated_rules.append({
+                    "rule_id": rule["rule_id"],
+                    "triggered": True,
+                    "conditions": rule["sensor_conditions"],
+                    "actions": rule["actions"]
+                })
 
-                    # הגנה ← אם זה string, ננסה להמיר ל־dict
-                    if isinstance(command, str):
-                        try:
-                            command = json.loads(command)
-                            print(f"[DEBUG] Parsed string command for {action['device_id']}")
-                        except json.JSONDecodeError:
-                            print(f"[WARNING] Malformed command string for {action['device_id']}: {command}")
-                            continue
+        return activated_rules
 
-                    triggered.append({
-                        "state_id": state_id,
-                        "rule_id": rule["rule_id"],
-                        "device_id": action["device_id"],
-                        "command": command,
-                        "timestamp": datetime.utcnow().isoformat(),
-                        "triggered": True,
-                        "conditions_json": rule.get("sensor_conditions", []),
-                        "actions_json": [action]
-                    })
-        return triggered
+    def evaluate_conditions(self, conditions: List[Dict[str, Any]], sensors: Dict[str, Any]) -> bool:
+        """
+        Evaluates all conditions for a single rule. Returns True if all are satisfied.
 
+        Args:
+            conditions (List[dict]): List of sensor-based conditions.
+            sensors (dict): All current sensor values.
 
+        Returns:
+            bool: True if all conditions are met.
+        """
+        for cond in conditions:
+            sensor_id = cond.get("sensor_id")
+            sensor_value = sensors.get(sensor_id)
 
-    def _evaluate_conditions(self, conditions, sensor_outputs):
-        for condition in conditions:
-            if "any" in condition:
-                if not any(self._evaluate_conditions([sub], sensor_outputs) for sub in condition["any"]):
+            if "equals" in cond:
+                if sensor_value != cond["equals"]:
                     return False
-            elif "sensor_id" in condition:
-                sensor_id = condition["sensor_id"]
-                value = sensor_outputs.get(sensor_id)
-                if value is None:
+            elif "greater_than" in cond:
+                if not isinstance(sensor_value, (int, float)) or sensor_value <= cond["greater_than"]:
                     return False
-
-                if "equals" in condition and value != condition["equals"]:
+            elif "less_than" in cond:
+                if not isinstance(sensor_value, (int, float)) or sensor_value >= cond["less_than"]:
                     return False
-                if "in_range" in condition:
-                    min_val, max_val = condition["in_range"]
-                    if not (min_val <= float(value) <= max_val):
-                        return False
-                if "less_than" in condition and float(value) >= condition["less_than"]:
+            elif "in_range" in cond:
+                low, high = cond["in_range"]
+                if not isinstance(sensor_value, (int, float)) or not (low <= sensor_value <= high):
                     return False
-                if "greater_than" in condition and float(value) <= condition["greater_than"]:
-                    return False
-                if "in" in condition and value not in condition["in"]:
+            elif "in" in cond:
+                if sensor_value not in cond["in"]:
                     return False
             else:
+                print(f"Unsupported condition in rule: {cond}")
                 return False
+
         return True

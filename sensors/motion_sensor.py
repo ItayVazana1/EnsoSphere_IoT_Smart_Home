@@ -9,15 +9,16 @@ from typing import Any
 
 
 class MotionSensor(Sensor):
-    def __init__(self, sensor_id: str, room: str):
+    def __init__(self, sensor_id: str, room: str, publisher=None):
         """
         Initialize a motion sensor for a specific room.
 
         Args:
             sensor_id (str): Unique ID of the motion sensor.
             room (str): Room associated with this motion sensor.
+            publisher (SensorPublisher, optional): Shared MQTT publisher instance.
         """
-        super().__init__(sensor_id, room)
+        super().__init__(sensor_id, room, publisher)
 
     def evaluate(self, state_json: dict, room_engine: Any) -> bool:
         """

@@ -10,19 +10,20 @@ import random
 
 
 class GasSensor(Sensor):
-    def __init__(self, sensor_id: str, room: str):
+    def __init__(self, sensor_id: str, room: str, publisher=None):
         """
         Initialize a gas sensor for a specific room.
 
         Args:
             sensor_id (str): Unique ID of the gas sensor.
             room (str): Room in which the sensor is installed.
+            publisher (SensorPublisher, optional): Shared MQTT publisher instance.
         """
-        super().__init__(sensor_id, room)
+        super().__init__(sensor_id, room, publisher)
 
     def evaluate(self, state_json: dict, room_engine: Any) -> float:
         """
-        Simulate gas level in the given room. Currently returns a fixed safe value.
+        Simulate gas level in the given room. Currently, returns a fixed safe value.
 
         Args:
             state_json (dict): Simulation tick state.
@@ -35,5 +36,5 @@ class GasSensor(Sensor):
         if env is None:
             return 0.0
 
-        # For now, simulate slight fluctuation near 0 (safe)
+        # Simulate slight fluctuation near 0 (safe)
         return round(random.uniform(0.0, 0.3), 2)

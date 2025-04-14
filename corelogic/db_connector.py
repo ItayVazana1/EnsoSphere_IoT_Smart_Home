@@ -1,174 +1,156 @@
 """
 Module: corelogic/db_connector.py
-Purpose: Handle all database interactions for CoreLogic engine (MySQL version)
+Purpose: Handles database read/write operations for CoreLogic tick processing
 Author: Itay Vazana
 """
-import json
+
 import os
 import mysql.connector
 from datetime import datetime
-from typing import Optional, Dict, Any, List
-from json import dumps  # Used for ensuring JSON compatibility
+from dotenv import load_dotenv
+import json
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Database connection configuration
+DB_CONFIG = {
+    "host": os.getenv("MYSQL_HOST", "localhost"),
+    "port": int(os.getenv("MYSQL_PORT", 3306)),
+    "user": os.getenv("MYSQL_USER", "root"),
+    "password": os.getenv("MYSQL_PASSWORD", "root"),
+    "database": os.getenv("MYSQL_DATABASE", "ensosphere")
+}
+
 
 class DBConnector:
     def __init__(self):
         """
-        Initialize the MySQL database connector using environment variables.
+        Establishes a connection to the MySQL database.
         """
-        self.config = {
-            'host': os.getenv('MYSQL_HOST', 'localhost'),
-            'port': int(os.getenv('MYSQL_PORT', 3306)),
-            'user': os.getenv('MYSQL_USER', 'root'),
-            'password': os.getenv('MYSQL_PASSWORD', ''),
-            'database': os.getenv('MYSQL_DATABASE', 'ensosphere'),
-            'autocommit': True
-        }
+        self.conn = mysql.connector.connect(**DB_CONFIG)
+        self.cursor = self.conn.cursor(dictionary=True)
 
-    def _connect(self):
-        return mysql.connector.connect(**self.config)
+    def get_next_unprocessed_state(self):
+        """
+        Retrieves the next state_json that hasn't been processed yet by CoreLogic.
 
-    def get_next_unprocessed_state(self) -> Optional[Dict[str, Any]]:
+        Returns:
+            tuple: (state_id: int, state_json: dict) or None if no unprocessed state exists.
+        """
         query = """
             SELECT id, state_json FROM state_raw
             WHERE processed_by_core = 0
-            ORDER BY id ASC LIMIT 1
+            ORDER BY id ASC LIMIT 1;
         """
-        with self._connect() as conn:
-            cursor = conn.cursor()
-            cursor.execute(query)
-            row = cursor.fetchone()
-            if row:
-                return {"state_id": row[0], "state_json": row[1]}
-            return None
+        self.cursor.execute(query)
+        row = self.cursor.fetchone()
+        if row:
+            return row["id"], json.loads(row["state_json"])
+        return None
 
-    def mark_state_as_processed(self, state_id: int):
-        query = """
-            UPDATE state_raw
-            SET processed_by_core = 1, processed_at = %s
-            WHERE id = %s
+    def insert_sensor_outputs(self, state_id, sensor_dict):
         """
-        timestamp = datetime.utcnow().isoformat()
-        with self._connect() as conn:
-            cursor = conn.cursor()
-            cursor.execute(query, (timestamp, state_id))
+        Inserts all sensor values into the sensor_outputs table for the given state_id.
 
-    def insert_sensor_outputs(self, state_id: int, sensor_outputs: Dict[str, Any]):
+        Args:
+            state_id (int): The ID of the processed tick.
+            sensor_dict (dict): Dictionary of sensor_id → value.
+        """
+        now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
         query = """
             INSERT INTO sensor_outputs (state_id, sensor_id, value, evaluated_at)
-            VALUES (%s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s);
         """
-        timestamp = datetime.utcnow().isoformat()
-        with self._connect() as conn:
-            cursor = conn.cursor()
-            for sensor_id, value in sensor_outputs.items():
-                cursor.execute(query, (state_id, sensor_id, str(value), timestamp))
+        data = [(state_id, sensor_id, str(value), now) for sensor_id, value in sensor_dict.items()]
+        self.cursor.executemany(query, data)
+        self.conn.commit()
 
-    def insert_rule_triggers(self, rule_results: List[Dict[str, Any]]):
+    def insert_rule_trigger(self, state_id, rule_id, triggered, conditions, actions):
+        """
+        Logs a rule evaluation result into the rule_triggers table.
+
+        Args:
+            state_id (int): Tick ID being processed.
+            rule_id (str): ID of the evaluated rule.
+            triggered (bool): Whether the rule was triggered.
+            conditions (dict): The trigger condition block.
+            actions (list): The list of device actions.
+        """
+        now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
         query = """
-            INSERT INTO rule_triggers (state_id, rule_id, triggered, conditions_json, actions_json, evaluated_at)
-            VALUES (%s, %s, %s, %s, %s, %s)
+            INSERT INTO rule_triggers
+            (state_id, rule_id, triggered, conditions_json, actions_json, evaluated_at)
+            VALUES (%s, %s, %s, %s, %s, %s);
         """
-        with self._connect() as conn:
-            cursor = conn.cursor()
-            for result in rule_results:
-                cursor.execute(query, (
-                    result['state_id'],
-                    result['rule_id'],
-                    int(result.get('triggered', 1)),
-                    dumps(result.get('conditions_json', {})),
-                    dumps(result.get('actions_json', {})),
-                    result['timestamp']
-                ))
+        values = (
+            state_id,
+            rule_id,
+            int(triggered),
+            json.dumps(conditions),
+            json.dumps(actions),
+            now
+        )
+        self.cursor.execute(query, values)
+        self.conn.commit()
 
-    def insert_device_states(self, device_states: List[Dict[str, Any]]):
+    def upsert_device_state(self, device_id, state_dict):
+        """
+        Inserts or updates the state of a device in the device_states table.
+
+        Args:
+            device_id (str): ID of the device.
+            state_dict (dict): Device state (status, config, etc.)
+        """
+        now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
         query = """
             INSERT INTO device_states (device_id, state_json, last_updated)
             VALUES (%s, %s, %s)
             ON DUPLICATE KEY UPDATE
                 state_json = VALUES(state_json),
-                last_updated = VALUES(last_updated)
+                last_updated = VALUES(last_updated);
         """
-        with self._connect() as conn:
-            cursor = conn.cursor()
-            for state in device_states:
-                try:
-                    if isinstance(state, str):
-                        state = json.loads(state)
+        values = (device_id, json.dumps(state_dict), now)
+        self.cursor.execute(query, values)
+        self.conn.commit()
 
-                    if not isinstance(state, dict):
-                        continue
-
-                    device_id = state.get('device_id')
-                    command = state.get('command')
-                    timestamp = state.get('timestamp')
-
-                    if isinstance(command, str):
-                        try:
-                            command = json.loads(command)
-                        except json.JSONDecodeError:
-                            continue
-
-                    cursor.execute(query, (
-                        device_id,
-                        dumps(command),
-                        timestamp
-                    ))
-                except Exception:
-                    continue
-
-    def upsert_device_state(self, device_id: str, state_json: str, timestamp: Optional[str] = None):
-        if not timestamp:
-            timestamp = datetime.utcnow().isoformat()
-
-        query = """
-            INSERT INTO device_states (device_id, state_json, last_updated)
-            VALUES (%s, %s, %s)
-            ON DUPLICATE KEY UPDATE
-              state_json = VALUES(state_json),
-              last_updated = VALUES(last_updated)
+    def mark_state_as_processed(self, state_id):
         """
-        with self._connect() as conn:
-            cursor = conn.cursor()
-            cursor.execute(query, (device_id, state_json, timestamp))
-
-    def get_device_current_state(self, device_id: str) -> Optional[Dict[str, Any]]:
-        query = """
-            SELECT state_json FROM device_states
-            WHERE device_id = %s
-        """
-        with self._connect() as conn:
-            cursor = conn.cursor()
-            cursor.execute(query, (device_id,))
-            row = cursor.fetchone()
-            if row:
-                return json.loads(row[0])
-            return None
-
-    def insert_device_actions(self, device_actions: List[Dict[str, Any]]):
-        """
-        Insert device action records for a specific tick.
+        Marks a tick as processed in the state_raw table.
 
         Args:
-            device_actions: A list of dicts with keys: state_id, device_id, command, timestamp (optional).
+            state_id (int): The ID of the tick to mark.
         """
+        now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        query = """
+            UPDATE state_raw
+            SET processed_by_core = 1, processed_at = %s
+            WHERE id = %s;
+        """
+        self.cursor.execute(query, (now, state_id))
+        self.conn.commit()
+
+    def insert_device_action(self, state_id, device_id, command):
+        """
+        Logs a device command issued by CoreLogic into the device_actions table.
+
+        Args:
+            state_id (int): The tick ID.
+            device_id (str): The target device.
+            command (dict): The command sent to the device.
+        """
+        now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
         query = """
             INSERT INTO device_actions (state_id, device_id, command_json, executed_at)
-            VALUES (%s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s);
         """
-        with self._connect() as conn:
-            cursor = conn.cursor()
-            for action in device_actions:
-                try:
-                    state_id = action["state_id"]
-                    device_id = action["device_id"]
-                    command = action["command"]
-                    executed_at = action.get("timestamp", datetime.utcnow().isoformat())
+        values = (state_id, device_id, json.dumps(command), now)
+        self.cursor.execute(query, values)
+        self.conn.commit()
 
-                    cursor.execute(query, (
-                        state_id,
-                        device_id,
-                        dumps(command),
-                        executed_at
-                    ))
-                except Exception:
-                    continue
+    def close(self):
+        """
+        Closes the database connection.
+        """
+        self.cursor.close()
+        self.conn.close()

@@ -9,15 +9,16 @@ from typing import Any
 
 
 class NoMotionAllRoomsSensor(Sensor):
-    def __init__(self, sensor_id: str, monitored_rooms: list[str]):
+    def __init__(self, sensor_id: str, monitored_rooms: list[str], publisher=None):
         """
         Logical sensor that evaluates True when all monitored rooms have no motion.
 
         Args:
             sensor_id (str): Unique ID of the logical sensor.
             monitored_rooms (list[str]): List of room names to check.
+            publisher (SensorPublisher, optional): Shared MQTT publisher instance.
         """
-        super().__init__(sensor_id)
+        super().__init__(sensor_id, room=None, publisher=publisher)
         self.monitored_rooms = monitored_rooms
 
     def evaluate(self, state_json: dict, room_engine: Any) -> bool:

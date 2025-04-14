@@ -42,11 +42,17 @@ START_DATETIME = datetime.strptime(start_datetime_str, "%Y-%m-%d %H:%M") if star
 print(f"📆 START_DATETIME: {START_DATETIME}")
 
 # Initialize core modules
-world = World(TimeManager(START_DATETIME), WeatherEngine())
+time_manager = TimeManager(START_DATETIME)
+weather_engine = WeatherEngine()
+world = World(time_manager, weather_engine)
+
 sensor_map = get_sensors_by_room()
 house = House(sensor_map)
+
 infra = Infrastructure()
-builder = StateBuilder(world, house)
+publisher = infra.publisher  # Only one publisher instance in the system
+
+builder = StateBuilder(world, house, publisher)
 db = DBConnector()
 
 # Connect to services
@@ -97,9 +103,9 @@ def main():
                     for o in state['occupants']:
                         print(f"  - {o['name']}: {o.get('location', 'Unknown')}")
                     print("🏠 Active Rooms:", state["house_status"]["active_rooms"])
-                    print("🛰️ Sample Sensors:")
-                    for sid in list(state["sensors"].keys())[:5]:
-                        print(f"  - {sid}: {state['sensors'][sid]}")
+                    print("🛰️ All Sensors:")
+                    for sid, value in state["sensors"].items():
+                        print(f"  - {sid}: {value}")
 
                 previous_state = state
                 total_ticks += 1
