@@ -1,0 +1,202 @@
+{
+  "lights": {
+    "supported_commands": [
+      "on",
+      "off"
+    ],
+    "optional_modes": [],
+    "environment_effects": {
+      "noise": {
+        "on": 5,
+        "off": -5
+      }
+    },
+    "notes": "Slight noise effect when turned on or off.",
+    "instances": [
+      "lights_livingroom",
+      "lights_kitchen",
+      "lights_balcony",
+      "lights_parentsroom",
+      "lights_koberoom",
+      "lights_gavriellaroom",
+      "lights_bathroom1",
+      "lights_bathroom2"
+    ]
+  },
+  "tv": {
+    "supported_commands": [
+      "on",
+      "off"
+    ],
+    "optional_modes": [],
+    "environment_effects": {
+      "noise": {
+        "on": 15,
+        "off": -15
+      }
+    },
+    "notes": "Increases room noise when turned on.",
+    "instances": [
+      "tv_living_room",
+      "tv_parentsroom",
+      "tv_koberoom",
+      "tv_gavriellaroom"
+    ]
+  },
+  "audio_system": {
+    "supported_commands": [
+      "on",
+      "off"
+    ],
+    "optional_modes": [],
+    "environment_effects": {
+      "noise": {
+        "on": 20,
+        "off": -20
+      }
+    },
+    "notes": "High noise effect, used for playing music or announcements.",
+    "instances": [
+      "audio_system"
+    ]
+  },
+  "blinds": {
+    "supported_commands": [
+      "open",
+      "close"
+    ],
+    "optional_modes": [],
+    "environment_effects": {},
+    "notes": "Controls natural light exposure. No direct sensor effect.",
+    "instances": [
+      "blinds_livingroom",
+      "blinds_kitchen",
+      "blinds_balcony",
+      "blinds_parentsroom",
+      "blinds_koberoom",
+      "blinds_gavriellaroom"
+    ]
+  },
+  "air_conditioner": {
+    "supported_commands": [
+      "on",
+      "off"
+    ],
+    "optional_modes": [
+      "cool",
+      "heat"
+    ],
+    "environment_effects": {
+      "temperature": {
+        "cool": -0.8,
+        "heat": 0.8
+      }
+    },
+    "notes": "Requires 'mode': 'cool' or 'heat' for temperature effect.",
+    "instances": [
+      "air_conditioner_livingroom",
+      "air_conditioner_kitchen",
+      "air_conditioner_parentsroom",
+      "air_conditioner_koberoom",
+      "air_conditioner_gavriellaroom"
+    ]
+  },
+  "ventilation_fan": {
+    "supported_commands": [
+      "on",
+      "off"
+    ],
+    "optional_modes": [],
+    "environment_effects": {
+      "humidity": {
+        "on": -5,
+        "off": 0
+      }
+    },
+    "notes": "Reduces humidity when turned on.",
+    "instances": [
+      "ventilation_fan_bathroom1",
+      "ventilation_fan_bathroom2"
+    ]
+  },
+  "door_lock": {
+    "supported_commands": [
+      "lock",
+      "unlock"
+    ],
+    "optional_modes": [],
+    "environment_effects": {},
+    "notes": "Security control. No direct sensor effect.",
+    "instances": [
+      "door_lock_main"
+    ]
+  },
+  "pet_door": {
+    "supported_commands": [
+      "open",
+      "close"
+    ],
+    "optional_modes": [],
+    "environment_effects": {},
+    "notes": "Allows pet movement. No direct sensor effect.",
+    "instances": [
+      "pet_door"
+    ]
+  },
+  "pet_feeder": {
+    "supported_commands": [
+      "dispense"
+    ],
+    "optional_modes": [],
+    "environment_effects": {},
+    "notes": "Triggers feeding. No direct sensor effect.",
+    "instances": [
+      "pet_feeder"
+    ]
+  },
+  "robot_vacuum": {
+    "supported_commands": [
+      "start_cleaning",
+      "stop"
+    ],
+    "optional_modes": [],
+    "environment_effects": {
+      "noise": {
+        "start_cleaning": 10,
+        "stop": -10
+      }
+    },
+    "notes": "Causes noise while cleaning.",
+    "instances": [
+      "robot_vacuum"
+    ]
+  },
+  "security_system": {
+    "supported_commands": [
+      "arm",
+      "disarm"
+    ],
+    "optional_modes": [],
+    "environment_effects": {},
+    "notes": "Affects global security logic.",
+    "instances": [
+      "security_system"
+    ]
+  },
+  "window": {
+    "supported_commands": [
+      "open",
+      "close"
+    ],
+    "optional_modes": [],
+    "environment_effects": {
+      "temperature": {
+        "open": -0.3
+      }
+    },
+    "notes": "Small effect on indoor temperature when open.",
+    "instances": [
+      "window_livingroom"
+    ]
+  }
+}

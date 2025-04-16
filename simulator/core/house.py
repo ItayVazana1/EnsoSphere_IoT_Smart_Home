@@ -48,21 +48,18 @@ class House:
 
     def update_devices(self, device_states: Dict[str, dict]):
         """
-        Apply device effects to rooms based on current device states.
+        Apply device states to rooms. Actual effects applied later via apply_all_device_effects().
         """
         for device_id, state in device_states.items():
-            status = state.get("status", "off")
-            if status not in ["on", "open"]:
-                continue
-
+            # Global devices (e.g., robot vacuum) affect all rooms
             if "robot_vacuum" in device_id:
                 for room in self.rooms.values():
-                    room.apply_device_effect(device_id)
+                    room.apply_device_state(device_id, state)
                 continue
 
             matched_room = self._extract_room_from_id(device_id)
             if matched_room:
-                matched_room.apply_device_effect(device_id)
+                matched_room.apply_device_state(device_id, state)
 
     def update_environment(self, outside_temp: float):
         """

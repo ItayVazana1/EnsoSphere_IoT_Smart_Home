@@ -1,7 +1,11 @@
 """
 Module: devices/devices_registry.py
-Purpose: Registers and initializes all smart devices in the system.
+Purpose: Registers and initializes all smart devices in the system from config.
 Author: Itay Vazana
+
+This module loads all devices listed in the device_room_map.json config file,
+creates matching class instances based on device type, and returns a unified
+mapping of device_id → Device instance.
 """
 
 import json
@@ -19,11 +23,11 @@ from devices.vacuum import RobotVacuum
 from devices.security import SecuritySystem
 from devices.window import SmartWindow
 from devices.ventilation_fan import VentilationFan
-from devices.pet_door import PetDoor
 
-
+# Path to config JSON
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "config", "device_room_map.json")
 
+# Map between device "type" (from config) and Python class
 DEVICE_TYPE_MAP = {
     "tv": TV,
     "lights": Light,
@@ -39,32 +43,33 @@ DEVICE_TYPE_MAP = {
     "ventilation_fan": VentilationFan
 }
 
+
 def get_all_devices() -> dict:
     """
-    Reads the config file and initializes all device objects.
+    Loads all devices from device_room_map.json and creates class instances.
 
     Returns:
-        dict: Mapping from device_id to Device object.
+        dict: { device_id (str) → Device instance }
     """
     with open(CONFIG_PATH, "r", encoding="utf-8") as f:
         room_map = json.load(f)
 
     devices = {}
-    for devices_in_room in room_map.values():
+    for room, devices_in_room in room_map.items():
         for device in devices_in_room:
             device_id = device["id"]
             device_type = device["type"]
             cls = DEVICE_TYPE_MAP.get(device_type)
             if cls:
                 devices[device_id] = cls(device_id)
+            else:
+                print(f"[Devices Registry] ⚠️ Unsupported device type: '{device_type}' for ID '{device_id}' (room: {room})")
 
     return devices
 
 
 if __name__ == "__main__":
     devices = get_all_devices()
-    print(f"Total devices registered: {len(devices)}")
-    count = 1
-    for device_id, device in devices.items():
-        print(f"{count}. {device_id} → {device.__class__.__name__}")
-        count += 1
+    print(f"✅ Total devices registered: {len(devices)}")
+    for i, (device_id, device) in enumerate(devices.items(), 1):
+        print(f"{i}. {device_id} → {device.__class__.__name__}")

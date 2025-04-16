@@ -111,6 +111,10 @@ class DBConnector:
                 last_updated = VALUES(last_updated);
         """
         values = (device_id, json.dumps(state_dict), now)
+
+        # Debug print to verify when updates occur
+        print(f"[DBConnector] 💾 upsert_device_state → device_id: {device_id}, state: {state_dict}")
+
         self.cursor.execute(query, values)
         self.conn.commit()
 
@@ -145,6 +149,11 @@ class DBConnector:
             VALUES (%s, %s, %s, %s);
         """
         values = (state_id, device_id, json.dumps(command), now)
+
+        # Debug print to track device command logging
+        print(
+            f"[DBConnector] 📋 insert_device_action → state_id: {state_id}, device_id: {device_id}, command: {command}")
+
         self.cursor.execute(query, values)
         self.conn.commit()
 

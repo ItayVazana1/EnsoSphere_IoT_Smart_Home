@@ -6,7 +6,7 @@
       { "sensor_id": "hour", "in_range": [17, 22] }
     ],
     "actions": [
-      { "device_id": "tv_living_room", "command": { "status": "on" } }
+      { "device_id": "tv_livingroom", "command": { "status": "on" } }
     ]
   },
   {
@@ -16,7 +16,7 @@
       { "sensor_id": "temperature_livingroom", "less_than": 18.0 }
     ],
     "actions": [
-      { "device_id": "tv_living_room", "command": { "status": "on" } }
+      { "device_id": "tv_livingroom", "command": { "status": "on" } }
     ]
   },
   {
@@ -25,7 +25,7 @@
       { "sensor_id": "no_motion_all_rooms", "equals": true }
     ],
     "actions": [
-      { "device_id": "tv_living_room", "command": { "status": "off" } }
+      { "device_id": "tv_livingroom", "command": { "status": "off" } }
     ]
   },
   {

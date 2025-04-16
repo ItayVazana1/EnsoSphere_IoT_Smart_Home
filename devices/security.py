@@ -8,14 +8,15 @@ from devices.device import Device
 
 
 class SecuritySystem(Device):
-    def __init__(self, device_id: str):
+    def __init__(self, device_id: str, metadata: dict):
         """
         Initialize a smart Security System device.
 
         Args:
             device_id (str): Unique ID of the security system device.
+            metadata (dict): Metadata for this device type from device_metadata.json
         """
-        super().__init__(device_id, topic=f"actuators/{device_id}")
+        super().__init__(device_id, topic=f"actuators/{device_id}", metadata=metadata)
 
     def should_update(self, new_state: dict) -> bool:
         """
@@ -31,16 +32,16 @@ class SecuritySystem(Device):
             return True
         return self.last_state.get("armed") != new_state.get("armed")
 
-    def apply_state(self, mqtt_client, new_state: dict, manual: bool = False):
+    def apply_state(self, mqtt_client, new_state: dict, state_id: int = None, manual: bool = False):
         """
         Applies new armed/disarmed state to the system.
 
         Args:
             mqtt_client: MQTT client instance.
             new_state (dict): Must contain 'armed': True/False.
+            state_id (int): Tick ID for traceability.
             manual (bool): Whether this is a manual override.
         """
-        # Normalize status → armed
         if "status" in new_state and "armed" not in new_state:
             if new_state["status"] == "armed":
                 new_state["armed"] = True
@@ -50,5 +51,4 @@ class SecuritySystem(Device):
         if "armed" not in new_state:
             raise ValueError(f"SecuritySystem requires 'armed' boolean in command: {new_state}")
 
-        super().apply_state(mqtt_client, new_state, manual)
-
+        super().apply_state(mqtt_client, new_state, state_id=state_id, manual=manual)

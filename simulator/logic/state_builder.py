@@ -58,6 +58,11 @@ class StateBuilder:
         # Update house based on world + characters + devices
         self.house.update_occupants_by_time(character_names, time_str, season)
         self.house.update_devices(device_states)
+
+        # ✅ Apply all environmental effects from devices
+        for room in self.house.get_all_rooms().values():
+            room.apply_all_device_effects()
+
         self.house.update_environment(outdoor_temp)
 
         # Extract from house

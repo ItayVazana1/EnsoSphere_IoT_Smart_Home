@@ -1,47 +1,49 @@
 """
 Module: corelogic/mqtt_publisher.py
-Purpose: Optional utility for direct MQTT message publishing (no DB interaction)
+Purpose: Publishes MQTT commands to devices
 Author: Itay Vazana
 """
 
-from corelogic.mqtt_client import MQTTClient
+import os
 import json
-from datetime import datetime
+import paho.mqtt.client as mqtt
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+MQTT_BROKER = os.getenv("MQTT_BROKER", "mqtt")
+MQTT_PORT = int(os.getenv("MQTT_PORT", 1883))
+MQTT_KEEPALIVE = int(os.getenv("MQTT_KEEPALIVE", 60))
 
 
 class MQTTPublisher:
     def __init__(self):
         """
-        Initializes the MQTT publisher with a direct client.
+        Initializes and connects the MQTT client for publishing.
         """
-        self.mqtt = MQTTClient()
-        self.mqtt.connect()
+        self.client = mqtt.Client()
+        self.client.connect(MQTT_BROKER, MQTT_PORT, MQTT_KEEPALIVE)
+        self.client.loop_start()
+        print(f"[MQTT Publisher] Connected to broker at {MQTT_BROKER}:{MQTT_PORT}")
 
-    def publish(self, device_id: str, command: dict):
+    def publish(self, device_id: str, command: dict, state_id: int):
         """
-        Publishes a single command to the MQTT topic of a device.
+        Publishes a command to the corresponding device topic.
 
         Args:
-            device_id (str): The device to publish to.
-            command (dict): The command/state to send.
+            device_id (str): Target device identifier.
+            command (dict): Command to send to the device.
+            state_id (int): The tick ID to associate with this command.
         """
-        topic = f"ensosphere/devices/{device_id}"
-        payload = json.dumps({
+        topic = f"device/{device_id}"
+        payload = {
             "device_id": device_id,
             "command": command,
-            "timestamp": datetime.utcnow().isoformat()
-        })
-        self.mqtt.publish(topic, payload)
+            "state_id": state_id
+        }
 
-    def publish_batch(self, actions: list[dict]):
-        """
-        Publishes multiple device commands (no DB logging).
-
-        Args:
-            actions (list): List of dicts with device_id and command.
-        """
-        for action in actions:
-            self.publish(
-                device_id=action["device_id"],
-                command=action["command"]
-            )
+        try:
+            self.client.publish(topic, json.dumps(payload))
+            print(f"[MQTT Publisher] 📤 Published to {topic}: {payload}")
+        except Exception as e:
+            print(f"[MQTT Publisher] ❌ Failed to publish to {topic}: {e}")

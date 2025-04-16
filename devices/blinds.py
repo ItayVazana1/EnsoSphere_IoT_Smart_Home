@@ -8,14 +8,15 @@ from devices.device import Device
 
 
 class Blinds(Device):
-    def __init__(self, device_id: str):
+    def __init__(self, device_id: str, metadata: dict):
         """
         Initialize a smart Blinds device.
 
         Args:
             device_id (str): Unique ID of the Blinds device.
+            metadata (dict): Metadata for this device type from device_metadata.json
         """
-        super().__init__(device_id, topic=f"actuators/{device_id}")
+        super().__init__(device_id, topic=f"actuators/{device_id}", metadata=metadata)
 
     def should_update(self, new_state: dict) -> bool:
         """
@@ -31,16 +32,24 @@ class Blinds(Device):
             return True
         return self.last_state.get("position") != new_state.get("position")
 
-    def apply_state(self, mqtt_client, new_state: dict, manual: bool = False):
+    def apply_state(self, mqtt_client, new_state: dict, state_id: int = None, manual: bool = False):
+        """
+        Apply the new state to the Blinds device.
+
+        Args:
+            mqtt_client: MQTT client instance.
+            new_state (dict): New desired state (open/close or position).
+            state_id (int): Tick ID for traceability.
+            manual (bool): Whether this is a manual override.
+        """
         # Normalize status → position
-        if "position" not in new_state and "status" in new_state:
-            if new_state["status"] == "closed":
-                new_state["position"] = "down"
-            elif new_state["status"] == "open":
+        if "position" not in new_state:
+            if new_state.get("status") == "open":
                 new_state["position"] = "up"
+            elif new_state.get("status") == "closed":
+                new_state["position"] = "down"
 
         if "position" not in new_state:
-            raise ValueError(f"Blinds device requires 'position' in command: {new_state}")
+            raise ValueError(f"Blinds device requires 'position' or valid status: {new_state}")
 
-        super().apply_state(mqtt_client, new_state, manual)
-
+        super().apply_state(mqtt_client, new_state, state_id=state_id, manual=manual)
