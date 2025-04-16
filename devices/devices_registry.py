@@ -24,8 +24,10 @@ from devices.security import SecuritySystem
 from devices.window import SmartWindow
 from devices.ventilation_fan import VentilationFan
 
-# Path to config JSON
-CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "config", "device_room_map.json")
+# Paths to config files
+BASE_DIR = os.path.dirname(__file__)
+ROOM_MAP_PATH = os.path.join(BASE_DIR, "..", "config", "device_room_map.json")
+METADATA_PATH = os.path.join(BASE_DIR, "..", "config", "device_metadata.json")
 
 # Map between device "type" (from config) and Python class
 DEVICE_TYPE_MAP = {
@@ -46,13 +48,16 @@ DEVICE_TYPE_MAP = {
 
 def get_all_devices() -> dict:
     """
-    Loads all devices from device_room_map.json and creates class instances.
+    Loads all devices from device_room_map.json and creates class instances with metadata.
 
     Returns:
         dict: { device_id (str) → Device instance }
     """
-    with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+    with open(ROOM_MAP_PATH, "r", encoding="utf-8") as f:
         room_map = json.load(f)
+
+    with open(METADATA_PATH, "r", encoding="utf-8") as f:
+        metadata_all = json.load(f)
 
     devices = {}
     for room, devices_in_room in room_map.items():
@@ -60,8 +65,13 @@ def get_all_devices() -> dict:
             device_id = device["id"]
             device_type = device["type"]
             cls = DEVICE_TYPE_MAP.get(device_type)
+
             if cls:
-                devices[device_id] = cls(device_id)
+                type_metadata = metadata_all.get(device_type)
+                if type_metadata:
+                    devices[device_id] = cls(device_id, type_metadata)
+                else:
+                    print(f"[Devices Registry] ⚠️ Missing metadata for device type '{device_type}' (device ID: {device_id})")
             else:
                 print(f"[Devices Registry] ⚠️ Unsupported device type: '{device_type}' for ID '{device_id}' (room: {room})")
 

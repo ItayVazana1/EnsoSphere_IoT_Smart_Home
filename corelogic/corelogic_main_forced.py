@@ -60,7 +60,7 @@ def main():
         "ventilation_fan_bathroom1": {"status": "on"},
         "pet_door": {"status": "open"},
         "window_livingroom": {"status": "open"},
-        "door_lock": {"status": "locked"},
+        "door_lock_main": {"status": "locked"},
         "audio_system": {"status": "on"},
         "robot_vacuum": {"status": "start_cleaning"},
         "pet_feeder": {"status": "dispense"}

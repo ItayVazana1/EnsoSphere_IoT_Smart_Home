@@ -69,34 +69,42 @@ def main():
                 continue
 
             state_id, state_json = tick
-            print(f"\n📦 Processing Tick ID: {state_id}")
+            print(f"\n================== TICK ID: {state_id} ==================")
 
             # Use MQTT-based live sensor values
             current_sensor_values = mqtt_listener.get_all_latest_values()
+            print("🛰️  Sensor Inputs:")
+            for k, v in current_sensor_values.items():
+                print(f"   - {k}: {v}")
+
             db.insert_sensor_outputs(state_id, current_sensor_values)
 
             # Evaluate rules
             triggered_rules = rule_engine.evaluate_rules(current_sensor_values)
             if not triggered_rules:
                 print("⚖️  No rules triggered.")
-
-            for rule in triggered_rules:
-                db.insert_rule_trigger(
-                    state_id,
-                    rule["rule_id"],
-                    triggered=True,
-                    conditions=rule["conditions"],
-                    actions=rule["actions"]
-                )
-                for action in rule["actions"]:
-                    device_manager.publish(
-                        device_id=action["device_id"],
-                        command=action["command"],
-                        state_id=state_id
+            else:
+                print("⚙️  Triggered Rules:")
+                for rule in triggered_rules:
+                    print(f"   - {rule['rule_id']}")
+                    db.insert_rule_trigger(
+                        state_id,
+                        rule["rule_id"],
+                        triggered=True,
+                        conditions=rule["conditions"],
+                        actions=rule["actions"]
                     )
+                    for action in rule["actions"]:
+                        print(f"     ➤ Action → {action['device_id']} → {action['command']}")
+                        device_manager.publish(
+                            device_id=action["device_id"],
+                            command=action["command"],
+                            state_id=state_id
+                        )
 
             db.mark_state_as_processed(state_id)
             print(f"✅ Tick {state_id} marked as processed.")
+            print("========================================================")
             time.sleep(TICK_INTERVAL)
 
         except Exception as e:

@@ -186,3 +186,13 @@ class Room:
                 print(f"⚠️ Sensor {sensor.sensor_id} evaluation failed in Room {self.name}: {e}")
                 outputs[sensor.sensor_id] = None
         return outputs
+
+    def get_environment(self) -> dict:
+        """
+        Returns the current environmental state of the room.
+        Matches structure used by simulator output and sensors.
+
+        Returns:
+            dict: { "temperature": float, "noise": float, "humidity": float, "gas": float }
+        """
+        return self.get_sensor_values()

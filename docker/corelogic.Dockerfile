@@ -3,4 +3,4 @@ WORKDIR /app
 COPY . .
 RUN pip install --no-cache-dir -r corelogic/requirements.txt
 ENV PYTHONPATH=/app
-CMD ["python", "corelogic/corelogic_main_forced.py"]
+CMD ["python", "corelogic/corelogic_main.py"]

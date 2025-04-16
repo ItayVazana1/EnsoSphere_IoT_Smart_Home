@@ -15,6 +15,7 @@ load_dotenv()
 MQTT_BROKER = os.getenv("MQTT_BROKER", "mqtt")
 MQTT_PORT = int(os.getenv("MQTT_PORT", 1883))
 MQTT_KEEPALIVE = int(os.getenv("MQTT_KEEPALIVE", 60))
+CONCISE_MODE = os.getenv("MQTT_LISTENER_CONCISE_MODE", "False").lower() in ("1", "true", "yes")
 
 
 class MQTTSensorListener:
@@ -38,14 +39,16 @@ class MQTTSensorListener:
         self.client.connect(MQTT_BROKER, MQTT_PORT, MQTT_KEEPALIVE)
         thread = threading.Thread(target=self.client.loop_forever, daemon=True)
         thread.start()
-        print("[MQTT Listener] Started and listening to sensor/#")
+        if not CONCISE_MODE:
+            print("[MQTT Listener] Started and listening to sensor/#")
 
     def on_connect(self, client, userdata, flags, rc):
         """
         Subscribes to all sensor topics.
         """
         if rc == 0:
-            print("[MQTT Listener] Connected successfully. Subscribing to sensor/#")
+            if not CONCISE_MODE:
+                print("[MQTT Listener] Connected successfully. Subscribing to sensor/#")
             client.subscribe("sensor/#")
         else:
             print(f"[MQTT Listener] Connection failed with code {rc}")
@@ -61,7 +64,8 @@ class MQTTSensorListener:
             if sensor_id and value is not None:
                 with self.lock:
                     self.latest_values[sensor_id] = value
-                print(f"[MQTT Listener] Sensor update: {sensor_id} → {value}")
+                if not CONCISE_MODE:
+                    print(f"[MQTT Listener] Sensor update: {sensor_id} → {value}")
         except Exception as e:
             print(f"[MQTT Listener] Failed to process message: {e}")
 
